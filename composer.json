@@ -1,0 +1,46 @@
+{
+  "name": "povs/lister-bundle",
+  "type": "symfony-bundle",
+  "description": "Lister bundle for Symfony to simplify common data listing functions (pagination, sorting, filtering, exporting, etc.)",
+  "keywords": ["lister", "list", "symfony", "bundle", "doctrine"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Povilas Margaitis",
+      "homepage": "https://github.com/povs"
+    }
+  ],
+
+  "require": {
+    "php":                      "^7.1",
+    "doctrine/orm":             "^2.5",
+    "doctrine/doctrine-bundle": "^1.6 || ^2.0",
+    "symfony/framework-bundle": "^3.4 || ^4.0",
+    "symfony/form":             "^3.4 || ^4.0",
+    "symfony/options-resolver": "^3.4 || ^4.0"
+  },
+
+  "require-dev": {
+    "symfony/translation": "^3.4 || ^4.0",
+    "phpunit/phpunit": "^7",
+    "symfony/yaml": "^3.4 || ^4.0"
+  },
+  
+  "suggest": {
+    "symfony/translation": "For translating labels and values."
+  },
+
+  "autoload": {
+    "psr-4": {"Povs\\ListerBundle\\": "src/"}
+  },
+
+  "autoload-dev": {
+    "psr-4": {"Povs\\ListerBundle\\": "tests/"}
+  },
+
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}

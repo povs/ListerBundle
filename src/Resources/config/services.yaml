@@ -1,0 +1,120 @@
+services:
+    Povs\ListerBundle\Definition\ListerInterface:
+        alias: 'povs.lister'
+        public: true
+
+    povs.lister:
+        class: Povs\ListerBundle\Service\Lister
+        public: true
+        arguments:
+            - '@.povs_lister.list_manager'
+
+    .povs_lister.list_manager:
+        class: Povs\ListerBundle\Service\ListManager
+        arguments:
+            - '@.povs_lister.type_resolver'
+            - '@.povs_lister.configuration_resolver'
+            - '@.povs_lister.request_handler'
+            - '@.povs_lister.filter_builder'
+            - '@.povs_lister.query_builder'
+            - '@.povs_lister.factory.view'
+            - '@.povs_lister.factory.mapper'
+            - '@.povs_lister.factory.list_value'
+            - '@.povs_lister.locator.list'
+
+    .povs_lister.type_resolver:
+        class: Povs\ListerBundle\Service\ListTypeResolver
+        arguments:
+            - '@.povs_lister.locator.list_type'
+            - '@.povs_lister.configuration_resolver'
+            - '@.povs_lister.request_handler'
+
+    .povs_lister.configuration_resolver:
+        class: Povs\ListerBundle\Service\ConfigurationResolver
+        arguments: ~
+
+    .povs_lister.filter_builder:
+        class: Povs\ListerBundle\Service\FilterBuilder
+        arguments:
+            - '@form.factory'
+            - '@.povs_lister.configuration_resolver'
+
+    .povs_lister.query_builder:
+        class: Povs\ListerBundle\Service\ListQueryBuilder
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@.povs_lister.locator.query_type'
+            - '@.povs_lister.locator.selector_type'
+            - '@.povs_lister.configuration_resolver'
+
+    .povs_lister.request_handler:
+        class: Povs\ListerBundle\Service\RequestHandler
+        arguments:
+            - '@request_stack'
+            - '@.povs_lister.configuration_resolver'
+
+    .povs_lister.value_accessor:
+        class: Povs\ListerBundle\Service\ValueAccessor
+        arguments:
+            - '@.povs_lister.configuration_resolver'
+            - '@.povs_lister.type_resolver'
+            - '@.povs_lister.locator.selector_type'
+            - '@?translator'
+
+    .povs_lister.factory.mapper:
+        class: Povs\ListerBundle\Factory\MapperFactory
+        arguments:
+            - '@.povs_lister.locator.field_type'
+            - '@.povs_lister.locator.filter_type'
+
+    .povs_lister.factory.view:
+        class: Povs\ListerBundle\Factory\ViewFactory
+        arguments:
+            - '@.povs_lister.value_accessor'
+            - '@.povs_lister.request_handler'
+            - '@router'
+            - '@.povs_lister.factory.paginator'
+
+    .povs_lister.factory.paginator:
+        class: Povs\ListerBundle\Factory\PaginatorFactory
+        arguments:
+            - '@.povs_lister.configuration_resolver'
+
+    .povs_lister.factory.list_value:
+        class: Povs\ListerBundle\Factory\ListValueFactory
+
+    .povs_lister.locator.list_type:
+        class: Povs\ListerBundle\DependencyInjection\Locator\ListTypeLocator
+        arguments: ~
+
+    .povs_lister.locator.field_type:
+        class: Povs\ListerBundle\DependencyInjection\Locator\FieldTypeLocator
+        arguments: ~
+
+    .povs_lister.locator.list:
+        class: Povs\ListerBundle\DependencyInjection\Locator\ListLocator
+        arguments: ~
+
+    .povs_lister.locator.query_type:
+        class: Povs\ListerBundle\DependencyInjection\Locator\QueryTypeLocator
+        arguments: ~
+
+    .povs_lister.locator.filter_type:
+        class: Povs\ListerBundle\DependencyInjection\Locator\FilterTypeLocator
+        arguments: ~
+
+    .povs_lister.locator.selector_type:
+        class: Povs\ListerBundle\DependencyInjection\Locator\SelectorTypeLocator
+        arguments: ~
+
+    Povs\ListerBundle\Type\ListType\:
+        resource: '../../Type/ListType/*'
+        tags: ['povs_lister.list_type']
+
+    Povs\ListerBundle\Type\QueryType\:
+        resource: '../../Type/QueryType/*'
+        tags: ['povs_lister.query_type']
+
+    Povs\ListerBundle\Type\SelectorType\:
+        resource: '../../Type/SelectorType/*'
+        tags: ['povs_lister.selector_type']
