@@ -11,12 +11,12 @@ use Povs\ListerBundle\Service\ListValue;
  */
 class ListValueFactoryTest extends TestCase
 {
-    public function testBuild(): void
+    public function testCreateListValue(): void
     {
         $listMapperMock = $this->createMock(ListMapper::class);
         $filterMapperMock = $this->createMock(FilterMapper::class);
         $listValueFactory = new ListValueFactory();
-        $listValue = $listValueFactory->build($listMapperMock, $filterMapperMock);
+        $listValue = $listValueFactory->createListValue($listMapperMock, $filterMapperMock);
         $this->assertInstanceOf(ListValue::class, $listValue);
     }
 }

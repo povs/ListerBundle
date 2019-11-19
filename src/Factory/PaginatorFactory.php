@@ -30,7 +30,7 @@ class PaginatorFactory
      *
      * @return Paginator
      */
-    public function buildPaginator(QueryBuilder $queryBuilder): Paginator
+    public function createPaginator(QueryBuilder $queryBuilder): Paginator
     {
         return new Paginator(
             $queryBuilder,

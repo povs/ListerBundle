@@ -135,15 +135,15 @@ class ListManagerTest extends TestCase
             ->method('getCurrentPage')
             ->willReturn(5);
         $this->mapperFactoryMock->expects($this->once())
-            ->method('buildListMapper')
+            ->method('createListMapper')
             ->with($this->listMock, 'list_type')
             ->willReturn($this->listMapperMock);
         $this->mapperFactoryMock->expects($this->once())
-            ->method('buildFilterMapper')
+            ->method('createFilterMapper')
             ->with($this->listMock)
             ->willReturn($this->filterMapperMock);
         $this->mapperFactoryMock->expects($this->once())
-            ->method('buildJoinMapper')
+            ->method('createJoinMapper')
             ->with($this->listMock, $this->listMapperMock, $this->filterMapperMock, $this->valueMock)
             ->willReturn($this->joinMapperMock);
         $this->filterBuilderMock->expects($this->once())
@@ -154,7 +154,7 @@ class ListManagerTest extends TestCase
             ->method('handleRequest')
             ->with($this->listMapperMock, $this->filterMapperMock, $this->filterFormMock);
         $this->valueFactoryMock->expects($this->once())
-            ->method('build')
+            ->method('createListValue')
             ->with($this->listMapperMock, $this->filterMapperMock)
             ->willReturn($this->valueMock);
         $this->listQueryBuilderMock->expects($this->once())
@@ -162,7 +162,7 @@ class ListManagerTest extends TestCase
             ->with($this->listMock, $this->joinMapperMock, $this->listMapperMock, $this->filterMapperMock, $this->valueMock)
             ->willReturn($this->queryBuilderMock);
         $this->viewFactoryMock->expects($this->once())
-            ->method('buildView')
+            ->method('createView')
             ->with($this->listMapperMock, $this->filterFormMock, $this->queryBuilderMock, 20, 5)
             ->willReturn($this->viewMock);
     }

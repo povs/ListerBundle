@@ -17,7 +17,7 @@ class ListValueFactory
      *
      * @return ListValueInterface
      */
-    public function build(ListMapper $listMapper, FilterMapper $filterMapper): ListValueInterface
+    public function createListValue(ListMapper $listMapper, FilterMapper $filterMapper): ListValueInterface
     {
         return new ListValue($listMapper, $filterMapper);
     }

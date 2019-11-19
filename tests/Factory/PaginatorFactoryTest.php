@@ -10,7 +10,7 @@ use Povs\ListerBundle\Service\ConfigurationResolver;
  */
 class PaginatorFactoryTest extends TestCase
 {
-    public function testBuildPaginator(): void
+    public function testCreatePaginator(): void
     {
         $configMock = $this->createMock(ConfigurationResolver::class);
         $configMock->expects($this->once())
@@ -21,6 +21,6 @@ class PaginatorFactoryTest extends TestCase
             ->willReturn('id');
         $queryBuilderMock = $this->createMock(QueryBuilder::class);
         $factory = new PaginatorFactory($configMock);
-        $factory->buildPaginator($queryBuilderMock);
+        $factory->createPaginator($queryBuilderMock);
     }
 }

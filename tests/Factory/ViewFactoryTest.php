@@ -18,7 +18,7 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class ViewFactoryTest extends TestCase
 {
-    public function testBuildView(): void
+    public function testCreateView(): void
     {
         $valueAccessorMock = $this->createMock(ValueAccessor::class);
         $requestHandlerMock = $this->createMock(RequestHandler::class);
@@ -31,7 +31,7 @@ class ViewFactoryTest extends TestCase
         $paginatorMock = $this->createMock(Paginator::class);
         $fieldMock = $this->createMock(ListField::class);
         $paginatorFactoryMock->expects($this->once())
-            ->method('buildPaginator')
+            ->method('createPaginator')
             ->with($queryBuilderMock)
             ->willReturn($paginatorMock);
         $formMock->expects($this->once())
@@ -46,7 +46,7 @@ class ViewFactoryTest extends TestCase
             ->willReturn([]);
 
         $factory = new ViewFactory($valueAccessorMock, $requestHandlerMock, $routerMock, $paginatorFactoryMock);
-        $view = $factory->buildView($listMapperMock, $formMock, $queryBuilderMock, 20, 2);
+        $view = $factory->createView($listMapperMock, $formMock, $queryBuilderMock, 20, 2);
         $this->assertEquals(2, $view->getPager()->getCurrentPage());
         $this->assertEquals(20, $view->getPager()->getLength());
         $this->assertEquals($formViewMock, $view->getFilter());

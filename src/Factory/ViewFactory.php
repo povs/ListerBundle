@@ -67,14 +67,14 @@ class ViewFactory
      *
      * @return ListView
      */
-    public function buildView(
+    public function createView(
         ListMapper $listMapper,
         FormInterface $form,
         QueryBuilder $queryBuilder,
         int $resultsPerPage,
         int $currentPage
     ): ListView {
-        $paginator = $this->paginatorFactory->buildPaginator($queryBuilder);
+        $paginator = $this->paginatorFactory->createPaginator($queryBuilder);
         $pagerView = new PagerView($paginator, $currentPage, $resultsPerPage);
         $headerRow = new RowView($this->valueAccessor);
         $bodyRow = new RowView($this->valueAccessor);

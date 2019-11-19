@@ -52,34 +52,34 @@ class MapperFactoryTest extends TestCase
         };
     }
 
-    public function testBuildListMapperWithListType(): void
+    public function testCreateListMapperWithListType(): void
     {
         $fieldTypeLocatorMock = $this->createMock(FieldTypeLocator::class);
         $filterTypeLocatorMock = $this->createMock(FilterTypeLocator::class);
         $factory = new MapperFactory($fieldTypeLocatorMock, $filterTypeLocatorMock);
-        $listMapper = $factory->buildListMapper($this->list, 'list');
+        $listMapper = $factory->createListMapper($this->list, 'list');
         $this->assertCount(3, $listMapper->getFields());
     }
 
-    public function testBuildListMapperWithOtherType(): void
+    public function testCreateListMapperWithOtherType(): void
     {
         $fieldTypeLocatorMock = $this->createMock(FieldTypeLocator::class);
         $filterTypeLocatorMock = $this->createMock(FilterTypeLocator::class);
         $factory = new MapperFactory($fieldTypeLocatorMock, $filterTypeLocatorMock);
-        $listMapper = $factory->buildListMapper($this->list, 'test');
+        $listMapper = $factory->createListMapper($this->list, 'test');
         $this->assertCount(4, $listMapper->getFields());
     }
 
-    public function testBuildFilterMapper(): void
+    public function testCreateFilterMapper(): void
     {
         $fieldTypeLocatorMock = $this->createMock(FieldTypeLocator::class);
         $filterTypeLocatorMock = $this->createMock(FilterTypeLocator::class);
         $factory = new MapperFactory($fieldTypeLocatorMock, $filterTypeLocatorMock);
-        $filterMapper = $factory->buildFilterMapper($this->list);
+        $filterMapper = $factory->createFilterMapper($this->list);
         $this->assertCount(2, $filterMapper->getFields());
     }
 
-    public function testBuildJoinMapper(): void
+    public function testCreateJoinMapper(): void
     {
         $fieldTypeLocatorMock = $this->createMock(FieldTypeLocator::class);
         $filterTypeLocatorMock = $this->createMock(FilterTypeLocator::class);
@@ -87,7 +87,7 @@ class MapperFactoryTest extends TestCase
         $filterMapperMock = $this->createMock(FilterMapper::class);
         $listValueMock = $this->createMock(ListValueInterface::class);
         $factory = new MapperFactory($fieldTypeLocatorMock, $filterTypeLocatorMock);
-        $joinMapper = $factory->buildJoinMapper($this->list, $listMapperMock, $filterMapperMock, $listValueMock);
+        $joinMapper = $factory->createJoinMapper($this->list, $listMapperMock, $filterMapperMock, $listValueMock);
         $this->assertCount(2, $joinMapper->getFields());
     }
 }

@@ -111,14 +111,14 @@ class ListManager
     {
         $list = $this->generateList($list, $parameters);
         $this->typeResolver->resolveType($type);
-        $listMapper = $this->mapperFactory->buildListMapper($list, $this->typeResolver->getTypeName());
-        $filterMapper = $this->mapperFactory->buildFilterMapper($list);
+        $listMapper = $this->mapperFactory->createListMapper($list, $this->typeResolver->getTypeName());
+        $filterMapper = $this->mapperFactory->createFilterMapper($list);
         $filterForm = $this->filterBuilder->buildFilterForm($filterMapper);
         $this->requestHandler->handleRequest($listMapper, $filterMapper, $filterForm);
-        $listValue = $this->valueFactory->build($listMapper, $filterMapper);
-        $joinMapper = $this->mapperFactory->buildJoinMapper($list, $listMapper, $filterMapper, $listValue);
+        $listValue = $this->valueFactory->createListValue($listMapper, $filterMapper);
+        $joinMapper = $this->mapperFactory->createJoinMapper($list, $listMapper, $filterMapper, $listValue);
         $queryBuilder = $this->queryBuilder->buildQuery($list, $joinMapper, $listMapper, $filterMapper, $listValue);
-        $this->listView = $this->viewFactory->buildView(
+        $this->listView = $this->viewFactory->createView(
             $listMapper,
             $filterForm,
             $queryBuilder,

@@ -42,7 +42,7 @@ class MapperFactory
      *
      * @return ListMapper
      */
-    public function buildListMapper(ListInterface $list, string $type): ListMapper
+    public function createListMapper(ListInterface $list, string $type): ListMapper
     {
         $baseMapper = new ListMapper($this->fieldTypeLocator, $type, null);
         $list->buildListFields($baseMapper);
@@ -63,7 +63,7 @@ class MapperFactory
      *
      * @return FilterMapper
      */
-    public function buildFilterMapper(ListInterface $list): FilterMapper
+    public function createFilterMapper(ListInterface $list): FilterMapper
     {
         $filterMapper = new FilterMapper($this->filterTypeLocator);
         $list->buildFilterFields($filterMapper);
@@ -79,7 +79,7 @@ class MapperFactory
      *
      * @return JoinMapper
      */
-    public function buildJoinMapper(
+    public function createJoinMapper(
         ListInterface $list,
         ListMapper $listMapper,
         FilterMapper $filterMapper,
