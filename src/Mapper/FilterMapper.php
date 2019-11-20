@@ -35,7 +35,6 @@ class FilterMapper extends AbstractMapper
      * @param array|null  $options
      *
      * @return $this
-     *
      */
     public function add(string $id, ?string $filterType = null, ?array $options = []): AbstractMapper
     {

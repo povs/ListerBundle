@@ -175,7 +175,7 @@ class ListQueryBuilder
             /** @var BasicSelectorType $selector */
             $selector = $this->selectorTypeLocator->get(BasicSelectorType::class);
             $queryType = $field->getOption(FilterField::OPTION_QUERY_TYPE);
-            $paths =  $this->parsePaths($joinMapper, $field->getPaths());
+            $paths = $this->parsePaths($joinMapper, $field->getPaths());
             $statement = $selector->getStatement($paths, $field->getOption(FilterField::OPTION_PROPERTY_DELIMITER));
 
             if (!$this->queryTypeLocator->has($queryType)) {

@@ -18,15 +18,15 @@ class ComparisonQueryTypeTest extends TestCase
             ->method('andWhere')
             ->with($this->callback(static function(Comparison $subject) {
                 return $subject->getLeftExpr() === 'foo' &&
-                    $subject->getOperator() === '>=' &&
+                    $subject->getOperator() === 'LIKE' &&
                     $subject->getRightExpr() === ':bar';
             }))
             ->willReturnSelf();
         $queryBuilderMock->expects($this->once())
             ->method('setParameter')
-            ->with(':bar', 'value');
+            ->with(':bar', '%value%');
 
-        $type = $this->getType(['foo'], 'foo', ['type' => '>=']);
+        $type = $this->getType(['foo'], 'foo', ['type' => 'LIKE', 'wildcard' => 'wildcard']);
         $type->filter($queryBuilderMock, 'bar', 'value');
     }
 
@@ -35,8 +35,12 @@ class ComparisonQueryTypeTest extends TestCase
         $optionResolver = new OptionsResolver();
         $type = $this->getType([], '', []);
         $type->configureOptions($optionResolver);
+        $options = [
+            'type' => '<',
+            'wildcard' => 'wildcard_start'
+        ];
 
-        $this->assertEquals(['type' => '<'], $optionResolver->resolve(['type' => '<']));
+        $this->assertEquals($options, $optionResolver->resolve($options));
     }
 
     public function testConfigureOptionsDefault(): void
@@ -45,7 +49,7 @@ class ComparisonQueryTypeTest extends TestCase
         $type = $this->getType([], '', []);
         $type->configureOptions($optionResolver);
 
-        $this->assertEquals(['type' => '='], $optionResolver->resolve());
+        $this->assertEquals(['type' => '=', 'wildcard' => 'no_wildcard'], $optionResolver->resolve());
     }
 
     /**

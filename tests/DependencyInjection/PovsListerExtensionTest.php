@@ -53,7 +53,6 @@ class PovsListerExtensionTest extends TestCase
             BetweenQueryType::class,
             ComparisonQueryType::class,
             ContainsQueryType::class,
-            LikeQueryType::class,
             BasicSelectorType::class,
             CountSelectorType::class,
             GroupSelectorType::class,
