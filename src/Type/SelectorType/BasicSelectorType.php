@@ -4,46 +4,21 @@ namespace Povs\ListerBundle\Type\SelectorType;
 /**
  * @author Povilas Margaiatis <p.margaitis@gmail.com>
  */
-class BasicSelectorType implements SelectorTypeInterface
+class BasicSelectorType extends AbstractSelectorType
 {
-    private const DELIMITER = '|-|';
-
     /**
      * @inheritDoc
      */
-    public function getStatement(array $paths, ?string $delimiter = self::DELIMITER): string
+    protected function getStatement(string $path): string
     {
-        if (count($paths) === 1) {
-            $select = $paths[0];
-        } else {
-            $select = 'CONCAT(';
-            $lastItem = count($paths) - 1;
-
-            foreach ($paths as $key => $item) {
-                $select .= $lastItem === $key
-                    ? $item
-                    : sprintf('%s,\'%s\',', $item, $delimiter);
-            }
-
-            $select .= ')';
-        }
-
-        return $select;
+        return $path;
     }
 
     /**
      * @inheritDoc
      */
-    public function getValue(?string $value)
+    protected function processValue($value)
     {
-        if (!$value) {
-            return null;
-        }
-
-        if (false !== strpos($value, self::DELIMITER)) {
-            $value = explode(self::DELIMITER, $value);
-        }
-
         return $value;
     }
 }

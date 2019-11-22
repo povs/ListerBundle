@@ -106,11 +106,11 @@ class ValueAccessorTest extends TestCase
             ->willReturn($selectorTypeMock);
         $selectorTypeMock->expects($this->once())
             ->method('getValue')
-            ->with('foo')
-            ->willReturn('bar');
+            ->with(['field_id' => 'foo'], 'id')
+            ->willReturn('foo');
         $this->translatorMock->expects($this->once())
             ->method('trans')
-            ->with('prefix_bar', [], 'domain')
+            ->with('prefix_foo', [], 'domain')
             ->willReturn('translated_val');
         $this->typeResolverMock->expects($this->once())
             ->method('getTypeName')

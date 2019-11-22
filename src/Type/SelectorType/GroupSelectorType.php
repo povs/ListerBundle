@@ -6,30 +6,24 @@ use Povs\ListerBundle\Exception\ListException;
 /**
  * @author Povilas Margaiatis <p.margaitis@gmail.com>
  */
-class GroupSelectorType implements SelectorTypeInterface
+class GroupSelectorType extends AbstractSelectorType
 {
     private const DELIMITER = '|-|';
 
     /**
      * @inheritDoc
      */
-    public function getStatement(array $paths): string
+    protected function getStatement(string $path): string
     {
-        if (count($paths) > 1) {
-            throw ListException::singlePathSelector(self::class);
-        }
-
-        $path = $paths[0];
-
         return sprintf('GROUP_CONCAT(%s SEPARATOR \'%s\')', $path, self::DELIMITER);
     }
 
     /**
      * @inheritDoc
      */
-    public function getValue(?string $value): array
+    protected function processValue($value): array
     {
-        if (null === $value) {
+        if (!$value) {
             return [];
         }
 

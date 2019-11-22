@@ -83,7 +83,7 @@ class ValueAccessor
     {
         $listField = $fieldView->getListField();
         $value = $this->selectorTypeLocator->get($listField->getOption(ListField::OPTION_SELECTOR))
-            ->getValue($data[ListQueryBuilder::getFieldAlias($listField)]);
+            ->getValue($data, $listField->getId());
 
         if ((true === $listField->getOption(ListField::OPTION_TRANSLATE) && is_string($value)) ||
             (null === $value && true === $listField->getOption(ListField::OPTION_TRANSLATE_NULL))

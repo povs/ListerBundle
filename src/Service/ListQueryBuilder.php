@@ -72,16 +72,6 @@ class ListQueryBuilder
     }
 
     /**
-     * @param ListField $field
-     *
-     * @return string
-     */
-    public static function getFieldAlias(ListField $field): string
-    {
-        return sprintf('%s%s', self::SELECT_PREFIX, $field->getId());
-    }
-
-    /**
      * @param ListInterface   $list
      * @param JoinMapper      $joinMapper
      * @param ListMapper      $listMapper
@@ -137,15 +127,14 @@ class ListQueryBuilder
     {
         foreach ($listMapper->getFields() as $field) {
             $paths = $this->parsePaths($joinMapper, $field->getPaths());
-            $alias = self::getFieldAlias($field);
             $selectorType = $field->getOption(ListField::OPTION_SELECTOR);
 
             if (!$this->selectorTypeLocator->has($selectorType)) {
                 throw ListFieldException::invalidType($field->getId(), $selectorType, SelectorTypeInterface::class);
             }
 
-            $statement =  $this->selectorTypeLocator->get($selectorType)->getStatement($paths);
-            $this->queryBuilder->addSelect(sprintf('%s as %s', $statement, $alias));
+            $selectorType = $this->selectorTypeLocator->get($selectorType);
+            $selectorType->apply($this->queryBuilder, $paths, $field->getId());
 
             if ($field->getOption(ListField::OPTION_SORTABLE) &&
                 ($dir = $field->getOption(ListField::OPTION_SORT_VALUE))
@@ -153,7 +142,7 @@ class ListQueryBuilder
                 if ($sortPath = $field->getOption(ListField::OPTION_SORT_PATH)) {
                     $select = $this->parsePaths($joinMapper, (array) $sortPath)[0];
                 } else {
-                    $select = $alias;
+                    $select = $selectorType->getSortPath($field->getId());
                 }
 
                 $this->queryBuilder->addOrderBy($select, $dir);
@@ -172,16 +161,14 @@ class ListQueryBuilder
                 continue;
             }
 
-            /** @var BasicSelectorType $selector */
-            $selector = $this->selectorTypeLocator->get(BasicSelectorType::class);
             $queryType = $field->getOption(FilterField::OPTION_QUERY_TYPE);
-            $paths = $this->parsePaths($joinMapper, $field->getPaths());
-            $statement = $selector->getStatement($paths, $field->getOption(FilterField::OPTION_PROPERTY_DELIMITER));
 
             if (!$this->queryTypeLocator->has($queryType)) {
                 throw ListFieldException::invalidType($field->getId(), $queryType, QueryTypeInterface::class);
             }
 
+            $paths = $this->parsePaths($joinMapper, $field->getPaths());
+            $statement = $paths[0];
             $queryType = $this->queryTypeLocator->get($queryType);
             $resolver = new OptionsResolver();
             $queryType->configureOptions($resolver);

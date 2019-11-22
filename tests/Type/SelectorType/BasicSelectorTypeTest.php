@@ -1,6 +1,7 @@
 <?php
 namespace Povs\ListerBundle\Type\SelectorType;
 
+use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -8,62 +9,39 @@ use PHPUnit\Framework\TestCase;
  */
 class BasicSelectorTypeTest extends TestCase
 {
-    /**
-     * @var BasicSelectorType
-     */
-    private $basicSelectorType;
-
-    public function setUp()
+    public function testApply(): BasicSelectorType
     {
-        $this->basicSelectorType = new BasicSelectorType();
+        $basicSelectorType = new BasicSelectorType();
+        $queryBuilderMock = $this->createMock(QueryBuilder::class);
+        $queryBuilderMock->expects($this->exactly(2))
+            ->method('addSelect')
+            ->withConsecutive(
+                ['foo as id_field_0'],
+                ['bar as id_field_1']
+            );
+
+        $basicSelectorType->apply($queryBuilderMock, ['foo', 'bar'], 'id');
+
+        return $basicSelectorType;
     }
 
     /**
-     * @dataProvider getStatementProvider
-     * @param array       $paths
-     * @param string|null $delimiter
-     * @param string      $expectedPath
+     * @depends testApply
+     * @param BasicSelectorType $basicSelectorType
      */
-    public function testGetStatement(array $paths, ?string $delimiter, string $expectedPath): void
+    public function testGetValue(BasicSelectorType $basicSelectorType): void
     {
-        $res = $delimiter
-            ? $this->basicSelectorType->getStatement($paths, $delimiter)
-            : $this->basicSelectorType->getStatement($paths);
-
-        $this->assertEquals($expectedPath, $res);
-    }
-
-    /**
-     * @dataProvider getValueProvider
-     * @param string|null  $value
-     * @param array|string $expectedValue
-     */
-    public function testGetValue(?string $value, $expectedValue): void
-    {
-        $this->assertEquals($expectedValue, $this->basicSelectorType->getValue($value));
-    }
-
-    /**
-     * @return array
-     */
-    public function getStatementProvider(): array
-    {
-        return [
-            [['foo'], null, 'foo'],
-            [['foo', 'bar'], null, 'CONCAT(foo,\'|-|\',bar)'],
-            [['foo', 'bar'], '.', 'CONCAT(foo,\'.\',bar)'],
+        $data = [
+            'id_field_0' => 'foo',
+            'id_field_1' => 'bar'
         ];
+
+        $this->assertEquals(['foo', 'bar'], $basicSelectorType->getValue($data, 'id'));
     }
 
-    /**
-     * @return array
-     */
-    public function getValueProvider(): array
+    public function testGetSortPath(): void
     {
-        return [
-            ['', null],
-            ['foo', 'foo'],
-            ['foo|-|bar', ['foo', 'bar']]
-        ];
+        $basicSelectorType = new BasicSelectorType();
+        $this->assertEquals('id_field_0', $basicSelectorType->getSortPath('id'));
     }
 }

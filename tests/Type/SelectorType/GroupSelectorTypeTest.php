@@ -1,6 +1,7 @@
 <?php
 namespace Povs\ListerBundle\Type\SelectorType;
 
+use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\TestCase;
 use Povs\ListerBundle\Exception\ListException;
 
@@ -19,51 +20,41 @@ class GroupSelectorTypeTest extends TestCase
         $this->groupSelectorType = new GroupSelectorType();
     }
 
-    /**
-     * @dataProvider getStatementProvider
-     * @param array       $paths
-     * @param string|null $expected
-     * @param string|null $exception
-     */
-    public function testGetStatement(array $paths, ?string $expected, ?string $exception): void
+    public function testApply(): GroupSelectorType
     {
-        if ($exception) {
-            $this->expectException($exception);
-        }
+        $selectorType = new GroupSelectorType();
+        $queryBuilderMock = $this->createMock(QueryBuilder::class);
+        $queryBuilderMock->expects($this->exactly(3))
+            ->method('addSelect')
+            ->withConsecutive(
+                ['GROUP_CONCAT(foo SEPARATOR \'|-|\') as id_field_0'],
+                ['GROUP_CONCAT(bar SEPARATOR \'|-|\') as id_field_1'],
+                ['GROUP_CONCAT(test SEPARATOR \'|-|\') as id_field_2']
+            );
 
-        $res = $this->groupSelectorType->getStatement($paths);
-        $this->assertEquals($expected, $res);
+        $selectorType->apply($queryBuilderMock, ['foo', 'bar', 'test'], 'id');
+
+        return $selectorType;
     }
 
     /**
-     * @dataProvider getValueProvider
-     * @param string|null  $value
-     * @param mixed        $expectedValue
+     * @depends testApply
+     * @param GroupSelectorType $selectorType
      */
-    public function testGetValue(?string $value, $expectedValue): void
+    public function testGetValue(GroupSelectorType $selectorType): void
     {
-        $this->assertEquals($expectedValue, $this->groupSelectorType->getValue($value));
-    }
-
-    /**
-     * @return array
-     */
-    public function getStatementProvider(): array
-    {
-        return [
-            [['foo'], 'GROUP_CONCAT(foo SEPARATOR \'|-|\')', null],
-            [['foo', 'bar'], 'null', ListException::class],
+        $data = [
+            'id_field_0' => 'res1|-|res2|-|res3',
+            'id_field_1' => null,
+            'id_field_2' => ''
         ];
+
+        $this->assertEquals([['res1', 'res2', 'res3'], [], []], $selectorType->getValue($data, 'id'));
     }
 
-    /**
-     * @return array
-     */
-    public function getValueProvider(): array
+    public function testGetSortPath(): void
     {
-        return [
-            [null, []],
-            ['foo|-|bar', ['foo', 'bar']]
-        ];
+        $basicSelectorType = new BasicSelectorType();
+        $this->assertEquals('id_field_0', $basicSelectorType->getSortPath('id'));
     }
 }

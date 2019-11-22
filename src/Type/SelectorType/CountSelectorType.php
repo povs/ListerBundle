@@ -6,24 +6,20 @@ use Povs\ListerBundle\Exception\ListException;
 /**
  * @author Povilas Margaiatis <p.margaitis@gmail.com>
  */
-class CountSelectorType implements SelectorTypeInterface
+class CountSelectorType extends AbstractSelectorType
 {
     /**
      * @inheritDoc
      */
-    public function getStatement(array $paths): string
+    protected function getStatement(string $path): string
     {
-        if (count($paths) > 1) {
-            throw ListException::singlePathSelector(self::class);
-        }
-
-        return sprintf('count(%s)', $paths[0]);
+        return sprintf('count(%s)', $path);
     }
 
     /**
      * @inheritDoc
      */
-    public function getValue(?string $value): int
+    protected function processValue($value): int
     {
         if (null === $value) {
             return 0;

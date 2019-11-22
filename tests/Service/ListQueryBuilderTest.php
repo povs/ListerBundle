@@ -51,16 +51,6 @@ class ListQueryBuilderTest extends TestCase
         $this->queryBuilderMock = $this->createMock(QueryBuilder::class);
     }
 
-    public function testGetFieldAlias(): void
-    {
-        $fieldMock = $this->createMock(ListField::class);
-        $fieldMock->expects($this->once())
-            ->method('getId')
-            ->willReturn('foo');
-
-        $this->assertEquals('field_foo', ListQueryBuilder::getFieldAlias($fieldMock));
-    }
-
     public function testBuildQueryJoins(): void
     {
         $fieldsData = [
@@ -109,8 +99,7 @@ class ListQueryBuilderTest extends TestCase
 
         foreach ($fieldsData as $datum) {
             $field = $this->createMock(ListField::class);
-            $field->expects($this->once())
-                ->method('getId')
+            $field->method('getId')
                 ->willReturn($datum[0]);
             $field->expects($this->once())
                 ->method('getPaths')
@@ -153,18 +142,16 @@ class ListQueryBuilderTest extends TestCase
             ]);
         $this->selectorTypeMock
             ->expects($this->exactly(2))
-            ->method('getStatement')
-            ->willReturnMap([
-                [['alias.foo'], 'alias.foo'],
-                [['ent1.bar'], 'ent1.bar']
-            ]);
-
-        $this->queryBuilderMock->expects($this->exactly(2))
-            ->method('addSelect')
+            ->method('apply')
             ->withConsecutive(
-                ['alias.foo as field_id1'],
-                ['ent1.bar as field_id2']
-            )->willReturnSelf();
+                [$this->queryBuilderMock, ['alias.foo'], 'id1'],
+                [$this->queryBuilderMock, ['ent1.bar'], 'id2']
+            );
+
+        $this->selectorTypeMock->expects($this->once())
+            ->method('getSortPath')
+            ->with('id2')
+            ->willReturn('field_id2');
 
         $this->queryBuilderMock->expects($this->exactly(2))
             ->method('addOrderBy')
@@ -197,7 +184,7 @@ class ListQueryBuilderTest extends TestCase
                 $field->expects($this->once())
                     ->method('getPaths')
                     ->willReturn($datum[1]);
-                $field->expects($this->exactly(3))
+                $field->expects($this->exactly(2))
                     ->method('getOption')
                     ->willReturnMap([
                         ['query_type', null, 'query_type'],
@@ -217,9 +204,6 @@ class ListQueryBuilderTest extends TestCase
         $this->filterMapperMock->expects($this->once())
             ->method('getFields')
             ->willReturn(new ArrayCollection($fields));
-        $this->selectorTypeLocatorMock->expects($this->exactly(2))
-            ->method('get')
-            ->willReturn($this->selectorTypeMock);
         $joinFieldMock = $this->createMock(JoinField::class);
         $joinFieldMock->expects($this->once())
             ->method('getAlias')
@@ -227,12 +211,6 @@ class ListQueryBuilderTest extends TestCase
         $this->joinMapperMock->expects($this->once())
             ->method('getByPath')
             ->willReturn($joinFieldMock);
-        $this->selectorTypeMock->expects($this->exactly(2))
-            ->method('getStatement')
-            ->willReturnMap([
-                [['alias.foo'], 'delimiter', 'alias.foo'],
-                [['ent1.bar'], 'delimiter', 'ent1.bar']
-            ]);
         $queryTypeMock = $this->createMock(QueryTypeInterface::class);
         $this->queryTypeLocatorMock->expects($this->exactly(2))
             ->method('has')
@@ -288,7 +266,7 @@ class ListQueryBuilderTest extends TestCase
         $this->expectExceptionCode(500);
         $this->expectExceptionMessage(sprintf('Type "invalid_type" does not exist or does not implement %s', SelectorTypeInterface::class));
         $listFieldMock = $this->createMock(ListField::class);
-        $listFieldMock->expects($this->exactly(2))
+        $listFieldMock->expects($this->once())
             ->method('getId')
             ->willReturn('id');
         $listFieldMock->expects($this->once())
@@ -311,9 +289,6 @@ class ListQueryBuilderTest extends TestCase
         $this->expectExceptionMessage(sprintf('Type "invalid_type" does not exist or does not implement %s', QueryTypeInterface::class));
         $filterFieldMock = $this->createMock(FilterField::class);
         $filterFieldMock->expects($this->once())
-            ->method('getId')
-            ->willReturn('id');
-        $filterFieldMock->expects($this->exactly(2))
             ->method('getOption')
             ->willReturnMap([
                 ['query_type', null, 'invalid_type'],
@@ -321,9 +296,6 @@ class ListQueryBuilderTest extends TestCase
         $filterFieldMock->expects($this->once())
             ->method('getValue')
             ->willReturn('val');
-        $this->selectorTypeLocatorMock->expects($this->once())
-            ->method('get')
-            ->willReturn($this->selectorTypeMock);
         $this->setCalls(true, true, false);
         $this->selectorTypeLocatorMock->method('has')
             ->with('invalid_type')
