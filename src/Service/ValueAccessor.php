@@ -111,9 +111,9 @@ class ValueAccessor
      * @param ListField $listField
      * @param mixed     $value
      *
-     * @return string
+     * @return mixed
      */
-    private function translateValue(ListField $listField, $value): string
+    private function translateValue(ListField $listField, $value)
     {
         if ((true === $listField->getOption(ListField::OPTION_TRANSLATE) && is_string($value)) ||
             (null === $value && true === $listField->getOption(ListField::OPTION_TRANSLATE_NULL))
