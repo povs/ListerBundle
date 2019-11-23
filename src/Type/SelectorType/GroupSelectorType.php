@@ -23,9 +23,14 @@ class GroupSelectorType extends BasicSelectorType
     /**
      * @inheritDoc
      */
-    public function getValue(array $data, string $id)
+    public function getValue(array $data, string $id): array
     {
         $value = $data[$this->getAlias($id, 0)];
+        
+        if (!$value) {
+            return [];
+        }
+
         $hasSub = strpos($value, self::SECONDARY_DELIMITER) !== false;
         $value = explode(self::DELIMITER, $value);
         $finalValue = [];
