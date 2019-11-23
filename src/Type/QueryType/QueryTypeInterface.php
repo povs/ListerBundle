@@ -10,26 +10,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 interface QueryTypeInterface
 {
     /**
-     * @param array $paths array of ORM field paths
-     */
-    public function setPaths(array $paths): void;
-
-    /**
-     * @param string $path parsed single path to the field.
-     *                     if multiple paths are passed while building filter field
-     *                     paths will be a single string with delimiter as passed by option
-     *                     merged with SQL CONCAT function
-     */
-    public function setPath(string $path): void;
-
-    /**
      * Filters query by filter field.
      *
      * @param QueryBuilder $queryBuilder
-     * @param string       $identifier unique id to bind parameters
-     * @param mixed        $value      input value from form. Can not be null.
+     * @param array        $paths        ORM field paths
+     * @param string       $identifier   unique id to bind parameters
+     * @param mixed        $value        input value from form. Can not be null.
      */
-    public function filter(QueryBuilder $queryBuilder, string $identifier, $value): void;
+    public function filter(QueryBuilder $queryBuilder, array $paths, string $identifier, $value): void;
 
     /**
      * Configures query type options that are passed building filter

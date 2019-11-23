@@ -23,13 +23,13 @@ class BetweenQueryType extends AbstractQueryType
     /**
      * @inheritDoc
      */
-    public function filter(QueryBuilder $queryBuilder, string $identifier, $value): void
+    public function filter(QueryBuilder $queryBuilder, array $paths, string $identifier, $value): void
     {
         $expr = new Expr();
         $from = sprintf(':%s_from', $identifier);
         $to = sprintf(':%s_to', $identifier);
 
-        $queryBuilder->andWhere($expr->between($this->path, $from, $to))
+        $queryBuilder->andWhere($expr->between($paths[0], $from, $to))
             ->setParameter($from, $this->getValue($value, 0))
             ->setParameter($to, $this->getValue($value, 1));
     }

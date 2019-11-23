@@ -8,7 +8,6 @@ use Povs\ListerBundle\Type\ListType\ArrayListType;
 use Povs\ListerBundle\Type\QueryType\BetweenQueryType;
 use Povs\ListerBundle\Type\QueryType\ComparisonQueryType;
 use Povs\ListerBundle\Type\QueryType\ContainsQueryType;
-use Povs\ListerBundle\Type\QueryType\LikeQueryType;
 use Povs\ListerBundle\Type\SelectorType\BasicSelectorType;
 use Povs\ListerBundle\Type\SelectorType\CountSelectorType;
 use Povs\ListerBundle\Type\SelectorType\GroupSelectorType;

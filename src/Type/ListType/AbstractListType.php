@@ -1,7 +1,6 @@
 <?php
 namespace Povs\ListerBundle\Type\ListType;
 
-use Povs\ListerBundle\View\ListView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**

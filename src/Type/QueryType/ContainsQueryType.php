@@ -1,7 +1,6 @@
 <?php
 namespace Povs\ListerBundle\Type\QueryType;
 
-use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -12,10 +11,10 @@ class ContainsQueryType extends AbstractQueryType
     /**
      * @inheritDoc
      */
-    public function filter(QueryBuilder $queryBuilder, string $identifier, $value): void
+    public function filter(QueryBuilder $queryBuilder, array $paths, string $identifier, $value): void
     {
         $identifier = $this->parseIdentifier($identifier);
-        $queryBuilder->andWhere(sprintf('%s IN %s', $this->path, $identifier))
+        $queryBuilder->andWhere(sprintf('%s IN %s', $paths[0], $identifier))
             ->setParameter($identifier, $value);
     }
 }

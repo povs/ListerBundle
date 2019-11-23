@@ -56,11 +56,4 @@ class ListExceptionTest extends TestCase
         $actual = ListException::missingTranslator()->getMessage();
         $this->assertEquals($expected, $actual);
     }
-
-    public function testSinglePathSelector(): void
-    {
-        $expected = 'Selector type "test" is not supported with multiple paths';
-        $actual = ListException::singlePathSelector('test')->getMessage();
-        $this->assertEquals($expected, $actual);
-    }
 }

@@ -26,8 +26,8 @@ class MatchQueryTypeTest extends TestCase
             ->method('setParameter')
             ->with(':bar', 'value');
 
-        $type = $this->getType(['foo'], 'foo', $options);
-        $type->filter($queryBuilderMock, 'bar', 'value');
+        $type = $this->getType($options);
+        $type->filter($queryBuilderMock, ['foo', 'bar'], 'bar', 'value');
     }
 
     /**
@@ -36,17 +36,17 @@ class MatchQueryTypeTest extends TestCase
     public function filterProvider(): array
     {
         return [
-            [['boolean' => true, 'expand' => true], 'MATCH (foo) HAVING (:bar boolean expand)'],
-            [['boolean' => true, 'expand' => false], 'MATCH (foo) HAVING (:bar boolean)'],
-            [['boolean' => false, 'expand' => true], 'MATCH (foo) HAVING (:bar expand)'],
-            [['boolean' => false, 'expand' => false], 'MATCH (foo) HAVING (:bar)'],
+            [['boolean' => true, 'expand' => true], 'MATCH (foo,bar) HAVING (:bar boolean expand)'],
+            [['boolean' => true, 'expand' => false], 'MATCH (foo,bar) HAVING (:bar boolean)'],
+            [['boolean' => false, 'expand' => true], 'MATCH (foo,bar) HAVING (:bar expand)'],
+            [['boolean' => false, 'expand' => false], 'MATCH (foo,bar) HAVING (:bar)'],
         ];
     }
 
     public function testConfigureOptions(): void
     {
         $optionResolver = new OptionsResolver();
-        $type = $this->getType([], '', []);
+        $type = $this->getType([]);
         $type->configureOptions($optionResolver);
         $options = [
             'relevance' => 0.1561,
@@ -60,24 +60,20 @@ class MatchQueryTypeTest extends TestCase
     public function testConfigureOptionsDefault(): void
     {
         $optionResolver = new OptionsResolver();
-        $type = $this->getType([], '', []);
+        $type = $this->getType([]);
         $type->configureOptions($optionResolver);
 
         $this->assertEquals(['relevance' => 0, 'boolean' => false, 'expand' => false], $optionResolver->resolve());
     }
 
     /**
-     * @param array  $paths
-     * @param string $path
-     * @param array  $options
+     * @param array $options
      *
      * @return MatchQueryType
      */
-    private function getType(array $paths, string $path, array $options): MatchQueryType
+    private function getType( array $options): MatchQueryType
     {
         $type = new MatchQueryType();
-        $type->setPaths($paths);
-        $type->setPath($path);
         $type->setOptions($options);
 
         return $type;

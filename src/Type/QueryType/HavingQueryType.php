@@ -35,12 +35,12 @@ class HavingQueryType extends AbstractQueryType
     /**
      * @inheritDoc
      */
-    public function filter(QueryBuilder $queryBuilder, string $identifier, $value): void
+    public function filter(QueryBuilder $queryBuilder, array $paths, string $identifier, $value): void
     {
         $identifier = $this->parseIdentifier($identifier);
         $clause = sprintf('%s(%s) %s %s',
             $this->getOption('function'),
-            $this->path,
+            $paths[0],
             $this->getOption('type'),
             $identifier
         );

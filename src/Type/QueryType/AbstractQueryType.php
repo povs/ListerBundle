@@ -12,32 +12,6 @@ abstract class AbstractQueryType implements QueryTypeInterface
     use OptionsTrait;
 
     /**
-     * @var array
-     */
-    protected $paths;
-
-    /**
-     * @var string
-     */
-    protected $path;
-
-    /**
-     * @inheritDoc
-     */
-    public function setPaths(array $paths): void
-    {
-        $this->paths = $paths;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setPath(string $path): void
-    {
-        $this->path = $path;
-    }
-
-    /**
      * @inheritDoc
      */
     public function setOptions(array $options): void

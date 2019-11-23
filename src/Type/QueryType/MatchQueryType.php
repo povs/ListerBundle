@@ -29,11 +29,11 @@ class MatchQueryType extends AbstractQueryType
     /**
      * @inheritDoc
      */
-    public function filter(QueryBuilder $queryBuilder, string $identifier, $value): void
+    public function filter(QueryBuilder $queryBuilder, array $paths, string $identifier, $value): void
     {
         $identifier = $this->parseIdentifier($identifier);
         $clause = sprintf('MATCH (%s) HAVING (%s%s%s)',
-            implode(',', $this->paths),
+            implode(',', $paths),
             $identifier,
             $this->getOption('boolean') ? ' boolean' : '',
             $this->getOption('expand') ? ' expand' : ''

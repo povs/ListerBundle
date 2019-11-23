@@ -15,7 +15,6 @@ use Povs\ListerBundle\Mapper\JoinMapper;
 use Povs\ListerBundle\Mapper\ListField;
 use Povs\ListerBundle\Mapper\ListMapper;
 use Povs\ListerBundle\Type\QueryType\QueryTypeInterface;
-use Povs\ListerBundle\Type\SelectorType\BasicSelectorType;
 use Povs\ListerBundle\Type\SelectorType\SelectorTypeInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,8 +23,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ListQueryBuilder
 {
-    private const SELECT_PREFIX = 'field_';
-
     /**
      * @var EntityManagerInterface
      */
@@ -168,14 +165,11 @@ class ListQueryBuilder
             }
 
             $paths = $this->parsePaths($joinMapper, $field->getPaths());
-            $statement = $paths[0];
             $queryType = $this->queryTypeLocator->get($queryType);
             $resolver = new OptionsResolver();
             $queryType->configureOptions($resolver);
             $queryType->setOptions($resolver->resolve($field->getOption(FilterField::OPTION_QUERY_OPTIONS)));
-            $queryType->setPaths($paths);
-            $queryType->setPath($statement);
-            $queryType->filter($this->queryBuilder, $field->getId(), $field->getValue());
+            $queryType->filter($this->queryBuilder, $paths, $field->getId(), $field->getValue());
         }
     }
 

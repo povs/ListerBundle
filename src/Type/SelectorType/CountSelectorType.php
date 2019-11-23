@@ -1,8 +1,6 @@
 <?php
 namespace Povs\ListerBundle\Type\SelectorType;
 
-use Povs\ListerBundle\Exception\ListException;
-
 /**
  * @author Povilas Margaiatis <p.margaitis@gmail.com>
  */

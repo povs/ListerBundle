@@ -3,7 +3,6 @@ namespace Povs\ListerBundle\Type\SelectorType;
 
 use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\TestCase;
-use Povs\ListerBundle\Exception\ListException;
 
 /**
  * @author Povilas Margaiatis <p.margaitis@gmail.com>

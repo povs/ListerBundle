@@ -20,7 +20,6 @@ class FilterField extends AbstractField
     public const OPTION_JOIN_TYPE = 'join_type';
     public const OPTION_PATH = 'path';
     public const OPTION_PROPERTY = 'property';
-    public const OPTION_PROPERTY_DELIMITER = 'property_delimiter';
     public const OPTION_REQUIRED = 'required';
 
     /**
@@ -96,7 +95,6 @@ class FilterField extends AbstractField
             self::OPTION_JOIN_TYPE,
             self::OPTION_PATH,
             self::OPTION_PROPERTY,
-            self::OPTION_PROPERTY_DELIMITER,
             self::OPTION_REQUIRED
         ]);
 
@@ -107,7 +105,6 @@ class FilterField extends AbstractField
             self::OPTION_INPUT_OPTIONS => [],
             self::OPTION_MAPPED => true,
             self::OPTION_JOIN_TYPE => JoinField::JOIN_INNER,
-            self::OPTION_PROPERTY_DELIMITER => ' ',
             self::OPTION_REQUIRED => false
         ]);
 
@@ -119,7 +116,6 @@ class FilterField extends AbstractField
         $resolver->setAllowedValues(self::OPTION_JOIN_TYPE, [JoinField::JOIN_INNER, JoinField::JOIN_LEFT]);
         $resolver->setAllowedTypes(self::OPTION_PATH, ['string', 'array']);
         $resolver->setAllowedTypes(self::OPTION_PROPERTY, ['string', 'array']);
-        $resolver->setAllowedTypes(self::OPTION_PROPERTY_DELIMITER, 'string');
         $resolver->setAllowedTypes(self::OPTION_REQUIRED, 'bool');
     }
 }

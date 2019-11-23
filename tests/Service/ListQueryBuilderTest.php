@@ -225,22 +225,10 @@ class ListQueryBuilderTest extends TestCase
             ->method('setOptions')
             ->with([]);
         $queryTypeMock->expects($this->exactly(2))
-            ->method('setPaths')
-            ->withConsecutive(
-                [['alias.foo']],
-                [['ent1.bar']]
-            );
-        $queryTypeMock->expects($this->exactly(2))
-            ->method('setPath')
-            ->withConsecutive(
-                ['alias.foo'],
-                ['ent1.bar']
-            );
-        $queryTypeMock->expects($this->exactly(2))
             ->method('filter')
             ->withConsecutive(
-                [$this->queryBuilderMock, 'id1', 'value1'],
-                [$this->queryBuilderMock, 'id2', 'value2']
+                [$this->queryBuilderMock, ['alias.foo'], 'id1', 'value1'],
+                [$this->queryBuilderMock, ['ent1.bar'], 'id2', 'value2']
             );
 
         $this->executeBuildQuery();

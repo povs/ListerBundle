@@ -86,14 +86,4 @@ class ListException extends RuntimeException
 
         return new self($message);
     }
-
-    /**
-     * @param string $selector
-     *
-     * @return ListException
-     */
-    public static function singlePathSelector(string $selector): ListException
-    {
-        return new self(sprintf('Selector type "%s" is not supported with multiple paths', $selector));
-    }
 }

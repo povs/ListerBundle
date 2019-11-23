@@ -20,22 +20,18 @@ class ContainsQueryTypeTest extends TestCase
             ->method('setParameter')
             ->with(':bar', 'value');
 
-        $type = $this->getType(['foo'], 'foo', []);
-        $type->filter($queryBuilderMock, 'bar', 'value');
+        $type = $this->getType([]);
+        $type->filter($queryBuilderMock, ['foo'], 'bar', 'value');
     }
 
     /**
-     * @param array  $paths
-     * @param string $path
-     * @param array  $options
+     * @param array $options
      *
      * @return ContainsQueryType
      */
-    private function getType(array $paths, string $path, array $options): ContainsQueryType
+    private function getType(array $options): ContainsQueryType
     {
         $type = new ContainsQueryType();
-        $type->setPaths($paths);
-        $type->setPath($path);
         $type->setOptions($options);
 
         return $type;

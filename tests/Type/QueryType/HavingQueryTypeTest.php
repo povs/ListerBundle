@@ -21,14 +21,14 @@ class HavingQueryTypeTest extends TestCase
             ->method('setParameter')
             ->with(':bar', 50);
 
-        $type = $this->getType(['foo'], 'foo', ['type' => '>=', 'function' => 'avg']);
-        $type->filter($queryBuilderMock, 'bar', 50);
+        $type = $this->getType(['type' => '>=', 'function' => 'avg']);
+        $type->filter($queryBuilderMock, ['foo'], 'bar', 50);
     }
 
     public function testConfigureOptions(): void
     {
         $optionResolver = new OptionsResolver();
-        $type = $this->getType([], '', []);
+        $type = $this->getType([]);
         $type->configureOptions($optionResolver);
 
         $this->assertEquals(['type' => '>=', 'function' => 'avg'], $optionResolver->resolve(['type' => '>=', 'function' => 'avg']));
@@ -37,24 +37,20 @@ class HavingQueryTypeTest extends TestCase
     public function testConfigureOptionsDefault(): void
     {
         $optionResolver = new OptionsResolver();
-        $type = $this->getType([], '', []);
+        $type = $this->getType([]);
         $type->configureOptions($optionResolver);
 
         $this->assertEquals(['type' => '=', 'function' => 'count'], $optionResolver->resolve());
     }
 
     /**
-     * @param array  $paths
-     * @param string $path
-     * @param array  $options
+     * @param array $options
      *
      * @return HavingQueryType
      */
-    private function getType(array $paths, string $path, array $options): HavingQueryType
+    private function getType(array $options): HavingQueryType
     {
         $type = new HavingQueryType();
-        $type->setPaths($paths);
-        $type->setPath($path);
         $type->setOptions($options);
 
         return $type;

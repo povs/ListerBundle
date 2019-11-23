@@ -31,8 +31,8 @@ class BetweenQueryTypeTest extends TestCase
                 [':bar_to', $val2]
             )->willReturnSelf();
 
-        $type = $this->getType(['foo'], 'foo', ['value_delimiter' => $delimiter]);
-        $type->filter($queryBuilderMock, 'bar', $value);
+        $type = $this->getType(['value_delimiter' => $delimiter]);
+        $type->filter($queryBuilderMock, ['foo'], 'bar', $value);
     }
 
     /**
@@ -51,7 +51,7 @@ class BetweenQueryTypeTest extends TestCase
     public function testConfigureOptions(): void
     {
         $optionResolver = new OptionsResolver();
-        $type = $this->getType([], '', []);
+        $type = $this->getType([]);
         $type->configureOptions($optionResolver);
 
         $this->assertEquals(['value_delimiter' => 'foo'], $optionResolver->resolve(['value_delimiter' => 'foo']));
@@ -60,24 +60,20 @@ class BetweenQueryTypeTest extends TestCase
     public function testConfigureOptionsDefault(): void
     {
         $optionResolver = new OptionsResolver();
-        $type = $this->getType([], '', []);
+        $type = $this->getType([]);
         $type->configureOptions($optionResolver);
 
         $this->assertEquals(['value_delimiter' => '-'], $optionResolver->resolve());
     }
 
     /**
-     * @param array  $paths
-     * @param string $path
-     * @param array  $options
+     * @param array $options
      *
      * @return BetweenQueryType
      */
-    private function getType(array $paths, string $path, array $options): BetweenQueryType
+    private function getType(array $options): BetweenQueryType
     {
         $type = new BetweenQueryType();
-        $type->setPaths($paths);
-        $type->setPath($path);
         $type->setOptions($options);
 
         return $type;

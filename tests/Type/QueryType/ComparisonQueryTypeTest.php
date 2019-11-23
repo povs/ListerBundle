@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ComparisonQueryTypeTest extends TestCase
 {
-    public function testFilter(): void
+    public function testFilterSinglePath(): void
     {
         $queryBuilderMock = $this->createMock(QueryBuilder::class);
         $queryBuilderMock->expects($this->once())
@@ -26,18 +26,38 @@ class ComparisonQueryTypeTest extends TestCase
             ->method('setParameter')
             ->with(':bar', '%value%');
 
-        $type = $this->getType(['foo'], 'foo', ['type' => 'LIKE', 'wildcard' => 'wildcard']);
-        $type->filter($queryBuilderMock, 'bar', 'value');
+        $type = $this->getType(['type' => 'LIKE', 'wildcard' => 'wildcard']);
+        $type->filter($queryBuilderMock, ['foo'], 'bar', 'value');
+    }
+
+    public function testFilterMultiplePaths(): void
+    {
+        $queryBuilderMock = $this->createMock(QueryBuilder::class);
+        $queryBuilderMock->expects($this->once())
+            ->method('andWhere')
+            ->with($this->callback(static function(Comparison $subject) {
+                return $subject->getLeftExpr() === 'CONCAT(foo,\'-\',bar)' &&
+                    $subject->getOperator() === 'LIKE' &&
+                    $subject->getRightExpr() === ':bar';
+            }))
+            ->willReturnSelf();
+        $queryBuilderMock->expects($this->once())
+            ->method('setParameter')
+            ->with(':bar', '%value%');
+
+        $type = $this->getType(['type' => 'LIKE', 'wildcard' => 'wildcard', 'delimiter' => '-']);
+        $type->filter($queryBuilderMock, ['foo', 'bar'], 'bar', 'value');
     }
 
     public function testConfigureOptions(): void
     {
         $optionResolver = new OptionsResolver();
-        $type = $this->getType([], '', []);
+        $type = $this->getType([]);
         $type->configureOptions($optionResolver);
         $options = [
             'type' => '<',
-            'wildcard' => 'wildcard_start'
+            'wildcard' => 'wildcard_start',
+            'delimiter' => '-'
         ];
 
         $this->assertEquals($options, $optionResolver->resolve($options));
@@ -46,24 +66,25 @@ class ComparisonQueryTypeTest extends TestCase
     public function testConfigureOptionsDefault(): void
     {
         $optionResolver = new OptionsResolver();
-        $type = $this->getType([], '', []);
+        $type = $this->getType([]);
         $type->configureOptions($optionResolver);
+        $default = [
+            'type' => '=',
+            'wildcard' => 'no_wildcard',
+            'delimiter' => ' '
+        ];
 
-        $this->assertEquals(['type' => '=', 'wildcard' => 'no_wildcard'], $optionResolver->resolve());
+        $this->assertEquals($default, $optionResolver->resolve());
     }
 
     /**
-     * @param array  $paths
-     * @param string $path
-     * @param array  $options
+     * @param array $options
      *
      * @return ComparisonQueryType
      */
-    private function getType(array $paths, string $path, array $options): ComparisonQueryType
+    private function getType(array $options): ComparisonQueryType
     {
         $type = new ComparisonQueryType();
-        $type->setPaths($paths);
-        $type->setPath($path);
         $type->setOptions($options);
 
         return $type;

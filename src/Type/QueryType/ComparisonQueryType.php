@@ -28,11 +28,13 @@ class ComparisonQueryType extends AbstractQueryType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefined(['type', 'wildcard']);
+        $resolver->setDefined(['type', 'wildcard', 'delimiter']);
         $resolver->setDefaults([
             'type' => Comparison::EQ,
-            'wildcard' => self::NO_WILDCARD
+            'wildcard' => self::NO_WILDCARD,
+            'delimiter' => ' '
         ]);
+        $resolver->setAllowedTypes('delimiter', 'string');
         $resolver->setAllowedValues('type', [
             Comparison::EQ,
             Comparison::GT,
@@ -53,11 +55,36 @@ class ComparisonQueryType extends AbstractQueryType
     /**
      * @inheritDoc
      */
-    public function filter(QueryBuilder $queryBuilder, string $identifier, $value): void
+    public function filter(QueryBuilder $queryBuilder, array $paths, string $identifier, $value): void
     {
         $identifier = $this->parseIdentifier($identifier);
-        $comparison = new Comparison($this->path, $this->getOption('type'), $identifier);
+        $comparison = new Comparison($this->getPath($paths), $this->getOption('type'), $identifier);
         $queryBuilder->andWhere($comparison)
             ->setParameter($identifier, sprintf(self::$wildCardMap[$this->getOption('wildcard')], $value));
+    }
+
+    /**
+     * @param array $paths
+     *
+     * @return string
+     */
+    private function getPath(array $paths): string
+    {
+        if (count($paths) === 1) {
+            $select = $paths[0];
+        } else {
+            $select = 'CONCAT(';
+            $lastItem = count($paths) - 1;
+
+            foreach ($paths as $key => $item) {
+                $select .= $lastItem === $key
+                    ? $item
+                    : sprintf('%s,\'%s\',', $item, $this->getOption('delimiter'));
+            }
+
+            $select .= ')';
+        }
+
+        return $select;
     }
 }
