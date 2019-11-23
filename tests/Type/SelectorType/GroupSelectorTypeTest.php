@@ -19,17 +19,37 @@ class GroupSelectorTypeTest extends TestCase
         $this->groupSelectorType = new GroupSelectorType();
     }
 
-    public function testApply(): GroupSelectorType
+    public function testApplySinglePath(): GroupSelectorType
     {
         $selectorType = new GroupSelectorType();
         $queryBuilderMock = $this->createMock(QueryBuilder::class);
-        $queryBuilderMock->expects($this->exactly(3))
+        $queryBuilderMock->expects($this->once())
             ->method('addSelect')
-            ->withConsecutive(
-                ['GROUP_CONCAT(foo SEPARATOR \'|-|\') as id_field_0'],
-                ['GROUP_CONCAT(bar SEPARATOR \'|-|\') as id_field_1'],
-                ['GROUP_CONCAT(test SEPARATOR \'|-|\') as id_field_2']
-            );
+            ->with('GROUP_CONCAT(foo SEPARATOR \'|-|\') as id_field_0');
+
+        $selectorType->apply($queryBuilderMock, ['foo'], 'id');
+
+        return $selectorType;
+    }
+
+    /**
+     * @depends testApplySinglePath
+     * @param GroupSelectorType $selectorType
+     */
+    public function testGetValueSinglePath(GroupSelectorType $selectorType): void
+    {
+        $data = ['id_field_0' => 'res1|-|res2|-|res3'];
+        $expected = ['res1', 'res2', 'res3'];
+        $this->assertEquals($expected, $selectorType->getValue($data, 'id'));
+    }
+
+    public function testApplyMultiplePaths(): GroupSelectorType
+    {
+        $selectorType = new GroupSelectorType();
+        $queryBuilderMock = $this->createMock(QueryBuilder::class);
+        $queryBuilderMock->expects($this->once())
+            ->method('addSelect')
+            ->with('GROUP_CONCAT(IFNULL(foo, \'\'),\'|,|\',IFNULL(bar, \'\'),\'|,|\',IFNULL(test, \'\') SEPARATOR \'|-|\') as id_field_0');
 
         $selectorType->apply($queryBuilderMock, ['foo', 'bar', 'test'], 'id');
 
@@ -37,23 +57,19 @@ class GroupSelectorTypeTest extends TestCase
     }
 
     /**
-     * @depends testApply
+     * @depends testApplyMultiplePaths
      * @param GroupSelectorType $selectorType
      */
-    public function testGetValue(GroupSelectorType $selectorType): void
+    public function testGetValueMultiplePaths(GroupSelectorType $selectorType): void
     {
-        $data = [
-            'id_field_0' => 'res1|-|res2|-|res3',
-            'id_field_1' => null,
-            'id_field_2' => ''
-        ];
-
-        $this->assertEquals([['res1', 'res2', 'res3'], [], []], $selectorType->getValue($data, 'id'));
+        $data = ['id_field_0' => 'res11|,|res12|,|res13|-|res21|,||,|res23|-||,||,|res33'];
+        $expected = [['res11', 'res12', 'res13'], ['res21', null, 'res23'], [null, null, 'res33']];
+        $this->assertEquals($expected, $selectorType->getValue($data, 'id'));
     }
 
     public function testGetSortPath(): void
     {
-        $basicSelectorType = new BasicSelectorType();
+        $basicSelectorType = new GroupSelectorType();
         $this->assertEquals('id_field_0', $basicSelectorType->getSortPath('id'));
     }
 }

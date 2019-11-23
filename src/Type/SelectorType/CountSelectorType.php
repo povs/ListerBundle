@@ -4,7 +4,7 @@ namespace Povs\ListerBundle\Type\SelectorType;
 /**
  * @author Povilas Margaiatis <p.margaitis@gmail.com>
  */
-class CountSelectorType extends AbstractSelectorType
+class CountSelectorType extends BasicSelectorType
 {
     /**
      * @inheritDoc

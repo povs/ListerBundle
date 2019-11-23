@@ -9,7 +9,30 @@ use PHPUnit\Framework\TestCase;
  */
 class BasicSelectorTypeTest extends TestCase
 {
-    public function testApply(): BasicSelectorType
+    public function testApplySinglePath(): BasicSelectorType
+    {
+        $basicSelectorType = new BasicSelectorType();
+        $queryBuilderMock = $this->createMock(QueryBuilder::class);
+        $queryBuilderMock->expects($this->once())
+            ->method('addSelect')
+            ->with('foo as id_field_0');
+
+        $basicSelectorType->apply($queryBuilderMock, ['foo'], 'id');
+
+        return $basicSelectorType;
+    }
+
+    /**
+     * @depends testApplySinglePath
+     * @param BasicSelectorType $basicSelectorType
+     */
+    public function testGetValueSinglePath(BasicSelectorType $basicSelectorType): void
+    {
+        $data = ['id_field_0' => 'foo'];
+        $this->assertEquals('foo', $basicSelectorType->getValue($data, 'id'));
+    }
+
+    public function testApplyMultiplePaths(): BasicSelectorType
     {
         $basicSelectorType = new BasicSelectorType();
         $queryBuilderMock = $this->createMock(QueryBuilder::class);
@@ -26,10 +49,10 @@ class BasicSelectorTypeTest extends TestCase
     }
 
     /**
-     * @depends testApply
+     * @depends testApplyMultiplePaths
      * @param BasicSelectorType $basicSelectorType
      */
-    public function testGetValue(BasicSelectorType $basicSelectorType): void
+    public function testGetValueMultiplePaths(BasicSelectorType $basicSelectorType): void
     {
         $data = [
             'id_field_0' => 'foo',

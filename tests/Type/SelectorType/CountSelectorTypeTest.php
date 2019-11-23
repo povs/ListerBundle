@@ -41,7 +41,7 @@ class CountSelectorTypeTest extends TestCase
 
     public function testGetSortPath(): void
     {
-        $basicSelectorType = new BasicSelectorType();
+        $basicSelectorType = new CountSelectorType();
         $this->assertEquals('id_field_0', $basicSelectorType->getSortPath('id'));
     }
 }
