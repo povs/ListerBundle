@@ -149,7 +149,7 @@ class ArrayListTypeTest extends TestCase
 
         $listViewMock->expects($this->once())
             ->method('getBodyRows')
-            ->with(false, false)
+            ->with(false)
             ->willReturn($bodyRows);
         $listViewMock->expects($this->once())
             ->method('getPager')

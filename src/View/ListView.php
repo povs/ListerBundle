@@ -62,7 +62,7 @@ class ListView implements ViewInterface
         $this->bodyRow = $bodyRow;
         $this->headerRow = $headerRow;
         $this->fieldViews = $fieldViews;
-        $this->headerRow->init($this, RowView::TYPE_HEADER, null, false);
+        $this->headerRow->init($this, RowView::TYPE_HEADER, null);
     }
 
     /**
@@ -74,23 +74,21 @@ class ListView implements ViewInterface
     }
 
     /**
-     * @param bool $paged         whether to return current page results only
-     *                            if false - all results from current page will be returned
-     *
-     * @param bool $parseToString whether to parse array results to string
+     * @param bool $paged whether to return current page results only
+     *                    if false - all results from current page will be returned
      *
      * @return iterable|RowView[]
      */
-    public function getBodyRows(bool $paged = true, bool $parseToString = true): iterable
+    public function getBodyRows(bool $paged = true): iterable
     {
         foreach ($this->pagerView->getData() as $value) {
-            $this->bodyRow->init($this, RowView::TYPE_BODY, $value, $parseToString);
+            $this->bodyRow->init($this, RowView::TYPE_BODY, $value);
 
             yield $this->bodyRow;
         }
 
         if (!$paged && $this->pagerView->iterateNextPage()) {
-            yield from $this->getBodyRows($paged, $parseToString);
+            yield from $this->getBodyRows($paged);
         }
     }
 

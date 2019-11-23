@@ -94,7 +94,7 @@ class RowViewTest extends TestCase
         if ($type === 'body') {
             $valueAccessor->expects($this->once())
                 ->method('getFieldValue')
-                ->with($fieldViewMock, $data, true)
+                ->with($fieldViewMock, $data)
                 ->willReturn('field');
             $fieldViewMock->method('getValue')
                 ->willReturn('field');
@@ -122,7 +122,7 @@ class RowViewTest extends TestCase
             ->with($this->isInstanceOf(RowView::class), $type === 'body' ? 'field' : 'header');
 
         $rowView = new RowView($valueAccessor);
-        $rowView->init($listViewMock, $type, $data, true);
+        $rowView->init($listViewMock, $type, $data);
 
         return $rowView;
     }

@@ -86,9 +86,8 @@ class RowView implements ViewInterface
      * @param ListView   $listView
      * @param string     $type
      * @param array|null $data
-     * @param bool       $parseToString
      */
-    public function init(ListView $listView, string $type, ?array $data, bool $parseToString): void
+    public function init(ListView $listView, string $type, ?array $data): void
     {
         $this->listView = $listView;
         $this->fields = [];
@@ -96,7 +95,7 @@ class RowView implements ViewInterface
 
         foreach ($this->listView->getFieldViews() as $fieldView) {
             if ($type === self::TYPE_BODY) {
-                $value = $this->valueAccessor->getFieldValue($fieldView, $data, $parseToString);
+                $value = $this->valueAccessor->getFieldValue($fieldView, $data);
             } else {
                 $value = $this->valueAccessor->getHeaderValue($fieldView);
                 $fieldView->getListField()->setOption(ListField::OPTION_LABEL, $value);

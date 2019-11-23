@@ -98,7 +98,7 @@ class CsvListType extends AbstractListType
     {
         $batch = 0;
 
-        foreach ($listView->getBodyRows(false, true) as $row) {
+        foreach ($listView->getBodyRows(false) as $row) {
             $this->writeOutput($row->getValue(), $csv);
 
             if (0 !== $this->config['limit'] && ++$batch === $this->config['limit']) {

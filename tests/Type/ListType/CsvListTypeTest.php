@@ -126,7 +126,7 @@ class CsvListTypeTest extends TestCase
             ->willReturn($headerRowMock);
         $listViewMock->expects($this->once())
             ->method('getBodyRows')
-            ->with(false, true)
+            ->with(false)
             ->willReturn($bRows);
 
         return $listViewMock;

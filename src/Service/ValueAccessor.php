@@ -75,30 +75,17 @@ class ValueAccessor
     /**
      * @param FieldView $fieldView
      * @param array     $data
-     * @param bool      $parseToString
      *
      * @return mixed
      */
-    public function getFieldValue(FieldView $fieldView, array $data, bool $parseToString)
+    public function getFieldValue(FieldView $fieldView, array $data)
     {
         $listField = $fieldView->getListField();
         $value = $this->selectorTypeLocator->get($listField->getOption(ListField::OPTION_SELECTOR))
             ->getValue($data, $listField->getId());
 
-        if ((true === $listField->getOption(ListField::OPTION_TRANSLATE) && is_string($value)) ||
-            (null === $value && true === $listField->getOption(ListField::OPTION_TRANSLATE_NULL))
-        ) {
-            $domain = $listField->getOption(ListField::OPTION_TRANSLATION_DOMAIN);
-            $prefix = $listField->getOption(ListField::OPTION_TRANSLATION_PREFIX);
-
-            $value = $this->translate(sprintf('%s%s', $prefix, $value), $domain);
-        }
-
-        $value = $this->processFieldType($listField, $value);
-
-        if ($parseToString && is_array($value)) {
-            $value = implode(self::ARRAY_TO_STRING_DELIMITER, $value);
-        }
+        $value = $this->processFieldValue($listField, $value);
+        $value = $this->translateValue($listField, $value);
 
         return $value;
     }
@@ -109,10 +96,32 @@ class ValueAccessor
      *
      * @return mixed
      */
-    private function processFieldType(ListField $listField, $value)
+    private function processFieldValue(ListField $listField, $value)
     {
-        if ($type = $listField->getType()) {
+        if ($callable = $listField->getOption(ListField::OPTION_VALUE)) {
+            $value = $callable($value, $this->typeResolver->getTypeName());
+        } elseif ($type = $listField->getType()) {
             $value = $type->getValue($value, $this->typeResolver->getTypeName());
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param ListField $listField
+     * @param mixed     $value
+     *
+     * @return string
+     */
+    private function translateValue(ListField $listField, $value): string
+    {
+        if ((true === $listField->getOption(ListField::OPTION_TRANSLATE) && is_string($value)) ||
+            (null === $value && true === $listField->getOption(ListField::OPTION_TRANSLATE_NULL))
+        ) {
+            $domain = $listField->getOption(ListField::OPTION_TRANSLATION_DOMAIN);
+            $prefix = $listField->getOption(ListField::OPTION_TRANSLATION_PREFIX);
+
+            $value = $this->translate(sprintf('%s%s', $prefix, $value), $domain);
         }
 
         return $value;

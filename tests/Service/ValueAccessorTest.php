@@ -77,7 +77,7 @@ class ValueAccessorTest extends TestCase
         $listValueAccessor->getHeaderValue($fieldViewMock);
     }
 
-    public function testGetFieldValue(): void
+    public function testGetFieldValueType(): void
     {
         $this->createMocks(true);
         $selectorTypeMock = $this->createMock(SelectorTypeInterface::class);
@@ -87,13 +87,14 @@ class ValueAccessorTest extends TestCase
         $fieldViewMock->expects($this->once())
             ->method('getListField')
             ->willReturn($listFieldMock);
-        $listFieldMock->expects($this->exactly(4))
+        $listFieldMock->expects($this->exactly(5))
             ->method('getOption')
             ->willReturnMap([
-               ['selector', null, 'selector'],
-               ['translate', null, true],
-               ['translation_domain', null, 'domain'],
-               ['translation_prefix', null, 'prefix_']
+                ['selector', null, 'selector'],
+                ['translate', null, true],
+                ['translation_domain', null, 'domain'],
+                ['translation_prefix', null, 'prefix_'],
+                ['value', null, null]
             ]);
         $listFieldMock->expects($this->once())
             ->method('getId')
@@ -108,21 +109,58 @@ class ValueAccessorTest extends TestCase
             ->method('getValue')
             ->with(['field_id' => 'foo'], 'id')
             ->willReturn('foo');
-        $this->translatorMock->expects($this->once())
-            ->method('trans')
-            ->with('prefix_foo', [], 'domain')
-            ->willReturn('translated_val');
         $this->typeResolverMock->expects($this->once())
             ->method('getTypeName')
             ->willReturn('list_type');
         $fieldTypeMock->expects($this->once())
             ->method('getValue')
-            ->with('translated_val', 'list_type')
-            ->willReturn(['processed', 'value']);
+            ->with('foo', 'list_type')
+            ->willReturn('processed value');
+        $this->translatorMock->expects($this->once())
+            ->method('trans')
+            ->with('prefix_processed value', [], 'domain')
+            ->willReturn('translated_val');
 
-        $val = $this->getAccessor()->getFieldValue($fieldViewMock, ['field_id' => 'foo'], true);
-        $this->assertEquals('processed value', $val);
+        $val = $this->getAccessor()->getFieldValue($fieldViewMock, ['field_id' => 'foo']);
+        $this->assertEquals('translated_val', $val);
     }
+
+    public function testGetFieldValueCallable(): void
+    {
+        $this->createMocks(true);
+        $selectorTypeMock = $this->createMock(SelectorTypeInterface::class);
+        $fieldViewMock = $this->createMock(FieldView::class);
+        $listFieldMock = $this->createMock(ListField::class);
+        $fieldViewMock->expects($this->once())
+            ->method('getListField')
+            ->willReturn($listFieldMock);
+        $listFieldMock->expects($this->exactly(3))
+            ->method('getOption')
+            ->willReturnMap([
+                ['selector', null, 'selector'],
+                ['translate', null, false],
+                ['value', null, static function(array $data, string $type) {
+                    return sprintf('%s %s %s', $data[0], $data[1], $type);
+                }]
+            ]);
+        $listFieldMock->expects($this->once())
+            ->method('getId')
+            ->willReturn('id');
+        $this->typeResolverMock->expects($this->once())
+            ->method('getTypeName')
+            ->willReturn('list_type');
+        $this->selectorTypeLocatorMock->expects($this->once())
+            ->method('get')
+            ->willReturn($selectorTypeMock);
+        $selectorTypeMock->expects($this->once())
+            ->method('getValue')
+            ->with(['field_id' => 'foo'], 'id')
+            ->willReturn(['foo', 'bar']);
+
+        $val = $this->getAccessor()->getFieldValue($fieldViewMock, ['field_id' => 'foo']);
+        $this->assertEquals('foo bar list_type', $val);
+    }
+
 
     private function createMocks(bool $withTranslator): void
     {

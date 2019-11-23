@@ -81,7 +81,7 @@ class ArrayListType extends AbstractListType
             'total' => $listView->getPager()->getTotal()
         ];
 
-        foreach ($listView->getBodyRows($this->config['paged'], false) as $row) {
+        foreach ($listView->getBodyRows($this->config['paged']) as $row) {
             $data['data'][] = $row->getLabeledValue();
 
             if (0 !== $this->config['limit'] && ++$batch === $this->config['limit']) {

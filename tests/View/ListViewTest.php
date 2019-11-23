@@ -43,11 +43,10 @@ class ListViewTest extends TestCase
             ->with(
                 $this->isInstanceOf(ListView::class),
                 'body',
-                $this->equalTo(['field1' => 'foo', 'field2' => 'bar']),
-                true
+                $this->equalTo(['field1' => 'foo', 'field2' => 'bar'])
             );
         $view = $this->getListView();
-        $this->assertCount(2, $view->getBodyRows(true, true));
+        $this->assertCount(2, $view->getBodyRows(true));
     }
 
     public function testGetBodyRowsNotPaged(): void
@@ -72,11 +71,10 @@ class ListViewTest extends TestCase
             ->with(
                 $this->isInstanceOf(ListView::class),
                 'body',
-                $this->equalTo(['field1' => 'foo', 'field2' => 'bar']),
-                false
+                $this->equalTo(['field1' => 'foo', 'field2' => 'bar'])
             );
         $view = $this->getListView();
-        $this->assertCount(4, $view->getBodyRows(false, false));
+        $this->assertCount(4, $view->getBodyRows(false));
     }
 
     public function testGetPager(): void

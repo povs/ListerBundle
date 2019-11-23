@@ -27,6 +27,7 @@ class ListField extends AbstractField
     public const OPTION_TRANSLATION_DOMAIN = 'translation_domain';
     public const OPTION_TRANSLATION_PREFIX = 'translation_prefix';
     public const OPTION_TRANSLATE_NULL = 'translate_null';
+    public const OPTION_VALUE = 'value';
 
     /**
      * @var FieldTypeInterface
@@ -85,7 +86,8 @@ class ListField extends AbstractField
             self::OPTION_TRANSLATE,
             self::OPTION_TRANSLATION_DOMAIN,
             self::OPTION_TRANSLATION_PREFIX,
-            self::OPTION_TRANSLATE_NULL
+            self::OPTION_TRANSLATE_NULL,
+            self::OPTION_VALUE
         ]);
 
         $resolver->setDefaults([
@@ -116,5 +118,6 @@ class ListField extends AbstractField
         $resolver->setAllowedTypes(self::OPTION_TRANSLATION_DOMAIN, 'string');
         $resolver->setAllowedTypes(self::OPTION_TRANSLATION_PREFIX, 'string');
         $resolver->setAllowedTypes(self::OPTION_TRANSLATE_NULL, 'bool');
+        $resolver->setAllowedTypes(self::OPTION_VALUE, 'callable');
     }
 }
