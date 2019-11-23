@@ -67,6 +67,12 @@ class GroupSelectorTypeTest extends TestCase
         $this->assertEquals($expected, $selectorType->getValue($data, 'id'));
     }
 
+    public function testGetValueEmpty(): void
+    {
+        $groupSelector = new GroupSelectorType();
+        $this->assertEmpty($groupSelector->getValue(['foo_field_0' => null], 'foo'));
+    }
+
     public function testGetSortPath(): void
     {
         $basicSelectorType = new GroupSelectorType();

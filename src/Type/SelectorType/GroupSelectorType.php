@@ -26,7 +26,7 @@ class GroupSelectorType extends BasicSelectorType
     public function getValue(array $data, string $id): array
     {
         $value = $data[$this->getAlias($id, 0)];
-        
+
         if (!$value) {
             return [];
         }
