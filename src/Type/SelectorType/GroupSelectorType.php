@@ -38,10 +38,6 @@ class GroupSelectorType extends BasicSelectorType
             $finalValue = $value;
         }
 
-        array_walk($finalValue, function(&$val) {
-            $val = $val === '' ? null : $val;
-        });
-
         return $finalValue;
     }
 
@@ -55,10 +51,6 @@ class GroupSelectorType extends BasicSelectorType
         if (count($paths) === 1) {
             return $paths[0];
         }
-
-        array_walk($paths, static function(&$val) {
-            $val = sprintf('IFNULL(%s, \'\')', $val);
-        });
 
         return implode(sprintf(',\'%s\',', self::SECONDARY_DELIMITER), $paths);
     }

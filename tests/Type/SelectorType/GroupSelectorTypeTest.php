@@ -49,7 +49,7 @@ class GroupSelectorTypeTest extends TestCase
         $queryBuilderMock = $this->createMock(QueryBuilder::class);
         $queryBuilderMock->expects($this->once())
             ->method('addSelect')
-            ->with('GROUP_CONCAT(IFNULL(foo, \'\'),\'|,|\',IFNULL(bar, \'\'),\'|,|\',IFNULL(test, \'\') SEPARATOR \'|-|\') as id_field_0');
+            ->with('GROUP_CONCAT(foo,\'|,|\',bar,\'|,|\',test SEPARATOR \'|-|\') as id_field_0');
 
         $selectorType->apply($queryBuilderMock, ['foo', 'bar', 'test'], 'id');
 
@@ -62,8 +62,8 @@ class GroupSelectorTypeTest extends TestCase
      */
     public function testGetValueMultiplePaths(GroupSelectorType $selectorType): void
     {
-        $data = ['id_field_0' => 'res11|,|res12|,|res13|-|res21|,||,|res23|-||,||,|res33'];
-        $expected = [['res11', 'res12', 'res13'], ['res21', null, 'res23'], [null, null, 'res33']];
+        $data = ['id_field_0' => 'res11|,|res12|,|res13|-|res21|,|res22|,|res23'];
+        $expected = [['res11', 'res12', 'res13'], ['res21', 'res22', 'res23']];
         $this->assertEquals($expected, $selectorType->getValue($data, 'id'));
     }
 

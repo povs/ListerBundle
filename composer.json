@@ -27,7 +27,8 @@
   },
   
   "suggest": {
-    "symfony/translation": "For translating labels and values."
+    "symfony/translation": "For translating labels and values.",
+    "beberlei/doctrineextensions": "For using MatchQueryType and GroupSelectorType"
   },
 
   "autoload": {
