@@ -161,6 +161,38 @@ class ValueAccessorTest extends TestCase
         $this->assertEquals('foo bar list_type', $val);
     }
 
+    public function testGetFieldValueIdentifiers(): void
+    {
+        $this->createMocks(true);
+        $selectorTypeMock = $this->createMock(SelectorTypeInterface::class);
+        $fieldViewMock = $this->createMock(FieldView::class);
+        $listFieldMock = $this->createMock(ListField::class);
+        $fieldViewMock->expects($this->once())
+            ->method('getListField')
+            ->willReturn($listFieldMock);
+        $listFieldMock->expects($this->exactly(3))
+            ->method('getOption')
+            ->willReturnMap([
+                ['selector', null, 'selector'],
+                ['translate', null, false]
+            ]);
+        $listFieldMock->expects($this->once())
+            ->method('getId')
+            ->willReturn('id');
+        $listFieldMock->expects($this->exactly(2))
+            ->method('getPaths')
+            ->willReturn(['key1' => 'path1', 'key2' => 'path2', 'key3' => 'path3', 'key4' => 'path4']);
+        $this->selectorTypeLocatorMock->expects($this->once())
+            ->method('get')
+            ->willReturn($selectorTypeMock);
+        $selectorTypeMock->expects($this->once())
+            ->method('getValue')
+            ->with(['field_id' => 'foo'], 'id')
+            ->willReturn(['foo', 'bar', 'foo1', 'bar1']);
+
+        $val = $this->getAccessor()->getFieldValue($fieldViewMock, ['field_id' => 'foo']);
+        $this->assertEquals(['key1' => 'foo', 'key2' => 'bar', 'key3' => 'foo1', 'key4' => 'bar1'], $val);
+    }
 
     private function createMocks(bool $withTranslator): void
     {

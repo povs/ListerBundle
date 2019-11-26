@@ -68,11 +68,11 @@ abstract class AbstractField
                 throw ListFieldException::invalidPropertiesOption($id);
             }
 
-            $path = $paths[0];
+            $path = reset($paths);
             $paths = [];
 
-            foreach ($properties as $property) {
-                $paths[] = sprintf('%s.%s', $path, $property);
+            foreach ($properties as $key => $property) {
+                $paths[$key] = sprintf('%s.%s', $path, $property);
             }
         }
 

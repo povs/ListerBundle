@@ -66,7 +66,10 @@ abstract class AbstractFieldTest extends TestCase
             [['test.dot.conversion', [], null], ['test.dot.conversion'], null],
             [['test', ['property' => 'prop'], null], ['test.prop'], null],
             [['test', ['property' => ['prop1', 'prop2']], null], ['test.prop1', 'test.prop2'], null],
+            [['test', ['property' => ['key1' => 'prop1', 'key2' => 'prop2']], null], ['key1' => 'test.prop1', 'key2' => 'test.prop2'], null],
             [['test', ['path' => 'customPath', 'property' => ['prop']], null], ['customPath.prop'], null],
+            [['test', ['path' => ['key1' => 'val1', 'key2' => 'val2']], null], ['key1' => 'val1', 'key2' => 'val2'], null],
+            [['test', ['path' => ['key1' => 'val1'], 'property' => ['prop']], null], ['val1.prop'], null],
             [['test', ['path' => 'customPath', 'property' => ['prop1', 'prop2']], null], ['customPath.prop1', 'customPath.prop2'], null],
             [['test', ['path' => ['customPath1', 'customPath2', 'customPath3'], 'property' => ['prop1', 'prop2']], null], [], ListFieldException::class]
         ];

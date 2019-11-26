@@ -103,7 +103,7 @@ class RowView implements ViewInterface
 
             $fieldView->init($this, $value);
             $this->fields[] = $fieldView;
-            $this->value[] = $value;
+            $this->value[$fieldView->getListField()->getId()] = $value;
         }
     }
 }

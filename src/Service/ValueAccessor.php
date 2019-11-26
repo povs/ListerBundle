@@ -12,8 +12,6 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class ValueAccessor
 {
-    private const ARRAY_TO_STRING_DELIMITER = ' ';
-
     /**
      * @var ConfigurationResolver
      */
@@ -84,8 +82,9 @@ class ValueAccessor
         $value = $this->selectorTypeLocator->get($listField->getOption(ListField::OPTION_SELECTOR))
             ->getValue($data, $listField->getId());
 
-        $value = $this->processFieldValue($listField, $value);
-        $value = $this->translateValue($listField, $value);
+        $this->processFieldValue($listField, $value);
+        $this->translateValue($listField, $value);
+        $this->addIdentifiers($listField, $value);
 
         return $value;
     }
@@ -93,27 +92,40 @@ class ValueAccessor
     /**
      * @param ListField    $listField
      * @param mixed        $value
-     *
-     * @return mixed
      */
-    private function processFieldValue(ListField $listField, $value)
+    private function processFieldValue(ListField $listField, &$value): void
     {
         if ($callable = $listField->getOption(ListField::OPTION_VALUE)) {
             $value = $callable($value, $this->typeResolver->getTypeName());
         } elseif ($type = $listField->getType()) {
             $value = $type->getValue($value, $this->typeResolver->getTypeName());
         }
-
-        return $value;
     }
 
     /**
      * @param ListField $listField
      * @param mixed     $value
-     *
-     * @return mixed
      */
-    private function translateValue(ListField $listField, $value)
+    private function addIdentifiers(ListField $listField, &$value): void
+    {
+        if (is_array($value) && count($listField->getPaths()) === count($value)) {
+            $newValue = [];
+            $i = 0;
+
+            foreach ($listField->getPaths() as $key => $path) {
+                $newValue[$key] = $value[$i];
+                $i++;
+            }
+
+            $value = $newValue;
+        }
+    }
+
+    /**
+     * @param ListField $listField
+     * @param mixed     $value
+     */
+    private function translateValue(ListField $listField, &$value): void
     {
         if ((true === $listField->getOption(ListField::OPTION_TRANSLATE) && is_string($value)) ||
             (null === $value && true === $listField->getOption(ListField::OPTION_TRANSLATE_NULL))
@@ -123,8 +135,6 @@ class ValueAccessor
 
             $value = $this->translate(sprintf('%s%s', $prefix, $value), $domain);
         }
-
-        return $value;
     }
 
     /**

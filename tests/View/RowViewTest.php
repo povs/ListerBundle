@@ -37,7 +37,7 @@ class RowViewTest extends TestCase
      */
     public function testGetValueBody(RowView $rowView): void
     {
-        $this->assertEquals(['field'], $rowView->getValue());
+        $this->assertEquals(['id' => 'field'], $rowView->getValue());
     }
 
     /**
@@ -64,7 +64,7 @@ class RowViewTest extends TestCase
      */
     public function testGetValueHeader(RowView $rowView): void
     {
-        $this->assertEquals(['header'], $rowView->getValue());
+        $this->assertEquals(['id' => 'header'], $rowView->getValue());
     }
 
     public function testGetList(): void
@@ -90,6 +90,12 @@ class RowViewTest extends TestCase
         $listViewMock->expects($this->once())
             ->method('getFieldViews')
             ->willReturn([$fieldViewMock]);
+        $listFieldMock = $this->createMock(ListField::class);
+        $listFieldMock->expects($this->once())
+            ->method('getId')
+            ->willReturn('id');
+        $fieldViewMock->method('getListField')
+            ->willReturn($listFieldMock);
 
         if ($type === 'body') {
             $valueAccessor->expects($this->once())
@@ -103,10 +109,6 @@ class RowViewTest extends TestCase
                 ->method('getHeaderValue')
                 ->with($fieldViewMock)
                 ->willReturn('header');
-            $listFieldMock = $this->createMock(ListField::class);
-            $fieldViewMock->expects($this->once())
-                ->method('getListField')
-                ->willReturn($listFieldMock);
             $listFieldMock->expects($this->once())
                 ->method('setOption')
                 ->with('label', 'header');
