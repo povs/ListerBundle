@@ -27,6 +27,14 @@ abstract class AbstractQueryType implements QueryTypeInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function hasAggregation(): bool
+    {
+        return false;
+    }
+
+    /**
      * @param string $identifier
      *
      * @return string

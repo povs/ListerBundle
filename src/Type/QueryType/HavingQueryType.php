@@ -47,4 +47,12 @@ class HavingQueryType extends AbstractQueryType
         $queryBuilder->andHaving($clause)
             ->setParameter($identifier, $value);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasAggregation(): bool
+    {
+        return true;
+    }
 }

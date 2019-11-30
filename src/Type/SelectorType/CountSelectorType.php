@@ -25,4 +25,9 @@ class CountSelectorType extends BasicSelectorType
 
         return (int) $value;
     }
+
+    public function hasAggregation(): bool
+    {
+        return true;
+    }
 }

@@ -29,4 +29,9 @@ interface SelectorTypeInterface
      * @return string
      */
     public function getSortPath(string $id): string;
+
+    /**
+     * @return bool
+     */
+    public function hasAggregation(): bool;
 }

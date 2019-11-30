@@ -32,4 +32,9 @@ interface QueryTypeInterface
      * @param array $options
      */
     public function setOptions(array $options): void;
+
+    /**
+     * @return bool
+     */
+    public function hasAggregation(): bool;
 }

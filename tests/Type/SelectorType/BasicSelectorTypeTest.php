@@ -67,4 +67,10 @@ class BasicSelectorTypeTest extends TestCase
         $basicSelectorType = new BasicSelectorType();
         $this->assertEquals('id_field_0', $basicSelectorType->getSortPath('id'));
     }
+
+    public function testHasAggregation(): void
+    {
+        $basicSelectorType = new BasicSelectorType();
+        $this->assertFalse($basicSelectorType->hasAggregation());
+    }
 }

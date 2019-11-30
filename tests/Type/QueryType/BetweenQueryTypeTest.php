@@ -66,6 +66,11 @@ class BetweenQueryTypeTest extends TestCase
         $this->assertEquals(['value_delimiter' => '-'], $optionResolver->resolve());
     }
 
+    public function testHasAggregation(): void
+    {
+        $this->assertFalse($this->getType([])->hasAggregation());
+    }
+
     /**
      * @param array $options
      *

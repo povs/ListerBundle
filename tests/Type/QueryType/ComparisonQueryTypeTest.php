@@ -77,6 +77,11 @@ class ComparisonQueryTypeTest extends TestCase
         $this->assertEquals($default, $optionResolver->resolve());
     }
 
+    public function testHasAggregation(): void
+    {
+        $this->assertFalse($this->getType([])->hasAggregation());
+    }
+
     /**
      * @param array $options
      *

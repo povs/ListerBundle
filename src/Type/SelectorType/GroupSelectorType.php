@@ -47,6 +47,14 @@ class GroupSelectorType extends BasicSelectorType
     }
 
     /**
+     * @inheritDoc
+     */
+    public function hasAggregation(): bool
+    {
+        return true;
+    }
+
+    /**
      * @param array $paths
      *
      * @return string

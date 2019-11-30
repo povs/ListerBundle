@@ -20,23 +20,19 @@ class PaginatorTest extends TestCase
         $queryMock = $this->createMock(AbstractQuery::class);
         $queryBuilderMock->expects($this->once())
             ->method('select')
-            ->with('foo.bar')
+            ->with('COUNT(DISTINCT foo.bar)')
             ->willReturnSelf();
         $queryBuilderMock->expects($this->once())
+            ->method('distinct')
+            ->with(false)
+            ->willReturnSelf();
+        $queryBuilderMock->expects($this->exactly(2))
             ->method('resetDQLPart')
-            ->with('orderBy')
+            ->withConsecutive(['orderBy'], ['groupBy'])
             ->willReturnSelf();
         $queryBuilderMock->expects($this->once())
             ->method('getQuery')
             ->willReturn($queryMock);
-        $queryMock->expects($this->once())
-            ->method('setHint')
-            ->with(Query::HINT_CUSTOM_OUTPUT_WALKER, CountOutputWalker::class)
-            ->willReturnSelf();
-        $queryMock->expects($this->once())
-            ->method('setResultSetMapping')
-            ->withAnyParameters()
-            ->willReturnSelf();
         $queryMock->expects($this->once())
             ->method('getSingleScalarResult')
             ->willReturn(100);

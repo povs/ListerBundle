@@ -49,6 +49,11 @@ class ListQueryBuilder
     private $configuration;
 
     /**
+     * @var bool
+     */
+    private $hasAggregation = false;
+
+    /**
      * ListQueryBuilder constructor.
      *
      * @param EntityManagerInterface $entityManager
@@ -133,6 +138,10 @@ class ListQueryBuilder
             $selectorType = $this->selectorTypeLocator->get($selectorType);
             $selectorType->apply($this->queryBuilder, $paths, $field->getId());
 
+            if ($selectorType->hasAggregation()) {
+                $this->hasAggregation = true;
+            }
+
             if ($field->getOption(ListField::OPTION_SORTABLE) &&
                 ($dir = $field->getOption(ListField::OPTION_SORT_VALUE))
             ) {
@@ -170,17 +179,23 @@ class ListQueryBuilder
             $queryType->configureOptions($resolver);
             $queryType->setOptions($resolver->resolve($field->getOption(FilterField::OPTION_QUERY_OPTIONS)));
             $queryType->filter($this->queryBuilder, $paths, $field->getId(), $field->getValue());
+
+            if ($queryType->hasAggregation()) {
+                $this->hasAggregation = true;
+            }
         }
     }
 
     /**
-     * Applies group by identifier on the base entity for one->many and many->many relations
-     * Also for functions like count, group select etc.
+     * Applies group by identifier if query has aggregations
      */
     private function applyGroup(): void
     {
-        $statement = sprintf('%s.%s', $this->configuration->getAlias(), $this->configuration->getIdentifier());
+        if (!$this->hasAggregation) {
+            $this->queryBuilder->distinct();
+        }
 
+        $statement = sprintf('%s.%s', $this->configuration->getAlias(), $this->configuration->getIdentifier());
         $this->queryBuilder->groupBy($statement);
     }
 

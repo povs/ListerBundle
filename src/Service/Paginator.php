@@ -37,8 +37,8 @@ class Paginator
      * ListPaginator constructor.
      *
      * @param QueryBuilder       $queryBuilder
-     * @param string $alias      query base entity alias
-     * @param string $identifier query base entity identifier
+     * @param string             $alias       query base entity alias
+     * @param string             $identifier query base entity identifier
      */
     public function __construct(QueryBuilder $queryBuilder, string $alias, string $identifier)
     {
@@ -54,15 +54,13 @@ class Paginator
     {
         if (!$this->count) {
             $queryBuilder = clone $this->queryBuilder;
-            $map = new ResultSetMapping();
-            $map->addScalarResult('dctrn_count', 'count');
 
             try {
-                $this->count = $queryBuilder->select(sprintf('%s.%s', $this->alias, $this->identifier))
+                $this->count = $queryBuilder->select(sprintf('COUNT(DISTINCT %s.%s)', $this->alias, $this->identifier))
+                    ->distinct(false)
                     ->resetDQLPart('orderBy')
+                    ->resetDQLPart('groupBy')
                     ->getQuery()
-                    ->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, CountOutputWalker::class)
-                    ->setResultSetMapping($map)
                     ->getSingleScalarResult();
             } catch (Throwable $e) {
                 throw ListQueryException::invalidQueryConfiguration($e->getMessage(), $queryBuilder->getDQL());

@@ -24,6 +24,11 @@ class ContainsQueryTypeTest extends TestCase
         $type->filter($queryBuilderMock, ['foo'], 'bar', 'value');
     }
 
+    public function testHasAggregation(): void
+    {
+        $this->assertFalse($this->getType([])->hasAggregation());
+    }
+
     /**
      * @param array $options
      *

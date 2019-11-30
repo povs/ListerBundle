@@ -66,6 +66,11 @@ class MatchQueryTypeTest extends TestCase
         $this->assertEquals(['relevance' => 0, 'boolean' => false, 'expand' => false], $optionResolver->resolve());
     }
 
+    public function testHasAggregation(): void
+    {
+        $this->assertFalse($this->getType([])->hasAggregation());
+    }
+
     /**
      * @param array $options
      *

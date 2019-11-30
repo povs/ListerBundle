@@ -54,6 +54,14 @@ class BasicSelectorType implements SelectorTypeInterface
     }
 
     /**
+     * @return bool
+     */
+    public function hasAggregation(): bool
+    {
+        return false;
+    }
+
+    /**
      * @param string $id
      * @param int    $key
      *

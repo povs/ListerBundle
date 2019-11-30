@@ -75,7 +75,13 @@ class GroupSelectorTypeTest extends TestCase
 
     public function testGetSortPath(): void
     {
-        $basicSelectorType = new GroupSelectorType();
-        $this->assertEquals('id_field_0', $basicSelectorType->getSortPath('id'));
+        $selectorType = new GroupSelectorType();
+        $this->assertEquals('id_field_0', $selectorType->getSortPath('id'));
+    }
+
+    public function testHasAggregation(): void
+    {
+        $selectorType = new GroupSelectorType();
+        $this->assertTrue($selectorType->hasAggregation());
     }
 }

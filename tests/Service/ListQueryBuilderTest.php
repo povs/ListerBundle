@@ -121,6 +121,9 @@ class ListQueryBuilderTest extends TestCase
         $this->selectorTypeLocatorMock->expects($this->exactly(2))
             ->method('has')
             ->willReturn(true);
+        $this->selectorTypeMock->expects($this->exactly(2))
+            ->method('hasAggregation')
+            ->willReturnOnConsecutiveCalls(true, false);
         $this->selectorTypeLocatorMock
             ->expects($this->exactly(2))
             ->method('get')
@@ -224,6 +227,9 @@ class ListQueryBuilderTest extends TestCase
         $queryTypeMock->expects($this->exactly(2))
             ->method('setOptions')
             ->with([]);
+        $queryTypeMock->expects($this->exactly(2))
+            ->method('hasAggregation')
+            ->willReturnOnConsecutiveCalls(true, false);
         $queryTypeMock->expects($this->exactly(2))
             ->method('filter')
             ->withConsecutive(

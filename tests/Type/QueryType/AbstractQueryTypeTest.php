@@ -30,4 +30,9 @@ class AbstractQueryTypeTest extends TestCase
         $this->assertEmpty($optionResolver->getDefinedOptions());
         $this->assertEmpty($optionResolver->getRequiredOptions());
     }
+
+    public function testHasAggregation(): void
+    {
+        $this->assertFalse($this->subject->hasAggregation());
+    }
 }

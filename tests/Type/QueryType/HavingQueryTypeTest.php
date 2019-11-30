@@ -43,6 +43,11 @@ class HavingQueryTypeTest extends TestCase
         $this->assertEquals(['type' => '=', 'function' => 'count'], $optionResolver->resolve());
     }
 
+    public function testHasAggregation(): void
+    {
+        $this->assertTrue($this->getType([])->hasAggregation());
+    }
+
     /**
      * @param array $options
      *
