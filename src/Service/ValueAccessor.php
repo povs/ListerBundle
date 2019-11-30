@@ -127,8 +127,8 @@ class ValueAccessor
      */
     private function translateValue(ListField $listField, &$value): void
     {
-        if ((true === $listField->getOption(ListField::OPTION_TRANSLATE) && is_string($value)) ||
-            (null === $value && true === $listField->getOption(ListField::OPTION_TRANSLATE_NULL))
+        if ((true === $listField->getOption(ListField::OPTION_TRANSLATE)) &&
+            (null !== $value || true === $listField->getOption(ListField::OPTION_TRANSLATE_NULL))
         ) {
             $domain = $listField->getOption(ListField::OPTION_TRANSLATION_DOMAIN);
             $prefix = $listField->getOption(ListField::OPTION_TRANSLATION_PREFIX);
