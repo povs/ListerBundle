@@ -191,12 +191,12 @@ class ListQueryBuilder
      */
     private function applyGroup(): void
     {
-        if (!$this->hasAggregation) {
+        if ($this->hasAggregation) {
+            $statement = sprintf('%s.%s', $this->configuration->getAlias(), $this->configuration->getIdentifier());
+            $this->queryBuilder->groupBy($statement);
+        } else {
             $this->queryBuilder->distinct();
         }
-
-        $statement = sprintf('%s.%s', $this->configuration->getAlias(), $this->configuration->getIdentifier());
-        $this->queryBuilder->groupBy($statement);
     }
 
     /**

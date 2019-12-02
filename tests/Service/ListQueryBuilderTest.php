@@ -240,20 +240,6 @@ class ListQueryBuilderTest extends TestCase
         $this->executeBuildQuery();
     }
 
-    public function testBuildQueryApplyGroup(): void
-    {
-        $this->configMock->expects($this->once())
-            ->method('getIdentifier')
-            ->willReturn('foo');
-
-        $this->queryBuilderMock->expects($this->once())
-            ->method('groupBy')
-            ->with('alias.foo');
-
-        $this->setCalls(true, true, true);
-        $this->executeBuildQuery();
-    }
-
     public function testApplySelectsThrowsExceptionOnInvalidSelectorType(): void
     {
         $this->expectException(ListFieldException::class);
