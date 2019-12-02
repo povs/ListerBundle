@@ -17,7 +17,6 @@ class ComparisonQueryType extends AbstractQueryType
     public const COMPARISON_LIKE = 'LIKE';
 
     private static $wildCardMap = [
-        self::NO_WILDCARD => '%s',
         self::WILDCARD_START => '%%%s',
         self::WILDCARD_END => '%s%%',
         self::WILDCARD => '%%%s%%'
@@ -60,7 +59,7 @@ class ComparisonQueryType extends AbstractQueryType
         $identifier = $this->parseIdentifier($identifier);
         $comparison = new Comparison($this->getPath($paths), $this->getOption('type'), $identifier);
         $queryBuilder->andWhere($comparison)
-            ->setParameter($identifier, sprintf(self::$wildCardMap[$this->getOption('wildcard')], $value));
+            ->setParameter($identifier, $this->getParameter($value));
     }
 
     /**
@@ -86,5 +85,19 @@ class ComparisonQueryType extends AbstractQueryType
         }
 
         return $select;
+    }
+
+    /**
+     * @param string|object $value
+     *
+     * @return string|object
+     */
+    private function getParameter($value)
+    {
+        if (($wildcard = $this->getOption('wildcard')) === self::NO_WILDCARD) {
+            return $value;
+        }
+
+        return sprintf(self::$wildCardMap[$wildcard], $value);
     }
 }

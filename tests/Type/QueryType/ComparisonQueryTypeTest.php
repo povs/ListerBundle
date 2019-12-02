@@ -4,6 +4,7 @@ namespace Povs\ListerBundle\Type\QueryType;
 use Doctrine\ORM\Query\Expr\Comparison;
 use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -47,6 +48,26 @@ class ComparisonQueryTypeTest extends TestCase
 
         $type = $this->getType(['type' => 'LIKE', 'wildcard' => 'wildcard', 'delimiter' => '-']);
         $type->filter($queryBuilderMock, ['foo', 'bar'], 'bar', 'value');
+    }
+
+    public function testFilterObjectNoWildCard(): void
+    {
+        $value = new stdClass();
+        $queryBuilderMock = $this->createMock(QueryBuilder::class);
+        $queryBuilderMock->expects($this->once())
+            ->method('andWhere')
+            ->with($this->callback(static function(Comparison $subject) {
+                return $subject->getLeftExpr() === 'foo' &&
+                    $subject->getOperator() === '=' &&
+                    $subject->getRightExpr() === ':bar';
+            }))
+            ->willReturnSelf();
+        $queryBuilderMock->expects($this->once())
+            ->method('setParameter')
+            ->with(':bar', $value);
+
+        $type = $this->getType(['type' => '=', 'wildcard' => 'no_wildcard']);
+        $type->filter($queryBuilderMock, ['foo'], 'bar', $value);
     }
 
     public function testConfigureOptions(): void
