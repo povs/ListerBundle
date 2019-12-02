@@ -112,14 +112,4 @@ class ConfigurationTest extends TestCase
         $config = $this->processor->processConfiguration($this->configuration, ['povs_lister' => $customConfig]);
         $this->assertEquals($expectedConfig, $config);
     }
-
-    public function testVersion(): void
-    {
-        $configuration = new Configuration();
-        $configTreeBuilderV4 = $configuration->getConfigTreeBuilder(4);
-        $configTreeBuilderV3 = $configuration->getConfigTreeBuilder(3);
-
-        $this->assertInstanceOf(ArrayNodeDefinition::class, $configTreeBuilderV4->getRootNode());
-        $this->assertInstanceOf(ArrayNodeDefinition::class, $configTreeBuilderV3->getRootNode());
-    }
 }

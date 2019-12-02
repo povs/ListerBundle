@@ -16,15 +16,10 @@ class Configuration implements ConfigurationInterface
     /**
      * @inheritDoc
      */
-    public function getConfigTreeBuilder(int $version = Kernel::MAJOR_VERSION): TreeBuilder
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('povs_lister');
-
-        if ($version >= 4) {
-            $rootNode = $treeBuilder->getRootNode();
-        } else {
-            $rootNode = $treeBuilder->root('povs_lister');
-        }
+        $rootNode = $treeBuilder->root('povs_lister');
 
         $rootNode->children()
             ->scalarNode('default_type')
