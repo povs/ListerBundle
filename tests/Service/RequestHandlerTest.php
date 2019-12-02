@@ -65,13 +65,6 @@ class RequestHandlerTest extends TestCase
         $requestHandler->handleRequest($listMapperMock, $filterMapperMock, $formMock);
     }
 
-    public function testGetType(): void
-    {
-        $handler = $this->getRequestHandler([['type', null, 'test_type']], [], [['type', 'type']]);
-
-        $this->assertEquals('test_type', $handler->getType());
-    }
-
     public function testGetCurrentPage(): void
     {
         $handler = $this->getRequestHandler([['page', null, 20]], [], [['page', 'page']]);

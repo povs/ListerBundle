@@ -74,7 +74,6 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('request')
                             ->addDefaultsIfNotSet()
                             ->children()
-                                ->scalarNode('type')->defaultValue('type')->cannotBeEmpty()->end()
                                 ->scalarNode('page')->defaultValue('page')->cannotBeEmpty()->end()
                                 ->scalarNode('length')->defaultValue('length')->cannotBeEmpty()->end()
                                 ->scalarNode('sort')->defaultValue('sort')->cannotBeEmpty()->end()

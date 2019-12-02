@@ -74,7 +74,7 @@ class ListTypeResolver
     public function resolveType(?string $type): ListTypeResolver
     {
         if (!$type) {
-            $type = $this->requestHandler->getType() ?? $this->configurationResolver->getDefaultType();
+            $type = $this->configurationResolver->getDefaultType();
         }
 
         $this->typeName = $type;
@@ -164,7 +164,6 @@ class ListTypeResolver
     private function resolveOptions(array $options): array
     {
         $resolver = new OptionsResolver();
-        $resolver->setDefined(array_keys($options));
         $this->type->configureOptions($resolver);
 
         try {

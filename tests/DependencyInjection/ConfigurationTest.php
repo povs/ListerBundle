@@ -42,7 +42,6 @@ class ConfigurationTest extends TestCase
                 'translation_domain' => null,
                 'form_configuration' => [],
                 'request' => [
-                    'type' => 'type',
                     'page' => 'page',
                     'length' => 'length',
                     'sort' => 'sort',
@@ -70,7 +69,6 @@ class ConfigurationTest extends TestCase
                     'config' => 'value'
                 ],
                 'request' => [
-                    'type' => 'new_type',
                     'filter' => 'new_filter'
                 ],
                 'types' => [
@@ -97,7 +95,6 @@ class ConfigurationTest extends TestCase
                     'config' => 'value'
                 ],
                 'request' => [
-                    'type' => 'new_type',
                     'page' => 'page',
                     'length' => 'length',
                     'sort' => 'sort',

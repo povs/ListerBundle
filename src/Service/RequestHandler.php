@@ -47,14 +47,6 @@ class RequestHandler
     }
 
     /**
-     * @return string|null
-     */
-    public function getType(): ?string
-    {
-        return $this->getValue('type');
-    }
-
-    /**
      * @return int|null
      */
     public function getCurrentPage(): ?int

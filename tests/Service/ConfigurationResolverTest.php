@@ -23,7 +23,6 @@ class ConfigurationResolverTest extends TestCase
             'translation_domain' => null,
             'form_configuration' => [],
             'request' => [
-                'type' => 'type',
                 'page' => 'page',
                 'length' => 'length',
                 'sort' => 'sort',
@@ -40,7 +39,7 @@ class ConfigurationResolverTest extends TestCase
             'form_config2' => false
         ],
         'request' => [
-            'type' => 'new_type'
+            'filter' => 'filter'
         ],
         'types' => [
             'list' => [
@@ -135,11 +134,10 @@ class ConfigurationResolverTest extends TestCase
     public function testGetRequestConfiguration(ConfigurationResolver $resolver): void
     {
         $expects = [
-            'type' => 'new_type',
             'page' => 'page',
             'length' => 'length',
             'sort' => 'sort',
-            'filter' => null,
+            'filter' => 'filter',
         ];
 
         foreach ($expects as $key => $val) {

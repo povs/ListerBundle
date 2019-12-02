@@ -21,8 +21,8 @@ class ListTypeResolverTest extends TestCase
     {
         $listViewMock = $this->createMock(ListView::class);
         $responseMock = $this->createMock(Response::class);
-        $this->getResponseData = [$listViewMock, ['foo' => 'bar'], $responseMock];
-        $this->getDataData = [$listViewMock, ['foo' => 'bar'], ['res' => 'data']];
+        $this->getResponseData = [$listViewMock, [], $responseMock];
+        $this->getDataData = [$listViewMock, [], ['res' => 'data']];
     }
 
     /**
@@ -35,9 +35,6 @@ class ListTypeResolverTest extends TestCase
         $requestHandlerMock = $this->createMock(RequestHandler::class);
         $listTypeMock = $this->createMock(ListTypeInterface::class);
 
-        $requestHandlerMock->expects($this->once())
-            ->method('getType')
-            ->willReturn(null);
         $requestHandlerMock->expects($this->once())
             ->method('getLength')
             ->willReturn(20);
@@ -205,6 +202,7 @@ class ListTypeResolverTest extends TestCase
         $typeMock->expects($this->once())
             ->method('configureOptions')
             ->willReturnCallback(static function(OptionsResolver $resolver) {
+                $resolver->setDefined('invalid_option');
                 $resolver->setAllowedTypes('invalid_option', 'array');
             });
 
