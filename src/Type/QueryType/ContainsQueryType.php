@@ -14,7 +14,7 @@ class ContainsQueryType extends AbstractQueryType
     public function filter(QueryBuilder $queryBuilder, array $paths, string $identifier, $value): void
     {
         $identifier = $this->parseIdentifier($identifier);
-        $queryBuilder->andWhere(sprintf('%s IN %s', $paths[0], $identifier))
+        $queryBuilder->andWhere(sprintf('%s IN (%s)', $paths[0], $identifier))
             ->setParameter($identifier, $value);
     }
 }

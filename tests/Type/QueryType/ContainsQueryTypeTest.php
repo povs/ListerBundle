@@ -14,7 +14,7 @@ class ContainsQueryTypeTest extends TestCase
         $queryBuilderMock = $this->createMock(QueryBuilder::class);
         $queryBuilderMock->expects($this->once())
             ->method('andWhere')
-            ->with('foo IN :bar')
+            ->with('foo IN (:bar)')
             ->willReturnSelf();
         $queryBuilderMock->expects($this->once())
             ->method('setParameter')
