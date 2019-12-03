@@ -12,7 +12,6 @@ use Povs\ListerBundle\Type\ListType\ArrayListType;
 class ConfigurationResolverTest extends TestCase
 {
     private static $defaultConfig = [
-        'default_type' => 'list',
         'types' => [
             'list' => ArrayListType::class,
         ],
@@ -28,7 +27,7 @@ class ConfigurationResolverTest extends TestCase
                 'sort' => 'sort',
                 'filter' => null,
             ],
-            'types' => []
+            'type_configuration' => []
         ]
     ];
 
@@ -41,7 +40,7 @@ class ConfigurationResolverTest extends TestCase
         'request' => [
             'filter' => 'filter'
         ],
-        'types' => [
+        'type_configuration' => [
             'list' => [
                 'test1' => true,
                 'test2' => 'value'
@@ -114,16 +113,6 @@ class ConfigurationResolverTest extends TestCase
     public function testGetTypeConfigurationNull(ConfigurationResolver $resolver): void
     {
         $this->assertEquals([], $resolver->getTypeConfiguration('test'));
-    }
-
-    /**
-     * @depends testResolve
-     *
-     * @param ConfigurationResolver $resolver
-     */
-    public function testGetDefaultType(ConfigurationResolver $resolver): void
-    {
-        $this->assertEquals('list', $resolver->getDefaultType());
     }
 
     /**

@@ -42,9 +42,6 @@ class ListTypeResolverTest extends TestCase
             ->method('getCurrentPage')
             ->willReturn(2);
         $configMock->expects($this->once())
-            ->method('getDefaultType')
-            ->willReturn('foo_type');
-        $configMock->expects($this->once())
             ->method('getTypeConfiguration')
             ->willReturn(['config1' => 'foo', 'config2' => 'bar']);
         $configMock->expects($this->once())
@@ -83,7 +80,7 @@ class ListTypeResolverTest extends TestCase
             ->willReturn($this->getDataData[2]);
 
         $typeResolver = new ListTypeResolver($listTypeLocatorMock, $configMock, $requestHandlerMock);
-        $typeResolver->resolveType(null);
+        $typeResolver->resolveType('foo_type');
 
         return $typeResolver;
     }

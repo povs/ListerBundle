@@ -74,18 +74,6 @@ class RouterView
     }
 
     /**
-     * @param string $type
-     *
-     * @return string
-     */
-    public function getTypeRoute(string $type): string
-    {
-        $typeName = $this->requestHandler->getName('type');
-
-        return $this->generate([$typeName => $type]);
-    }
-
-    /**
      * @return string
      */
     public function getRoute(): string
@@ -109,7 +97,7 @@ class RouterView
      *
      * @return string
      */
-    private function generate(array $params, bool $merge = true): string
+    public function generate(array $params, bool $merge = true): string
     {
         return $this->router->generate(
             $this->requestHandler->getRoute(),

@@ -72,19 +72,11 @@ class ConfigurationResolver
      */
     public function getTypeConfiguration(string $type): array
     {
-        if (!isset($this->resolvedConfiguration['list_config']['types'][$type])) {
+        if (!isset($this->resolvedConfiguration['list_config']['type_configuration'][$type])) {
             return [];
         }
 
-        return $this->resolvedConfiguration['list_config']['types'][$type] ?? [];
-    }
-
-    /**
-     * @return string
-     */
-    public function getDefaultType(): string
-    {
-        return $this->resolvedConfiguration['default_type'];
+        return $this->resolvedConfiguration['list_config']['type_configuration'][$type] ?? [];
     }
 
     /**

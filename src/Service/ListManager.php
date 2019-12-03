@@ -103,11 +103,11 @@ class ListManager
     }
 
     /**
-     * @param string      $list
-     * @param string|null $type
-     * @param array       $parameters
+     * @param string $list
+     * @param string $type
+     * @param array  $parameters
      */
-    public function buildList(string $list, ?string $type = null, array $parameters = []): void
+    public function buildList(string $list, string $type, array $parameters = []): void
     {
         $list = $this->generateList($list, $parameters);
         $this->typeResolver->resolveType($type);

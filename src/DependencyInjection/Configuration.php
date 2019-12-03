@@ -20,12 +20,6 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder('povs_lister');
         $rootNode = $treeBuilder->root('povs_lister');
-
-        $rootNode->children()
-            ->scalarNode('default_type')
-                ->defaultValue('list')
-            ->end();
-
         $this->addTypesConfiguration($rootNode);
         $this->addListOptionsConfiguration($rootNode);
 
@@ -75,7 +69,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('filter')->defaultValue(null)->end()
                             ->end()
                         ->end()
-                        ->arrayNode('types')
+                        ->arrayNode('type_configuration')
                             ->arrayPrototype()->ignoreExtraKeys(false)->end()
                         ->end()
                     ->end()

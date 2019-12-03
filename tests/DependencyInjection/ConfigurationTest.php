@@ -31,7 +31,6 @@ class ConfigurationTest extends TestCase
     public function testDefaultConfig(): void
     {
         $defaultConfig = [
-            'default_type' => 'list',
             'types' => [
                 'list' => ArrayListType::class
             ],
@@ -47,7 +46,7 @@ class ConfigurationTest extends TestCase
                     'sort' => 'sort',
                     'filter' => null
                 ],
-                'types' => []
+                'type_configuration' => []
             ],
         ];
 
@@ -58,7 +57,6 @@ class ConfigurationTest extends TestCase
     public function testCustomConfig(): void
     {
         $customConfig = [
-            'default_type' => 'csv',
             'types' => [
                 'list' => ArrayListType::class,
                 'csv' => CsvListType::class
@@ -71,7 +69,7 @@ class ConfigurationTest extends TestCase
                 'request' => [
                     'filter' => 'new_filter'
                 ],
-                'types' => [
+                'type_configuration' => [
                     'list' => [
                         'length' => 1000,
                         'limit' => 10000
@@ -81,7 +79,6 @@ class ConfigurationTest extends TestCase
         ];
 
         $expectedConfig = [
-            'default_type' => 'csv',
             'types' => [
                 'list' => ArrayListType::class,
                 'csv' => CsvListType::class
@@ -100,7 +97,7 @@ class ConfigurationTest extends TestCase
                     'sort' => 'sort',
                     'filter' => 'new_filter'
                 ],
-                'types' => [
+                'type_configuration' => [
                     'list' => [
                         'length' => 1000,
                         'limit' => 10000

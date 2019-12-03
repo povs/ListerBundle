@@ -67,16 +67,12 @@ class ListTypeResolver
     }
 
     /**
-     * @param string|null $type
+     * @param string $type
      *
      * @return $this
      */
-    public function resolveType(?string $type): ListTypeResolver
+    public function resolveType(string $type): ListTypeResolver
     {
-        if (!$type) {
-            $type = $this->configurationResolver->getDefaultType();
-        }
-
         $this->typeName = $type;
         $class = $this->configurationResolver->getListTypeClass($this->typeName);
 

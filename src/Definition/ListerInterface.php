@@ -10,13 +10,13 @@ interface ListerInterface
 {
     /**
      * @param string      $list        fully qualified name of list class (must implement ListInterface)
-     * @param string|null $type        if type = null - default type will be used (from configuration)
+     * @param string|null $type        list type name
      * @param array       $parameters  list parameters that will be passed to the List setParameters method
      * @see ListInterface
      *
      * @return ListerInterface
      */
-    public function buildList(string $list, ?string $type = null, array $parameters = []): ListerInterface;
+    public function buildList(string $list, string $type, array $parameters = []): ListerInterface;
 
     /**
      * @param array $options

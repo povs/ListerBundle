@@ -25,7 +25,7 @@ class Lister implements ListerInterface
     /**
      * @inheritDoc
      */
-    public function buildList(string $list, ?string $type = null, array $parameters = []): ListerInterface
+    public function buildList(string $list, string $type, array $parameters = []): ListerInterface
     {
         $this->listManager->buildList($list, $type, $parameters);
 

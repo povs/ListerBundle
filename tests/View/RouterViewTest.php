@@ -56,17 +56,6 @@ class RouterViewTest extends TestCase
         $this->assertEquals('test_route', $view->getSortRoute('foo', 'bar'));
     }
 
-    public function testGetTypeRoute(): void
-    {
-        $this->requestHandler->expects($this->once())
-            ->method('getName')
-            ->with('type')
-            ->willReturn('type_name');
-
-        $view = $this->getRouterView(['type_name' => 'foo'], true);
-        $this->assertEquals('test_route', $view->getTypeRoute('foo'));
-    }
-
     public function testGetGetRoute(): void
     {
         $view = $this->getRouterView([], false);
