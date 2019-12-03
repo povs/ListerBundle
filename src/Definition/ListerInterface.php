@@ -14,9 +14,9 @@ interface ListerInterface
      * @param array       $parameters  list parameters that will be passed to the List setParameters method
      * @see ListInterface
      *
-     * @return ListerInterface
+     * @return self
      */
-    public function buildList(string $list, string $type, array $parameters = []): ListerInterface;
+    public function buildList(string $list, string $type, array $parameters = []): self;
 
     /**
      * @param array $options
