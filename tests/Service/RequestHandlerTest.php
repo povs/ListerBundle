@@ -21,20 +21,13 @@ class RequestHandlerTest extends TestCase
         $listMapperMock = $this->createMock(ListMapper::class);
         $filterMapperMock = $this->createMock(FilterMapper::class);
         $formMock = $this->createMock(FormInterface::class);
-        $listFieldMock1 = $this->createMock(ListField::class);
-        $listFieldMock2 = $this->createMock(ListField::class);
-        $listFieldMock1->expects($this->once())
+        $listFieldMock = $this->createMock(ListField::class);
+        $listFieldMock->expects($this->once())
             ->method('setOption')
             ->with('sort_value', 'DESC');
-        $listFieldMock2->expects($this->once())
-            ->method('setOption')
-            ->with('sort_value', 'ASC');
-        $listMapperMock->expects($this->exactly(2))
+        $listMapperMock->expects($this->once())
             ->method('get')
-            ->willReturnMap([
-                ['field1', $listFieldMock1],
-                ['field2', $listFieldMock2]
-            ]);
+            ->willReturn($listFieldMock);
         $formMock->expects($this->once())
             ->method('handleRequest');
         $formMock->expects($this->once())
@@ -61,7 +54,7 @@ class RequestHandlerTest extends TestCase
                 ['field2', $filterFieldMock2]
             ]);
 
-        $requestHandler = $this->getRequestHandler([['sort', null, ['field1' => 'DESC', 'field2' => 'ASC']]], [], [['sort', 'sort']]);
+        $requestHandler = $this->getRequestHandler([['sort', null, ['field1' => 'desc', 'field2' => 'invalid_sort']]], [], [['sort', 'sort']]);
         $requestHandler->handleRequest($listMapperMock, $filterMapperMock, $formMock);
     }
 

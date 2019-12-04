@@ -130,6 +130,12 @@ class RequestHandler
         $sort = $this->getValue('sort') ?? [];
 
         foreach ($sort as $id => $direction) {
+            $direction = strtoupper($direction);
+
+            if (!in_array($direction, [ListField::SORT_DESC, ListField::SORT_ASC], true)) {
+                continue;
+            }
+
             $field = $listMapper->get($id);
             $field->setOption(ListField::OPTION_SORT_VALUE, $direction);
         }
