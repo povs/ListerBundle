@@ -72,13 +72,6 @@ class RequestHandlerTest extends TestCase
         $this->assertEquals(20, $handler->getLength());
     }
 
-    public function testGetRoute(): void
-    {
-        $handler = $this->getRequestHandler([], [['_route', null, 'test_route']], []);
-
-        $this->assertEquals('test_route', $handler->getRoute());
-    }
-
     public function testGetValue(): void
     {
         $handler = $this->getRequestHandler([['foo', null, 'custom_value']], [], [['custom_name', 'foo']]);

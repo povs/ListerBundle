@@ -99,9 +99,15 @@ class RouterView
      */
     public function generate(array $params, bool $merge = true): string
     {
+        $request = $this->requestHandler->getRequest();
+
+        if ($routeParams = $request->attributes->get('_route_params')) {
+            $params = array_merge($params, $routeParams);
+        }
+
         return $this->router->generate(
-            $this->requestHandler->getRoute(),
-            $merge ? array_merge($this->requestHandler->getRequest()->query->all(), $params) : $params,
+            $request->attributes->get('_route'),
+            $merge ? array_merge($request->query->all(), $params) : $params,
             UrlGeneratorInterface::ABSOLUTE_URL
         );
     }

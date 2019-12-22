@@ -74,12 +74,16 @@ class RouterViewTest extends TestCase
 
     private function getRouterView(?array $params = null, bool $merge = false, array $requestParams = []): RouterView
     {
-        if (true === $merge) {
-            $requestMock = $this->createMock(Request::class);
-            $paramsBagMock = $this->createMock(ParameterBag::class);
+        $requestMock = $this->createMock(Request::class);
+
+        if (true === $merge || null !== $params) {
             $this->requestHandler->expects($this->once())
                 ->method('getRequest')
                 ->willReturn($requestMock);
+        }
+
+        if (true === $merge) {
+            $paramsBagMock = $this->createMock(ParameterBag::class);
             $paramsBagMock->expects($this->once())
                 ->method('all')
                 ->willReturn($requestParams);
@@ -87,13 +91,19 @@ class RouterViewTest extends TestCase
         }
 
         if (null !== $params) {
-            $this->requestHandler->expects($this->once())
-                ->method('getRoute')
-                ->willReturn('route');
+            $attributesMock = $this->createMock(ParameterBag::class);
+            $attributesMock->expects($this->exactly(2))
+                ->method('get')
+                ->willReturnMap([
+                    ['_route_params', null, ['test' => 'foo']],
+                    ['_route', null, 'test_route']
+                ]);
+            $requestMock->attributes = $attributesMock;
+            $params['test'] = 'foo';
 
             $this->router->expects($this->once())
                 ->method('generate')
-                ->with('route', $params, 0)
+                ->with('test_route', $params, 0)
                 ->willReturn('test_route');
         }
 

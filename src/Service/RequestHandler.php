@@ -67,14 +67,6 @@ class RequestHandler
     }
 
     /**
-     * @return string
-     */
-    public function getRoute(): string
-    {
-        return $this->request->attributes->get('_route');
-    }
-
-    /**
      * @param string $name
      *
      * @return mixed|null
