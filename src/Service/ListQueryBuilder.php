@@ -163,7 +163,9 @@ class ListQueryBuilder
     private function applyFilter(FilterMapper $filterMapper, JoinMapper $joinMapper): void
     {
         foreach ($filterMapper->getFields() as $field) {
-            if (!$field->getValue()) {
+            $value = $field->getValue();
+
+            if ($this->isValueEmpty($value)) {
                 continue;
             }
 
@@ -178,7 +180,7 @@ class ListQueryBuilder
             $resolver = new OptionsResolver();
             $queryType->configureOptions($resolver);
             $queryType->setOptions($resolver->resolve($field->getOption(FilterField::OPTION_QUERY_OPTIONS)));
-            $queryType->filter($this->queryBuilder, $paths, $field->getId(), $field->getValue());
+            $queryType->filter($this->queryBuilder, $paths, $field->getId(), $value);
 
             if ($queryType->hasAggregation()) {
                 $this->hasAggregation = true;
@@ -234,5 +236,17 @@ class ListQueryBuilder
         }
 
         return $parsedPaths;
+    }
+
+    /**
+     * @param $value
+     *
+     * @return bool
+     */
+    private function isValueEmpty($value): bool
+    {
+        return null === $value ||
+            (is_array($value) && count($value) === 0 ) ||
+            ($value instanceof \Countable && $value->count() === 0);
     }
 }

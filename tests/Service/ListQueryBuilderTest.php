@@ -178,7 +178,7 @@ class ListQueryBuilderTest extends TestCase
         foreach ($fieldsData as $datum) {
             $field = $this->createMock(FilterField::class);
             if ($datum[2]) {
-                $field->expects($this->exactly(2))
+                $field->expects($this->once())
                     ->method('getValue')
                     ->willReturn($datum[2]);
                 $field->expects($this->once())
