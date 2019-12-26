@@ -100,7 +100,11 @@ class ValueAccessor
         }
 
         if ($type = $listField->getType()) {
-            $value = $type->getValue($value, $this->typeResolver->getTypeName());
+            $value = $type->getValue(
+                $value,
+                $this->typeResolver->getTypeName(),
+                $listField->getOption(ListField::OPTION_FIELD_TYPE_OPTIONS)
+            );
         }
     }
 

@@ -87,14 +87,15 @@ class ValueAccessorTest extends TestCase
         $fieldViewMock->expects($this->once())
             ->method('getListField')
             ->willReturn($listFieldMock);
-        $listFieldMock->expects($this->exactly(5))
+        $listFieldMock->expects($this->exactly(6))
             ->method('getOption')
             ->willReturnMap([
                 ['selector', null, 'selector'],
                 ['translate', null, true],
                 ['translation_domain', null, 'domain'],
                 ['translation_prefix', null, 'prefix_'],
-                ['value', null, null]
+                ['value', null, null],
+                ['field_type_options', null, ['opt' => 'val']]
             ]);
         $listFieldMock->expects($this->once())
             ->method('getId')
@@ -114,7 +115,7 @@ class ValueAccessorTest extends TestCase
             ->willReturn('list_type');
         $fieldTypeMock->expects($this->once())
             ->method('getValue')
-            ->with('foo', 'list_type')
+            ->with('foo', 'list_type', ['opt' => 'val'])
             ->willReturn('processed value');
         $this->translatorMock->expects($this->once())
             ->method('trans')

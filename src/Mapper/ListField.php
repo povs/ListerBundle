@@ -28,6 +28,7 @@ class ListField extends AbstractField
     public const OPTION_TRANSLATION_PREFIX = 'translation_prefix';
     public const OPTION_TRANSLATE_NULL = 'translate_null';
     public const OPTION_VALUE = 'value';
+    public const OPTION_FIELD_TYPE_OPTIONS = 'field_type_options';
 
     /**
      * @var FieldTypeInterface
@@ -87,7 +88,8 @@ class ListField extends AbstractField
             self::OPTION_TRANSLATION_DOMAIN,
             self::OPTION_TRANSLATION_PREFIX,
             self::OPTION_TRANSLATE_NULL,
-            self::OPTION_VALUE
+            self::OPTION_VALUE,
+            self::OPTION_FIELD_TYPE_OPTIONS
         ]);
 
         $resolver->setDefaults([
@@ -97,7 +99,8 @@ class ListField extends AbstractField
             self::OPTION_SELECTOR => BasicSelectorType::class,
             self::OPTION_VIEW_OPTIONS => [],
             self::OPTION_TRANSLATE => false,
-            self::OPTION_TRANSLATE_NULL => false
+            self::OPTION_TRANSLATE_NULL => false,
+            self::OPTION_FIELD_TYPE_OPTIONS => []
         ]);
 
         $resolver->setRequired([
@@ -119,5 +122,6 @@ class ListField extends AbstractField
         $resolver->setAllowedTypes(self::OPTION_TRANSLATION_PREFIX, 'string');
         $resolver->setAllowedTypes(self::OPTION_TRANSLATE_NULL, 'bool');
         $resolver->setAllowedTypes(self::OPTION_VALUE, 'callable');
+        $resolver->setAllowedTypes(self::OPTION_FIELD_TYPE_OPTIONS, 'array');
     }
 }
