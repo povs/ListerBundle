@@ -32,11 +32,12 @@ class MatchQueryType extends AbstractQueryType
     public function filter(QueryBuilder $queryBuilder, array $paths, string $identifier, $value): void
     {
         $identifier = $this->parseIdentifier($identifier);
-        $clause = sprintf('MATCH (%s) HAVING (%s%s%s)',
+        $clause = sprintf('MATCH (%s) HAVING (%s%s%s) > %s',
             implode(',', $paths),
             $identifier,
             $this->getOption('boolean') ? ' boolean' : '',
-            $this->getOption('expand') ? ' expand' : ''
+            $this->getOption('expand') ? ' expand' : '',
+            $this->getOption('relevance')
         );
 
         $queryBuilder->andWhere($clause)
