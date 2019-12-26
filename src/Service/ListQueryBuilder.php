@@ -1,6 +1,7 @@
 <?php
 namespace Povs\ListerBundle\Service;
 
+use Countable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Povs\ListerBundle\Definition\ListInterface;
@@ -247,6 +248,6 @@ class ListQueryBuilder
     {
         return null === $value ||
             (is_array($value) && count($value) === 0 ) ||
-            ($value instanceof \Countable && $value->count() === 0);
+            ($value instanceof Countable && $value->count() === 0);
     }
 }

@@ -4,7 +4,6 @@ namespace Povs\ListerBundle\DependencyInjection;
 use PHPUnit\Framework\TestCase;
 use Povs\ListerBundle\Type\ListType\ArrayListType;
 use Povs\ListerBundle\Type\ListType\CsvListType;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Processor;
 
 /**

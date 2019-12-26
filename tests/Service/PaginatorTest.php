@@ -2,9 +2,7 @@
 namespace Povs\ListerBundle\Service;
 
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Tools\Pagination\CountOutputWalker;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use Povs\ListerBundle\Exception\ListQueryException;

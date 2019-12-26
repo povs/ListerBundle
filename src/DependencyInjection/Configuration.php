@@ -6,7 +6,6 @@ use Povs\ListerBundle\Type\ListType\ArrayListType;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * @author Povilas Margaiatis <p.margaitis@gmail.com>

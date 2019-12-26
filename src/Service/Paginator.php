@@ -1,10 +1,7 @@
 <?php
 namespace Povs\ListerBundle\Service;
 
-use Doctrine\ORM\Query;
-use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Tools\Pagination\CountOutputWalker;
 use Povs\ListerBundle\Exception\ListQueryException;
 use Throwable;
 
