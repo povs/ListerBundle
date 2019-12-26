@@ -97,7 +97,9 @@ class ValueAccessor
     {
         if ($callable = $listField->getOption(ListField::OPTION_VALUE)) {
             $value = $callable($value, $this->typeResolver->getTypeName());
-        } elseif ($type = $listField->getType()) {
+        }
+
+        if ($type = $listField->getType()) {
             $value = $type->getValue($value, $this->typeResolver->getTypeName());
         }
     }
