@@ -19,7 +19,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('povs_lister');
-        $rootNode = $treeBuilder->root('povs_lister');
+        $rootNode = $treeBuilder->getRootNode();
         $this->addTypesConfiguration($rootNode);
         $this->addListOptionsConfiguration($rootNode);
 

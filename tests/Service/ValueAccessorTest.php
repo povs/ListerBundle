@@ -9,7 +9,7 @@ use Povs\ListerBundle\Mapper\ListField;
 use Povs\ListerBundle\Type\FieldType\FieldTypeInterface;
 use Povs\ListerBundle\Type\SelectorType\SelectorTypeInterface;
 use Povs\ListerBundle\View\FieldView;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @author Povilas Margaiatis <p.margaitis@gmail.com>

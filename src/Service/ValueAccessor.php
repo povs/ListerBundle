@@ -5,7 +5,7 @@ use Povs\ListerBundle\DependencyInjection\Locator\SelectorTypeLocator;
 use Povs\ListerBundle\Exception\ListException;
 use Povs\ListerBundle\Mapper\ListField;
 use Povs\ListerBundle\View\FieldView;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @author Povilas Margaiatis <p.margaitis@gmail.com>
