@@ -72,7 +72,7 @@ abstract class AbstractField
             $paths = [];
 
             foreach ($properties as $key => $property) {
-                $paths[$key] = sprintf('%s.%s', $path, $property);
+                $paths[$key] = $path ? sprintf('%s.%s', $path, $property) : $property;
             }
         }
 
