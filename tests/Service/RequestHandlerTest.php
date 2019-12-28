@@ -1,6 +1,7 @@
 <?php
 namespace Povs\ListerBundle\Service;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Povs\ListerBundle\Mapper\FilterField;
 use Povs\ListerBundle\Mapper\FilterMapper;
@@ -22,9 +23,22 @@ class RequestHandlerTest extends TestCase
         $filterMapperMock = $this->createMock(FilterMapper::class);
         $formMock = $this->createMock(FormInterface::class);
         $listFieldMock = $this->createMock(ListField::class);
+        $listFieldMock2 = $this->createMock(ListField::class);
         $listFieldMock->expects($this->once())
             ->method('setOption')
             ->with('sort_value', 'DESC');
+        $listFieldMock->expects($this->once())
+            ->method('getId')
+            ->willReturn('test_id');
+        $listMapperMock->expects($this->once())
+            ->method('getFields')
+            ->willReturn(new ArrayCollection([$listFieldMock2]));
+        $listFieldMock2->expects($this->once())
+            ->method('getId')
+            ->willReturn('another_id');
+        $listFieldMock2->expects($this->once())
+            ->method('setOption')
+            ->with('sort_value', null);
         $listMapperMock->expects($this->once())
             ->method('get')
             ->willReturn($listFieldMock);
@@ -54,7 +68,7 @@ class RequestHandlerTest extends TestCase
                 ['field2', $filterFieldMock2]
             ]);
 
-        $requestHandler = $this->getRequestHandler([['sort', null, ['field1' => 'desc', 'field2' => 'invalid_sort']]], [], [['sort', 'sort']]);
+        $requestHandler = $this->getRequestHandler([['sort', null, ['field2' => 'invalid_sort', 'field1' => 'desc']]], [], [['sort', 'sort']]);
         $requestHandler->handleRequest($listMapperMock, $filterMapperMock, $formMock);
     }
 
@@ -109,6 +123,8 @@ class RequestHandlerTest extends TestCase
         $configMock->expects($this->exactly(count($configs)))
             ->method('getRequestConfiguration')
             ->willReturnMap($configs);
+        $configMock->method('isMultiColumnSortable')
+            ->willReturn(false);
         $requestMock->query = $queryMock;
         $requestMock->attributes = $attributesMock;
         $requestStackMock->expects($this->once())

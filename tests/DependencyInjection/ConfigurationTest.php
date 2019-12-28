@@ -38,6 +38,7 @@ class ConfigurationTest extends TestCase
                 'alias' => 'l',
                 'translate' => false,
                 'translation_domain' => null,
+                'multi_column_sort' => false,
                 'form_configuration' => [],
                 'request' => [
                     'page' => 'page',
@@ -62,6 +63,7 @@ class ConfigurationTest extends TestCase
             ],
             'list_config' => [
                 'translate' => true,
+                'multi_column_sort' => true,
                 'form_configuration' => [
                     'config' => 'value'
                 ],
@@ -87,6 +89,7 @@ class ConfigurationTest extends TestCase
                 'alias' => 'l',
                 'translate' => true,
                 'translation_domain' => null,
+                'multi_column_sort' => true,
                 'form_configuration' => [
                     'config' => 'value'
                 ],

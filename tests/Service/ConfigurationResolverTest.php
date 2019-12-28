@@ -21,6 +21,7 @@ class ConfigurationResolverTest extends TestCase
             'translate' => false,
             'translation_domain' => null,
             'form_configuration' => [],
+            'multi_column_sort' => false,
             'request' => [
                 'page' => 'page',
                 'length' => 'length',
@@ -40,6 +41,7 @@ class ConfigurationResolverTest extends TestCase
         'request' => [
             'filter' => 'filter'
         ],
+        'multi_column_sort' => true,
         'type_configuration' => [
             'list' => [
                 'test1' => true,
@@ -183,5 +185,14 @@ class ConfigurationResolverTest extends TestCase
         ];
 
         $this->assertEquals($expected, $resolver->getFormConfiguration());
+    }
+
+    /**
+     * @depends testResolve
+     * @param ConfigurationResolver $resolver
+     */
+    public function testIsMultiColumnSortable(ConfigurationResolver $resolver): void
+    {
+        $this->assertTrue($resolver->isMultiColumnSortable());
     }
 }

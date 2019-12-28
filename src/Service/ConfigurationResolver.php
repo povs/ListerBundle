@@ -128,4 +128,12 @@ class ConfigurationResolver
     {
         return $this->resolvedConfiguration['list_config']['form_configuration'];
     }
+
+    /**
+     * @return bool
+     */
+    public function isMultiColumnSortable(): bool
+    {
+        return $this->resolvedConfiguration['list_config']['multi_column_sort'];
+    }
 }

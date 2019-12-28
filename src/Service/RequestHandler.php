@@ -121,15 +121,32 @@ class RequestHandler
     {
         $sort = $this->getValue('sort') ?? [];
 
-        foreach ($sort as $id => $direction) {
-            $direction = strtoupper($direction);
+        if ($sort) {
+            $fieldsSet = null;
 
-            if (!in_array($direction, [ListField::SORT_DESC, ListField::SORT_ASC], true)) {
-                continue;
+            foreach ($sort as $id => $direction) {
+                $direction = strtoupper($direction);
+
+                if (!in_array($direction, [ListField::SORT_DESC, ListField::SORT_ASC], true)) {
+                    continue;
+                }
+
+                $field = $listMapper->get($id);
+                $field->setOption(ListField::OPTION_SORT_VALUE, $direction);
+
+                if (false === $this->configuration->isMultiColumnSortable()) {
+                    $fieldsSet = $field->getId();
+                    break;
+                }
             }
 
-            $field = $listMapper->get($id);
-            $field->setOption(ListField::OPTION_SORT_VALUE, $direction);
+            if ($fieldsSet) {
+                foreach ($listMapper->getFields() as $field) {
+                    if ($field->getId() !== $fieldsSet) {
+                        $field->setOption(ListField::OPTION_SORT_VALUE, null);
+                    }
+                }
+            }
         }
     }
 }

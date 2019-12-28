@@ -56,6 +56,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('alias')->defaultValue('l')->cannotBeEmpty()->end()
                         ->booleanNode('translate')->defaultValue(false)->end()
                         ->scalarNode('translation_domain')->defaultNull()->end()
+                        ->booleanNode('multi_column_sort')->defaultValue(false)->end()
                         ->arrayNode('form_configuration')
                             ->variablePrototype()->end()
                         ->end()
