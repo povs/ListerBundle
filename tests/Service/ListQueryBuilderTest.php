@@ -187,12 +187,13 @@ class ListQueryBuilderTest extends TestCase
                 $field->expects($this->once())
                     ->method('getPaths')
                     ->willReturn($datum[1]);
-                $field->expects($this->exactly(2))
+                $field->expects($this->exactly(3))
                     ->method('getOption')
                     ->willReturnMap([
                         ['query_type', null, 'query_type'],
                         ['property_delimiter', null, 'delimiter'],
-                        ['query_options', null, []]
+                        ['query_options', null, []],
+                        ['mapped', null, true],
                     ]);
             } else {
                 $field->expects($this->once())
@@ -268,10 +269,11 @@ class ListQueryBuilderTest extends TestCase
         $this->expectExceptionCode(500);
         $this->expectExceptionMessage(sprintf('Type "invalid_type" does not exist or does not implement %s', QueryTypeInterface::class));
         $filterFieldMock = $this->createMock(FilterField::class);
-        $filterFieldMock->expects($this->once())
+        $filterFieldMock->expects($this->exactly(2))
             ->method('getOption')
             ->willReturnMap([
                 ['query_type', null, 'invalid_type'],
+                ['mapped', null, true],
             ]);
         $filterFieldMock->expects($this->once())
             ->method('getValue')

@@ -51,11 +51,10 @@ class JoinMapperTest extends AbstractMapperTest
 
         foreach ($paths as $path) {
             $field = $this->createMock(ListField::class);
-            $field->expects($this->exactly(5))
+            $field->expects($this->exactly(4))
                 ->method('getOption')
                 ->willReturnMap([
                     ['join_type', null, 'INNER'],
-                    ['mapped', null, true],
                     ['sortable', null, true],
                     ['sort_value', null, 'ASC'],
                     ['sort_path', null, 'custom_path']

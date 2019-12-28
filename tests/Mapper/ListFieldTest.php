@@ -21,7 +21,6 @@ class ListFieldTest extends AbstractFieldTest
         'sort_value' => null,
         'sort_path' => null,
         'path' => 'path',
-        'mapped' => true,
         'join_type' => 'INNER',
         'property' => ['prop1', 'prop2'],
         'selector' => BasicSelectorType::class,

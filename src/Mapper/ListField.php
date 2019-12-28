@@ -18,7 +18,6 @@ class ListField extends AbstractField
     public const OPTION_SORT_VALUE = 'sort_value';
     public const OPTION_SORT_PATH = 'sort_path';
     public const OPTION_PATH = 'path';
-    public const OPTION_MAPPED = 'mapped';
     public const OPTION_JOIN_TYPE = 'join_type';
     public const OPTION_PROPERTY = 'property';
     public const OPTION_SELECTOR = 'selector';
@@ -79,7 +78,6 @@ class ListField extends AbstractField
             self::OPTION_SORT_VALUE,
             self::OPTION_SORT_PATH,
             self::OPTION_PATH,
-            self::OPTION_MAPPED,
             self::OPTION_JOIN_TYPE,
             self::OPTION_PROPERTY,
             self::OPTION_SELECTOR,
@@ -94,7 +92,6 @@ class ListField extends AbstractField
 
         $resolver->setDefaults([
             self::OPTION_SORTABLE => true,
-            self::OPTION_MAPPED => true,
             self::OPTION_JOIN_TYPE => JoinField::JOIN_INNER,
             self::OPTION_SELECTOR => BasicSelectorType::class,
             self::OPTION_VIEW_OPTIONS => [],
@@ -112,7 +109,6 @@ class ListField extends AbstractField
         $resolver->setAllowedValues(self::OPTION_SORT_VALUE, [self::SORT_ASC, self::SORT_DESC]);
         $resolver->setAllowedTypes(self::OPTION_SORT_PATH, 'string');
         $resolver->setAllowedTypes(self::OPTION_PATH, ['string', 'array']);
-        $resolver->setAllowedTypes(self::OPTION_MAPPED, 'bool');
         $resolver->setAllowedValues(self::OPTION_JOIN_TYPE, [JoinField::JOIN_INNER, JoinField::JOIN_LEFT]);
         $resolver->setAllowedTypes(self::OPTION_PROPERTY, ['string', 'array']);
         $resolver->setAllowedTypes(self::OPTION_SELECTOR, 'string');

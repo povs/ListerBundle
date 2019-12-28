@@ -18,11 +18,9 @@ class ListMapperTest extends AbstractMapperTest
     {
         $id = 'test_id';
         $typeOptions = [
-            'mapped' => false,
             'sortable' => true
         ];
         $fieldOptions = [
-            'mapped' => true,
             'label' => 'test'
         ];
 
@@ -52,7 +50,6 @@ class ListMapperTest extends AbstractMapperTest
      */
     public function testAddOptionsSetCorrectlyWithType(ListField $field): void
     {
-        $this->assertTrue($field->getOption('mapped'));
         $this->assertTrue($field->getOption('sortable'));
         $this->assertEquals('test', $field->getOption('label'));
     }
@@ -71,7 +68,6 @@ class ListMapperTest extends AbstractMapperTest
     {
         $id = 'test_id';
         $fieldOptions = [
-            'mapped' => true,
             'label' => 'test'
         ];
 
@@ -93,7 +89,6 @@ class ListMapperTest extends AbstractMapperTest
      */
     public function testAddOptionsSetCorrectlyWithOutType(ListField $field): void
     {
-        $this->assertTrue($field->getOption('mapped'));
         $this->assertEquals('test', $field->getOption('label'));
     }
 

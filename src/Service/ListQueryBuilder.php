@@ -166,7 +166,7 @@ class ListQueryBuilder
         foreach ($filterMapper->getFields() as $field) {
             $value = $field->getValue();
 
-            if ($this->isValueEmpty($value)) {
+            if ($this->isValueEmpty($value) || false === $field->getOption(FilterField::OPTION_MAPPED)) {
                 continue;
             }
 

@@ -80,10 +80,9 @@ class JoinMapper extends AbstractMapper
     {
         foreach ($this->listMapper->getFields() as $field) {
             $joinType = $field->getOption(ListField::OPTION_JOIN_TYPE);
-            $mapped = $field->getOption(ListField::OPTION_MAPPED);
             $paths = $field->getPaths();
 
-            if ($paths && $mapped && $joinType) {
+            if ($paths && $joinType) {
                 $this->buildJoins($paths, $joinType);
 
                 if ($field->getOption(ListField::OPTION_SORTABLE) &&
