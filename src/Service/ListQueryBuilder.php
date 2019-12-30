@@ -24,6 +24,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ListQueryBuilder
 {
+    public const IDENTIFIER_ALIAS = 'list_identifier';
+
     /**
      * @var EntityManagerInterface
      */
@@ -89,12 +91,13 @@ class ListQueryBuilder
         ListMapper $listMapper,
         FilterMapper $filterMapper,
         ListValueInterface $listValue
-    ) :QueryBuilder {
+    ): QueryBuilder {
+        $this->hasAggregation = false;
         $this->queryBuilder = $this->em->createQueryBuilder()
             ->from($list->getDataClass(), $this->configuration->getAlias());
 
-        $this->applyJoins($joinMapper);
-        $this->applySelects($listMapper, $joinMapper);
+        $this->applyJoins($joinMapper, false);
+        $this->applySelects($listMapper, $joinMapper, false);
         $this->applyFilter($filterMapper, $joinMapper);
         $this->applyGroup();
         $list->configureQuery($this->queryBuilder, $listValue);
@@ -103,13 +106,40 @@ class ListQueryBuilder
     }
 
     /**
+     * @param ListInterface $list
+     * @param JoinMapper    $joinMapper
+     * @param ListMapper    $listMapper
+     *
+     * @return QueryBuilder|null
+     */
+    public function buildLazyQuery(
+        ListInterface $list,
+        JoinMapper $joinMapper,
+        ListMapper $listMapper
+    ): ?QueryBuilder {
+        if ($listMapper->getFields(true)->isEmpty()) {
+            return null;
+        }
+
+        $this->hasAggregation = false;
+        $this->queryBuilder = $this->em->createQueryBuilder()
+            ->from($list->getDataClass(), $this->configuration->getAlias());
+        $this->applyJoins($joinMapper, true);
+        $this->applySelects($listMapper, $joinMapper, true);
+        $this->applyGroup();
+
+        return $this->queryBuilder;
+    }
+
+    /**
      * Adds join dql parts.
      *
      * @param JoinMapper $joinMapper
+     * @param bool       $lazy
      */
-    private function applyJoins(JoinMapper $joinMapper): void
+    private function applyJoins(JoinMapper $joinMapper, bool $lazy): void
     {
-        foreach ($joinMapper->getFields() as $field) {
+        foreach ($joinMapper->getFields($lazy) as $field) {
             $joinPath = $field->getJoinPath($this->configuration->getAlias());
 
             if ($field->getOption(JoinField::OPTION_JOIN_TYPE) === JoinField::JOIN_INNER) {
@@ -125,11 +155,22 @@ class ListQueryBuilder
      *
      * @param ListMapper $listMapper
      * @param JoinMapper $joinMapper
+     * @param bool       $lazy
      */
-    private function applySelects(ListMapper $listMapper, JoinMapper $joinMapper): void
+    private function applySelects(ListMapper $listMapper, JoinMapper $joinMapper, bool $lazy): void
     {
-        foreach ($listMapper->getFields() as $field) {
-            $paths = $this->parsePaths($joinMapper, $field->getPaths());
+        if ($lazy === false) {
+            $idSelector = sprintf(
+                '%s.%s as %s',
+                $this->configuration->getAlias(),
+                $this->configuration->getIdentifier(),
+                self::IDENTIFIER_ALIAS
+            );
+            $this->queryBuilder->addSelect($idSelector);
+        }
+
+        foreach ($listMapper->getFields($lazy) as $field) {
+            $paths = $this->parsePaths($joinMapper, $field->getPaths(), $lazy);
             $selectorType = $field->getOption(ListField::OPTION_SELECTOR);
 
             if (!$this->selectorTypeLocator->has($selectorType)) {
@@ -143,11 +184,11 @@ class ListQueryBuilder
                 $this->hasAggregation = true;
             }
 
-            if ($field->getOption(ListField::OPTION_SORTABLE) &&
+            if (false === $lazy && $field->getOption(ListField::OPTION_SORTABLE) &&
                 ($dir = $field->getOption(ListField::OPTION_SORT_VALUE))
             ) {
                 if ($sortPath = $field->getOption(ListField::OPTION_SORT_PATH)) {
-                    $select = $this->parsePaths($joinMapper, (array) $sortPath)[0];
+                    $select = $this->parsePaths($joinMapper, (array) $sortPath, false)[0];
                 } else {
                     $select = $selectorType->getSortPath($field->getId());
                 }
@@ -176,7 +217,7 @@ class ListQueryBuilder
                 throw ListFieldException::invalidType($field->getId(), $queryType, QueryTypeInterface::class);
             }
 
-            $paths = $this->parsePaths($joinMapper, $field->getPaths());
+            $paths = $this->parsePaths($joinMapper, $field->getPaths(), false);
             $queryType = $this->queryTypeLocator->get($queryType);
             $resolver = new OptionsResolver();
             $queryType->configureOptions($resolver);
@@ -205,10 +246,11 @@ class ListQueryBuilder
     /**
      * @param JoinMapper $joinMapper
      * @param array      $paths
+     * @param bool       $lazy
      *
      * @return array
      */
-    private function parsePaths(JoinMapper $joinMapper, array $paths): array
+    private function parsePaths(JoinMapper $joinMapper, array $paths, bool $lazy): array
     {
         $parsedPaths = [];
 
@@ -224,7 +266,7 @@ class ListQueryBuilder
             }
 
             if ($path) {
-                if (!$joinField = $joinMapper->getByPath($path)) {
+                if (!$joinField = $joinMapper->getByPath($path, $lazy)) {
                     throw ListFieldException::invalidPath($path);
                 }
 

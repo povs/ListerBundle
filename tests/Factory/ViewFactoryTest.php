@@ -28,6 +28,7 @@ class ViewFactoryTest extends TestCase
         $formMock = $this->createMock(FormInterface::class);
         $formViewMock = $this->createMock(FormView::class);
         $queryBuilderMock = $this->createMock(QueryBuilder::class);
+        $lazyQueryBuilderMock = $this->createMock(QueryBuilder::class);
         $paginatorMock = $this->createMock(Paginator::class);
         $fieldMock = $this->createMock(ListField::class);
         $paginatorFactoryMock->expects($this->once())
@@ -46,7 +47,7 @@ class ViewFactoryTest extends TestCase
             ->willReturn([]);
 
         $factory = new ViewFactory($valueAccessorMock, $requestHandlerMock, $routerMock, $paginatorFactoryMock);
-        $view = $factory->createView($listMapperMock, $formMock, $queryBuilderMock, 20, 2);
+        $view = $factory->createView($listMapperMock, $formMock, $queryBuilderMock, $lazyQueryBuilderMock, 20, 2);
         $this->assertEquals(2, $view->getPager()->getCurrentPage());
         $this->assertEquals(20, $view->getPager()->getLength());
         $this->assertEquals($formViewMock, $view->getFilter());

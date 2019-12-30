@@ -117,6 +117,7 @@ class ListQueryBuilderTest extends TestCase
         $this->setCalls(true, false, true);
         $this->listMapperMock->expects($this->once())
             ->method('getFields')
+            ->with(false)
             ->willReturn(new ArrayCollection($fields));
         $this->selectorTypeLocatorMock->expects($this->exactly(2))
             ->method('has')
@@ -140,8 +141,8 @@ class ListQueryBuilderTest extends TestCase
         $this->joinMapperMock->expects($this->exactly(2))
             ->method('getByPath')
             ->willReturnMap([
-                ['ent1', $joinFieldMock],
-                ['sort', $joinFieldMock2]
+                ['ent1', false, $joinFieldMock],
+                ['sort', false, $joinFieldMock2]
             ]);
         $this->selectorTypeMock
             ->expects($this->exactly(2))
@@ -307,6 +308,52 @@ class ListQueryBuilderTest extends TestCase
         $this->executeBuildQuery();
     }
 
+    public function testBuildLazyQuery(): void
+    {
+        $this->setCalls(false, false, false);
+        $queryBuilder = new ListQueryBuilder(
+            $this->emMock,
+            $this->queryTypeLocatorMock,
+            $this->selectorTypeLocatorMock,
+            $this->configMock
+        );
+
+        $this->joinMapperMock->expects($this->once())
+            ->method('getFields')
+            ->with(true)
+            ->willReturn(new ArrayCollection());
+
+        $this->listMapperMock->expects($this->exactly(2))
+            ->method('getFields')
+            ->with(true)
+            ->willReturnOnConsecutiveCalls(
+                new ArrayCollection(['field']),
+                new ArrayCollection()
+            );
+
+        $query = $queryBuilder->buildLazyQuery($this->listMock,  $this->joinMapperMock, $this->listMapperMock);
+
+        $this->assertEquals($this->queryBuilderMock, $query);
+    }
+
+    public function testBuildLazyQueryWithoutFields(): void
+    {
+        $queryBuilder = new ListQueryBuilder(
+            $this->emMock,
+            $this->queryTypeLocatorMock,
+            $this->selectorTypeLocatorMock,
+            $this->configMock
+        );
+
+        $this->listMapperMock->expects($this->once())
+            ->method('getFields')
+            ->with(true)
+            ->willReturn(new ArrayCollection());
+
+        $query = $queryBuilder->buildLazyQuery($this->listMock,  $this->joinMapperMock, $this->listMapperMock);
+        $this->assertNull($query);
+    }
+
     private function executeBuildQuery(): void
     {
         $queryBuilder = new ListQueryBuilder(
@@ -343,18 +390,21 @@ class ListQueryBuilderTest extends TestCase
         if ($setJoinFields) {
             $this->joinMapperMock->expects($this->once())
                 ->method('getFields')
+                ->with(false)
                 ->willReturn(new ArrayCollection());
         }
 
         if ($setListFields) {
             $this->listMapperMock->expects($this->once())
                 ->method('getFields')
+                ->with(false)
                 ->willReturn(new ArrayCollection());
         }
 
         if ($setFilterFields) {
             $this->filterMapperMock->expects($this->once())
                 ->method('getFields')
+                ->with()
                 ->willReturn(new ArrayCollection());
         }
     }

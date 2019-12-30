@@ -1,10 +1,14 @@
 <?php
 namespace Povs\ListerBundle\Service;
 
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\QueryBuilder;
+use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Povs\ListerBundle\DependencyInjection\Locator\SelectorTypeLocator;
 use Povs\ListerBundle\Exception\ListException;
+use Povs\ListerBundle\Exception\ListQueryException;
 use Povs\ListerBundle\Mapper\ListField;
 use Povs\ListerBundle\Type\FieldType\FieldTypeInterface;
 use Povs\ListerBundle\Type\SelectorType\SelectorTypeInterface;
@@ -35,6 +39,53 @@ class ValueAccessorTest extends TestCase
      * @var MockObject|TranslatorInterface|null
      */
     private $translatorMock;
+
+    public function testNormalizeData(): void
+    {
+        $data =  ['list_identifier' => '100', 'old_data' => 'old_val'];
+        $expected = ['old_data' => 'old_val', 'new_data' => 'new_val'];
+        $this->createMocks(false);
+        $queryBuilderMock = $this->createMock(QueryBuilder::class);
+        $queryMock = $this->createMock(AbstractQuery::class);
+        $queryBuilderMock->expects($this->once())
+            ->method('andWhere')
+            ->with('l.id = :identifier')
+            ->willReturnSelf();
+        $queryBuilderMock->expects($this->once())
+            ->method('setParameter')
+            ->with('identifier', '100')
+            ->willReturnSelf();
+        $queryBuilderMock->expects($this->once())
+            ->method('getQuery')
+            ->willReturn($queryMock);
+        $queryMock->expects($this->once())
+            ->method('getResult')
+            ->willReturn([['new_data' => 'new_val']]);
+        $this->configMock->expects($this->once())
+            ->method('getAlias')
+            ->willReturn('l');
+        $this->configMock->expects($this->once())
+            ->method('getIdentifier')
+            ->willReturn('id');
+
+        $this->assertEquals($expected, $this->getAccessor()->normalizeData($data, $queryBuilderMock));
+    }
+
+    public function testNormalizeDataThrowsException(): void
+    {
+        $this->expectException(ListQueryException::class);
+        $this->expectExceptionMessage('Query error: error. DQL: dql query');
+        $this->createMocks(false);
+        $queryBuilderMock = $this->createMock(QueryBuilder::class);
+        $queryBuilderMock->expects($this->once())
+            ->method('getDQL')
+            ->willReturn('dql query');
+        $queryBuilderMock->expects($this->once())
+            ->method('andWhere')
+            ->willThrowException(new Exception('error'));
+
+        $this->getAccessor()->normalizeData([], $queryBuilderMock);
+    }
 
     public function testGetHeaderValue(): void
     {

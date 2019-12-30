@@ -29,7 +29,8 @@ class ListFieldTest extends AbstractFieldTest
         'translation_domain' => null,
         'translation_prefix' => null,
         'translate_null' => false,
-        'field_type_options' => []
+        'field_type_options' => [],
+        'lazy' => false
     ];
 
     public function testGetType(): void

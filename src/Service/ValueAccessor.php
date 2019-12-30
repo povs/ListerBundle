@@ -1,11 +1,14 @@
 <?php
 namespace Povs\ListerBundle\Service;
 
+use Doctrine\ORM\QueryBuilder;
 use Povs\ListerBundle\DependencyInjection\Locator\SelectorTypeLocator;
 use Povs\ListerBundle\Exception\ListException;
+use Povs\ListerBundle\Exception\ListQueryException;
 use Povs\ListerBundle\Mapper\ListField;
 use Povs\ListerBundle\View\FieldView;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Throwable;
 
 /**
  * @author Povilas Margaiatis <p.margaitis@gmail.com>
@@ -50,6 +53,41 @@ class ValueAccessor
         $this->typeResolver = $listTypeResolver;
         $this->selectorTypeLocator = $selectorTypeLocator;
         $this->translator = $translator;
+    }
+
+    /**
+     * Fetches lazy loadable data
+     *
+     * @param array             $data         data that is fetched not lazily
+     * @param QueryBuilder|null $queryBuilder queryBuilder for fetching lazy data query
+     *
+     * @return array
+     */
+    public function normalizeData(array $data, ?QueryBuilder $queryBuilder): array
+    {
+        if ($queryBuilder) {
+            $selector = sprintf(
+                '%s.%s = :identifier',
+                $this->configuration->getAlias(),
+                $this->configuration->getIdentifier()
+            );
+
+            try {
+                $query = clone $queryBuilder;
+                $lazyData = $query->andWhere($selector)
+                    ->setParameter('identifier', $data[ListQueryBuilder::IDENTIFIER_ALIAS])
+                    ->getQuery()
+                    ->getResult()[0];
+
+                $data = array_merge($data, $lazyData);
+            } catch (Throwable $e) {
+                throw ListQueryException::invalidQueryConfiguration($e->getMessage(), $query->getDQL());
+            }
+        }
+
+        unset($data[ListQueryBuilder::IDENTIFIER_ALIAS]);
+
+        return $data;
     }
 
     /**

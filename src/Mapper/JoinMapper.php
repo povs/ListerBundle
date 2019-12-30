@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @property JoinField[]|ArrayCollection $fields
  * @method JoinField get(string $id)
- * @method JoinField[]|ArrayCollection getFields()
  */
 class JoinMapper extends AbstractMapper
 {
@@ -53,16 +52,34 @@ class JoinMapper extends AbstractMapper
 
     /**
      * @param string $path
+     * @param bool   $lazy
      *
      * @return JoinField|null
      */
-    public function getByPath(string $path): ?JoinField
+    public function getByPath(string $path, bool $lazy = false): ?JoinField
     {
-        $field = $this->fields->filter(static function(JoinField $field) use ($path) {
-            return $field->getAlias() === $path || $field->getPath() === $path;
+        $field = $this->fields->filter(static function(JoinField $field) use ($path, $lazy) {
+            return ($field->getAlias() === $path || $field->getPath() === $path) &&
+                $field->getOption(JoinField::OPTION_LAZY) === $lazy;
         })->first();
 
         return $field ?: null;
+    }
+
+    /**
+     * @param bool|null $lazy
+     *
+     * @return ArrayCollection
+     */
+    public function getFields(?bool $lazy = null): ArrayCollection
+    {
+        if (null === $lazy) {
+            return $this->fields;
+        }
+
+        return $this->fields->filter(static function (JoinField $joinField) use ($lazy) {
+            return $joinField->getOption(JoinField::OPTION_LAZY) === $lazy;
+        });
     }
 
     /**
@@ -82,18 +99,16 @@ class JoinMapper extends AbstractMapper
             $joinType = $field->getOption(ListField::OPTION_JOIN_TYPE);
             $paths = $field->getPaths();
 
-            if ($paths && $joinType) {
-                $this->buildJoins($paths, $joinType);
+            $this->buildJoins($paths, $joinType, $field->getOption(ListField::OPTION_LAZY));
 
-                if ($field->getOption(ListField::OPTION_SORTABLE) &&
-                    $field->getOption(ListField::OPTION_SORT_VALUE)
-                ) {
-                    if ($sortPath = $field->getOption(ListField::OPTION_SORT_PATH)) {
-                        $paths = (array) $sortPath;
-                    }
-
-                    $this->buildJoins($paths, $joinType);
+            if ($field->getOption(ListField::OPTION_SORTABLE) &&
+                $field->getOption(ListField::OPTION_SORT_VALUE)
+            ) {
+                if ($sortPath = $field->getOption(ListField::OPTION_SORT_PATH)) {
+                    $paths = (array) $sortPath;
                 }
+
+                $this->buildJoins($paths, $joinType, false);
             }
         }
     }
@@ -107,7 +122,7 @@ class JoinMapper extends AbstractMapper
                 $mapped = $field->getOption(FilterField::OPTION_MAPPED);
 
                 if ($paths && $joinType && $mapped) {
-                    $this->buildJoins($paths, $joinType);
+                    $this->buildJoins($paths, $joinType, false);
                 }
             }
         }
@@ -116,15 +131,21 @@ class JoinMapper extends AbstractMapper
     /**
      * @param array  $paths
      * @param string $joinType
+     * @param bool   $lazy
      */
-    private function buildJoins(array $paths, string $joinType): void
+    private function buildJoins(array $paths, string $joinType, bool $lazy): void
     {
         foreach ($paths as $path) {
             if (!$path = $this->getPath($path)) {
                 continue;
             }
 
-            $this->addJoin($path, [JoinField::OPTION_JOIN_TYPE => $joinType], null);
+            $options = [
+                JoinField::OPTION_JOIN_TYPE => $joinType,
+                JoinField::OPTION_LAZY => $lazy
+            ];
+
+            $this->addJoin($path, $options, null);
         }
     }
 
@@ -138,7 +159,7 @@ class JoinMapper extends AbstractMapper
      */
     private function addJoin(string $path, array $options, ?string $alias = null): ?JoinField
     {
-        if ($joinField = $this->getByPath($path)) {
+        if ($joinField = $this->getByPath($path, $options[JoinField::OPTION_LAZY] ?? false)) {
             if ($alias) {
                 $joinField->setAlias($alias);
             }

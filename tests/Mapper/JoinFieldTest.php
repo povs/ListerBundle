@@ -11,7 +11,8 @@ class JoinFieldTest extends AbstractFieldTest
     private static $passedOptions = [];
 
     private static $expectedOptions = [
-        'join_type' => 'INNER'
+        'join_type' => 'INNER',
+        'lazy' => false
     ];
 
     public function testGetJoinPath(): void

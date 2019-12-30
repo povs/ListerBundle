@@ -6,9 +6,8 @@ use Povs\ListerBundle\DependencyInjection\Locator\FieldTypeLocator;
 use Povs\ListerBundle\Exception\ListException;
 
 /**
- * @property ListField[] $fields
+ * @property ListField[]|ArrayCollection $fields
  * @method ListField get(string $id)
- * @method ListField[]|ArrayCollection getFields()
  *
  * @author Povilas Margaiatis <p.margaitis@gmail.com>
  */
@@ -76,5 +75,21 @@ class ListMapper extends AbstractMapper
         $this->fields = $this->listMapper->getFields();
 
         return $this;
+    }
+
+    /**
+     * @param bool|null $lazy
+     *
+     * @return ArrayCollection|FilterField[]
+     */
+    public function getFields(?bool $lazy = null): ArrayCollection
+    {
+        if (null === $lazy) {
+            return $this->fields;
+        }
+
+        return $this->fields->filter(static function (ListField $listField) use ($lazy) {
+            return $listField->getOption(ListField::OPTION_LAZY) === $lazy;
+        });
     }
 }

@@ -39,6 +39,7 @@ class ListManagerTest extends TestCase
     private $valueMock;
     private $joinMapperMock;
     private $queryBuilderMock;
+    private $lazyQueryBuilderMock;
     private $viewMock;
 
     public function setUp()
@@ -59,6 +60,7 @@ class ListManagerTest extends TestCase
         $this->valueMock = $this->createMock(ListValueInterface::class);
         $this->joinMapperMock = $this->createMock(JoinMapper::class);
         $this->queryBuilderMock = $this->createMock(QueryBuilder::class);
+        $this->lazyQueryBuilderMock = $this->createMock(QueryBuilder::class);
         $this->viewMock = $this->createMock(ListView::class);
     }
 
@@ -161,9 +163,13 @@ class ListManagerTest extends TestCase
             ->method('buildQuery')
             ->with($this->listMock, $this->joinMapperMock, $this->listMapperMock, $this->filterMapperMock, $this->valueMock)
             ->willReturn($this->queryBuilderMock);
+        $this->listQueryBuilderMock->expects($this->once())
+            ->method('buildLazyQuery')
+            ->with($this->listMock, $this->joinMapperMock, $this->listMapperMock)
+            ->willReturn($this->lazyQueryBuilderMock);
         $this->viewFactoryMock->expects($this->once())
             ->method('createView')
-            ->with($this->listMapperMock, $this->filterFormMock, $this->queryBuilderMock, 20, 5)
+            ->with($this->listMapperMock, $this->filterFormMock, $this->queryBuilderMock, $this->lazyQueryBuilderMock, 20, 5)
             ->willReturn($this->viewMock);
     }
 

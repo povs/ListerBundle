@@ -59,11 +59,12 @@ class ViewFactory
     }
 
     /**
-     * @param ListMapper    $listMapper
-     * @param FormInterface $form
-     * @param QueryBuilder  $queryBuilder
-     * @param int           $resultsPerPage
-     * @param int           $currentPage
+     * @param ListMapper        $listMapper
+     * @param FormInterface     $form
+     * @param QueryBuilder      $queryBuilder
+     * @param QueryBuilder|null $lazyQueryBuilder
+     * @param int               $resultsPerPage
+     * @param int               $currentPage
      *
      * @return ListView
      */
@@ -71,13 +72,14 @@ class ViewFactory
         ListMapper $listMapper,
         FormInterface $form,
         QueryBuilder $queryBuilder,
+        ?QueryBuilder $lazyQueryBuilder,
         int $resultsPerPage,
         int $currentPage
     ): ListView {
         $paginator = $this->paginatorFactory->createPaginator($queryBuilder);
         $pagerView = new PagerView($paginator, $currentPage, $resultsPerPage);
-        $headerRow = new RowView($this->valueAccessor);
-        $bodyRow = new RowView($this->valueAccessor);
+        $headerRow = new RowView($this->valueAccessor, null);
+        $bodyRow = new RowView($this->valueAccessor, $lazyQueryBuilder);
         $routerView = new RouterView($this->requestHandler, $this->router);
         $fieldViews = [];
 

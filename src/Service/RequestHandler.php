@@ -133,6 +133,7 @@ class RequestHandler
 
                 $field = $listMapper->get($id);
                 $field->setOption(ListField::OPTION_SORT_VALUE, $direction);
+                $field->setOption(ListField::OPTION_LAZY, false);
 
                 if (false === $this->configuration->isMultiColumnSortable()) {
                     $fieldsSet = $field->getId();

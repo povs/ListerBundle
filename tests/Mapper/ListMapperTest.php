@@ -132,6 +132,26 @@ class ListMapperTest extends AbstractMapperTest
         $parent->build();
     }
 
+    public function testGetFields(): void
+    {
+        $fields = [
+            ['field_1', ['label' => 'test', 'lazy' => true]],
+            ['field_2', ['label' => 'test']],
+            ['field_3', ['label' => 'test']],
+        ];
+
+        $fieldTypeLocatorMock = $this->createMock(FieldTypeLocator::class);
+        $mapper = new ListMapper($fieldTypeLocatorMock, 'listType', null);
+
+        foreach ($fields as $field) {
+            $mapper->add($field[0], null, $field[1]);
+        }
+
+        $this->assertCount(1, $mapper->getFields(true));
+        $this->assertCount(2, $mapper->getFields(false));
+        $this->assertCount(3, $mapper->getFields());
+    }
+
     /**
      * @inheritDoc
      */

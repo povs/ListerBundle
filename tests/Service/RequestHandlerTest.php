@@ -24,9 +24,12 @@ class RequestHandlerTest extends TestCase
         $formMock = $this->createMock(FormInterface::class);
         $listFieldMock = $this->createMock(ListField::class);
         $listFieldMock2 = $this->createMock(ListField::class);
-        $listFieldMock->expects($this->once())
+        $listFieldMock->expects($this->exactly(2))
             ->method('setOption')
-            ->with('sort_value', 'DESC');
+            ->withConsecutive(
+                ['sort_value', 'DESC'],
+                ['lazy', false]
+            );
         $listFieldMock->expects($this->once())
             ->method('getId')
             ->willReturn('test_id');

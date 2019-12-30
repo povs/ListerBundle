@@ -118,10 +118,12 @@ class ListManager
         $listValue = $this->valueFactory->createListValue($listMapper, $filterMapper);
         $joinMapper = $this->mapperFactory->createJoinMapper($list, $listMapper, $filterMapper, $listValue);
         $queryBuilder = $this->queryBuilder->buildQuery($list, $joinMapper, $listMapper, $filterMapper, $listValue);
+        $lazyQueryBuilder = $this->queryBuilder->buildLazyQuery($list, $joinMapper, $listMapper);
         $this->listView = $this->viewFactory->createView(
             $listMapper,
             $filterForm,
             $queryBuilder,
+            $lazyQueryBuilder,
             $this->typeResolver->getPerPage(),
             $this->typeResolver->getCurrentPage()
         );
