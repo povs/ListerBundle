@@ -88,6 +88,7 @@ class CsvListType extends AbstractListType
     protected function buildHeader(ListView $listView, $csv): void
     {
         $this->writeOutput($listView->getHeaderRow()->getValue(), $csv);
+        flush();
     }
 
     /**
