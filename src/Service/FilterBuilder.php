@@ -43,7 +43,7 @@ class FilterBuilder
     public function buildFilterForm(FilterMapper $filterMapper): FormInterface
     {
         $formBuilder = $this->formFactory->createNamedBuilder(
-            $this->configuration->getRequestConfiguration('filter'),
+            $this->configuration->getRequestConfiguration('filter') ?? '',
             FormType::class,
             [],
             $this->configuration->getFormConfiguration()
