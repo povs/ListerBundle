@@ -62,7 +62,7 @@ class ArrayListType extends AbstractListType
         $optionsResolver->setAllowedTypes('limit', 'int');
         $optionsResolver->setAllowedTypes('paged', 'bool');
         $optionsResolver->setDefaults([
-            'length' => 10000,
+            'length' => 100,
             'limit' => 0,
             'paged' => true
         ]);
