@@ -96,10 +96,11 @@ class JoinMapper extends AbstractMapper
     private function buildListJoins(): void
     {
         foreach ($this->listMapper->getFields() as $field) {
-            $joinType = $field->getOption(ListField::OPTION_JOIN_TYPE);
             $paths = $field->getPaths();
+            $joinType = $field->getOption(ListField::OPTION_JOIN_TYPE);
+            $lazy = $field->getOption(ListField::OPTION_LAZY);
 
-            $this->buildJoins($paths, $joinType, $field->getOption(ListField::OPTION_LAZY));
+            $this->buildJoins($paths, $joinType, $lazy);
 
             if ($field->getOption(ListField::OPTION_SORTABLE) &&
                 $field->getOption(ListField::OPTION_SORT_VALUE)
@@ -116,7 +117,7 @@ class JoinMapper extends AbstractMapper
     private function buildFilterJoins(): void
     {
         foreach ($this->filterMapper->getFields() as $field) {
-            if ($field->getValue()) {
+            if ($field->hasValue()) {
                 $paths = $field->getPaths();
                 $joinType = $field->getOption(FilterField::OPTION_JOIN_TYPE);
                 $mapped = $field->getOption(FilterField::OPTION_MAPPED);

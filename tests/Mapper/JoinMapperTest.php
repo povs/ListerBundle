@@ -129,8 +129,8 @@ class JoinMapperTest extends AbstractMapperTest
                 ->method('getPaths')
                 ->willReturn($path);
             $field->expects($this->once())
-                ->method('getValue')
-                ->willReturn('value');
+                ->method('hasValue')
+                ->willReturn(true);
 
             $fields[] = $field;
         }

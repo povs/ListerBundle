@@ -183,6 +183,9 @@ class ListQueryBuilderTest extends TestCase
                     ->method('getValue')
                     ->willReturn($datum[2]);
                 $field->expects($this->once())
+                    ->method('hasValue')
+                    ->willReturn(true);
+                $field->expects($this->once())
                     ->method('getId')
                     ->willReturn($datum[0]);
                 $field->expects($this->once())
@@ -198,8 +201,8 @@ class ListQueryBuilderTest extends TestCase
                     ]);
             } else {
                 $field->expects($this->once())
-                    ->method('getValue')
-                    ->willReturn($datum[2]);
+                    ->method('hasValue')
+                    ->willReturn(false);
             }
 
             $fields[] = $field;
@@ -277,8 +280,8 @@ class ListQueryBuilderTest extends TestCase
                 ['mapped', null, true],
             ]);
         $filterFieldMock->expects($this->once())
-            ->method('getValue')
-            ->willReturn('val');
+            ->method('hasValue')
+            ->willReturn(true);
         $this->setCalls(true, true, false);
         $this->selectorTypeLocatorMock->method('has')
             ->with('invalid_type')

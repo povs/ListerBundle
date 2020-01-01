@@ -1,6 +1,7 @@
 <?php
 namespace Povs\ListerBundle\Mapper;
 
+use Countable;
 use Povs\ListerBundle\Type\FilterType\FilterTypeInterface;
 use Povs\ListerBundle\Type\QueryType\ComparisonQueryType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -70,6 +71,18 @@ class FilterField extends AbstractField
     public function getValue()
     {
         return $this->getOption(self::OPTION_VALUE);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasValue(): bool
+    {
+        $value = $this->getValue();
+
+        return !(null === $value ||
+            (is_array($value) && count($value) === 0 ) ||
+            ($value instanceof Countable && $value->count() === 0));
     }
 
     /**
