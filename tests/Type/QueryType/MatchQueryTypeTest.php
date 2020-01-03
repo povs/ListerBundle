@@ -36,10 +36,10 @@ class MatchQueryTypeTest extends TestCase
     public function filterProvider(): array
     {
         return [
-            [['boolean' => true, 'expand' => true, 'relevance' => 1], 'MATCH (foo,bar) HAVING (:bar boolean expand) > 1'],
-            [['boolean' => true, 'expand' => false, 'relevance' => 0], 'MATCH (foo,bar) HAVING (:bar boolean) > 0'],
-            [['boolean' => false, 'expand' => true, 'relevance' => 0.123], 'MATCH (foo,bar) HAVING (:bar expand) > 0.123'],
-            [['boolean' => false, 'expand' => false, 'relevance' => 1.123], 'MATCH (foo,bar) HAVING (:bar) > 1.123'],
+            [['boolean' => true, 'expand' => true, 'relevance' => 1], 'MATCH (foo,bar) AGAINST (:bar boolean expand) > 1'],
+            [['boolean' => true, 'expand' => false, 'relevance' => 0], 'MATCH (foo,bar) AGAINST (:bar boolean) > 0'],
+            [['boolean' => false, 'expand' => true, 'relevance' => 0.123], 'MATCH (foo,bar) AGAINST (:bar expand) > 0.123'],
+            [['boolean' => false, 'expand' => false, 'relevance' => 1.123], 'MATCH (foo,bar) AGAINST (:bar) > 1.123'],
         ];
     }
 
