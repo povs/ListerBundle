@@ -187,13 +187,13 @@ Method `$joinMapper->add()` has three parameters:
  lazy | bool | false | whether to add this join in the query only when fetching for lazy data.
  
  
- ## Configuring query
+## Configuring query
  
- To change already built query use `configureQuery` method.
- There are few use cases for using this method:
-    - Filtering data by specific parameters
-    - Handling not mapped filterField that is too complex to handle with QueryTypes
-    - Debugging query
+To change already built query use `configureQuery` method.
+There are few use cases for using this method:
+   - Filtering data by specific parameters
+   - Handling not mapped filterField that is too complex to handle with QueryTypes
+   - Debugging query
  
 > Avoid using joins in this method. If you need joins use `buildJoinFields()`. 
 > It will prevent Query from using duplicate joins (joining same table with different aliases)
@@ -216,7 +216,7 @@ public function configureQuery(QueryBuilder $queryBuilder, ListValueInterface $v
 If you're using Symfony autowiring, everything is set.
 It will automatically catch all lists that implements `Povs\ListerBundle\Definition\ListInterface`
 
-Otherwise lists has to be registered as services and tagged as `povs_lister.list`
+Otherwise list has to be registered as services and tagged as `povs_lister.list`
 
 ```yaml
 # config/services.yaml

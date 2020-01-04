@@ -187,7 +187,7 @@ private $lister;
 
 public function __construct(ListerInterface $lister) 
 {
-    $this-lister = $lister;
+    $this->lister = $lister;
 }
 
 /**
@@ -195,7 +195,7 @@ public function __construct(ListerInterface $lister)
  */
 public function users()
 {
-    return $this-lister->buildList(UsersList::class, 'list')
+    return $this->lister->buildList(UsersList::class, 'list')
         ->generateResponse();
 }
 ```
