@@ -1,7 +1,6 @@
 <?php
 namespace Povs\ListerBundle\Service;
 
-use Countable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Povs\ListerBundle\Declaration\ListInterface;
