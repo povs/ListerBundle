@@ -1,8 +1,8 @@
 <?php
 namespace Povs\ListerBundle\Factory;
 
-use Povs\ListerBundle\Definition\ListInterface;
-use Povs\ListerBundle\Definition\ListValueInterface;
+use Povs\ListerBundle\Declaration\ListInterface;
+use Povs\ListerBundle\Declaration\ListValueInterface;
 use Povs\ListerBundle\DependencyInjection\Locator\FieldTypeLocator;
 use Povs\ListerBundle\DependencyInjection\Locator\FilterTypeLocator;
 use Povs\ListerBundle\Mapper\FilterMapper;

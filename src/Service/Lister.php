@@ -1,7 +1,7 @@
 <?php
 namespace Povs\ListerBundle\Service;
 
-use Povs\ListerBundle\Definition\ListerInterface;
+use Povs\ListerBundle\Declaration\ListerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

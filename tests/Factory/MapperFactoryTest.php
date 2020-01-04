@@ -2,8 +2,8 @@
 namespace Povs\ListerBundle\Factory;
 
 use PHPUnit\Framework\TestCase;
-use Povs\ListerBundle\Definition\AbstractList;
-use Povs\ListerBundle\Definition\ListValueInterface;
+use Povs\ListerBundle\Declaration\AbstractList;
+use Povs\ListerBundle\Declaration\ListValueInterface;
 use Povs\ListerBundle\DependencyInjection\Locator\FieldTypeLocator;
 use Povs\ListerBundle\DependencyInjection\Locator\FilterTypeLocator;
 use Povs\ListerBundle\Mapper\FilterMapper;

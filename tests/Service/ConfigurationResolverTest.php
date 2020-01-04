@@ -2,7 +2,7 @@
 namespace Povs\ListerBundle\Service;
 
 use PHPUnit\Framework\TestCase;
-use Povs\ListerBundle\Definition\ListInterface;
+use Povs\ListerBundle\Declaration\ListInterface;
 use Povs\ListerBundle\Exception\ListException;
 use Povs\ListerBundle\Type\ListType\ArrayListType;
 

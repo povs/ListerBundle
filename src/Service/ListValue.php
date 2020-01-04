@@ -1,7 +1,7 @@
 <?php
 namespace Povs\ListerBundle\Service;
 
-use Povs\ListerBundle\Definition\ListValueInterface;
+use Povs\ListerBundle\Declaration\ListValueInterface;
 use Povs\ListerBundle\Mapper\FilterMapper;
 use Povs\ListerBundle\Mapper\ListField;
 use Povs\ListerBundle\Mapper\ListMapper;

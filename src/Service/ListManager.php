@@ -1,7 +1,7 @@
 <?php
 namespace Povs\ListerBundle\Service;
 
-use Povs\ListerBundle\Definition\ListInterface;
+use Povs\ListerBundle\Declaration\ListInterface;
 use Povs\ListerBundle\DependencyInjection\Locator\ListLocator;
 use Povs\ListerBundle\Exception\ListException;
 use Povs\ListerBundle\Factory\MapperFactory;

@@ -3,8 +3,8 @@ namespace Povs\ListerBundle\Service;
 
 use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\TestCase;
-use Povs\ListerBundle\Definition\ListInterface;
-use Povs\ListerBundle\Definition\ListValueInterface;
+use Povs\ListerBundle\Declaration\ListInterface;
+use Povs\ListerBundle\Declaration\ListValueInterface;
 use Povs\ListerBundle\DependencyInjection\Locator\ListLocator;
 use Povs\ListerBundle\Exception\ListException;
 use Povs\ListerBundle\Factory\MapperFactory;

@@ -2,7 +2,7 @@
 namespace Povs\ListerBundle;
 
 use PHPUnit\Framework\TestCase;
-use Povs\ListerBundle\Definition\ListInterface;
+use Povs\ListerBundle\Declaration\ListInterface;
 use Povs\ListerBundle\DependencyInjection\Compiler\ListCompilerPass;
 use Povs\ListerBundle\Type\FieldType\FieldTypeInterface;
 use Povs\ListerBundle\Type\FilterType\FilterTypeInterface;
