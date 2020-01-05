@@ -122,7 +122,7 @@ class JoinMapper extends AbstractMapper
                 $joinType = $field->getOption(FilterField::OPTION_JOIN_TYPE);
                 $mapped = $field->getOption(FilterField::OPTION_MAPPED);
 
-                if ($paths && $joinType && $mapped) {
+                if (!empty($paths) && $joinType && $mapped) {
                     $this->buildJoins($paths, $joinType, false);
                 }
             }

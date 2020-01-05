@@ -262,7 +262,7 @@ class ListQueryBuilder
                 $path = implode('.', $pathElements);
             }
 
-            if ($path) {
+            if (null !== $path) {
                 if (!$joinField = $joinMapper->getByPath($path, $lazy)) {
                     throw ListFieldException::invalidPath($path);
                 }

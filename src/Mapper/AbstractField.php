@@ -59,11 +59,11 @@ abstract class AbstractField
         $paths = (array) $this->getOption(ListField::OPTION_PATH);
         $properties = (array) $this->getOption(ListField::OPTION_PROPERTY);
 
-        if (!$paths) {
+        if (empty($paths)) {
             $paths = [$id];
         }
 
-        if ($properties) {
+        if (!empty($properties)) {
             if (count($paths) > 1) {
                 throw ListFieldException::invalidPropertiesOption($id);
             }

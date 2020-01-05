@@ -17,7 +17,7 @@ class FieldView implements ViewInterface
     private $listField;
 
     /**
-     * @var RowView|null
+     * @var RowView
      */
     private $rowView;
 

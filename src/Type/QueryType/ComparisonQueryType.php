@@ -98,6 +98,6 @@ class ComparisonQueryType extends AbstractQueryType
             return $value;
         }
 
-        return sprintf(self::$wildCardMap[$wildcard], $value);
+        return sprintf(self::$wildCardMap[$wildcard], (string) $value);
     }
 }

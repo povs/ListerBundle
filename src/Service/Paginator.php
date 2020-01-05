@@ -49,7 +49,7 @@ class Paginator
      */
     public function getCount(): int
     {
-        if (!$this->count) {
+        if (null === $this->count) {
             $queryBuilder = clone $this->queryBuilder;
 
             try {

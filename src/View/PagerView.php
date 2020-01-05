@@ -60,7 +60,7 @@ class PagerView
      */
     public function getTotal(): int
     {
-        if (!$this->total) {
+        if (null === $this->total) {
             $this->setData($this->currentPage);
         }
 
