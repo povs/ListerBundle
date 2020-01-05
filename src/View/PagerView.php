@@ -103,7 +103,7 @@ class PagerView
      */
     public function getLastPage(): int
     {
-        return ceil($this->getTotal() / $this->length);
+        return (int) ceil($this->getTotal() / $this->length);
     }
 
     /**
