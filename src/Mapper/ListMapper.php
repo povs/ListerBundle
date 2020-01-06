@@ -88,7 +88,7 @@ class ListMapper extends AbstractMapper
             return $this->fields;
         }
 
-        return $this->fields->filter(static function (ListField $listField) use ($lazy) {
+        return $this->fields->filter(static function(ListField $listField) use ($lazy) {
             return $listField->getOption(ListField::OPTION_LAZY) === $lazy;
         });
     }
