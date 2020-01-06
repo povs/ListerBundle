@@ -54,15 +54,19 @@ class JoinField extends AbstractField
     }
 
     /**
-     * @param string $alias
+     * @param string|null $alias
      *
      * @return string
      */
-    public function getJoinPath(string $alias): string
+    public function getJoinPath(?string $alias): string
     {
         $parentAlias = $this->parent ? $this->parent->getAlias() : $alias;
 
-        return sprintf('%s.%s', $parentAlias, $this->property);
+        if ($parentAlias) {
+            return sprintf('%s.%s', $parentAlias, $this->property);
+        }
+
+        return $this->property;
     }
 
     /**
