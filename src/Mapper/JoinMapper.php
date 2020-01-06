@@ -77,7 +77,7 @@ class JoinMapper extends AbstractMapper
             return $this->fields;
         }
 
-        return $this->fields->filter(static function (JoinField $joinField) use ($lazy) {
+        return $this->fields->filter(static function(JoinField $joinField) use ($lazy) {
             return $joinField->getOption(JoinField::OPTION_LAZY) === $lazy;
         });
     }
@@ -180,7 +180,7 @@ class JoinMapper extends AbstractMapper
 
         $path = $parent ? sprintf('%s.%s', $parent->getPath(), $prop) : $prop;
 
-        if (!$alias)  {
+        if (!$alias) {
             $alias = sprintf('%s_a', str_replace('.', '_', $path));
         }
 

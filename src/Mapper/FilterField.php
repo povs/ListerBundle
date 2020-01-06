@@ -81,7 +81,7 @@ class FilterField extends AbstractField
         $value = $this->getValue();
 
         return !(null === $value ||
-            (is_array($value) && count($value) === 0 ) ||
+            (is_array($value) && count($value) === 0) ||
             ($value instanceof Countable && $value->count() === 0));
     }
 
