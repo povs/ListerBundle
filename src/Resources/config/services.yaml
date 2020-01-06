@@ -1,5 +1,5 @@
 services:
-    Povs\ListerBundle\Definition\ListerInterface:
+    Povs\ListerBundle\Declaration\ListerInterface:
         alias: 'povs.lister'
         public: true
 
