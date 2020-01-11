@@ -73,7 +73,7 @@ abstract class AbstractMapper
      */
     protected function addField(AbstractField $field): void
     {
-        if (($position = $field->getOption(ListField::OPTION_POSITION)) && $inserted = $this->insertBefore($field, $position)) {
+        if (($position = $field->getOption(ListField::OPTION_POSITION)) && $this->insertBefore($field, $position)) {
             return;
         }
 
@@ -96,9 +96,9 @@ abstract class AbstractMapper
         }
 
         $newFields = array_merge(
-            array_slice($fields, 0, $offset, true),
+            array_slice($fields, 0, (int) $offset, true),
             [$field->getId() => $field],
-            array_slice($fields, $offset, null, true)
+            array_slice($fields, (int) $offset, null, true)
         );
         $this->fields = new ArrayCollection($newFields);
 
