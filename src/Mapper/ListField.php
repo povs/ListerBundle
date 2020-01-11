@@ -94,7 +94,7 @@ class ListField extends AbstractField
 
         $resolver->setDefaults([
             self::OPTION_SORTABLE => true,
-            self::OPTION_JOIN_TYPE => JoinField::JOIN_INNER,
+            self::OPTION_JOIN_TYPE => JoinField::JOIN_LEFT,
             self::OPTION_SELECTOR => BasicSelectorType::class,
             self::OPTION_VIEW_OPTIONS => [],
             self::OPTION_TRANSLATE => false,
