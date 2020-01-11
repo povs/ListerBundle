@@ -83,6 +83,29 @@ class ListMapperTest extends AbstractMapperTest
         return $mapper->get($id);
     }
 
+    public function testAddFieldPosition(): void
+    {
+        $fields = [
+            ['field_1', ['label' => 'test']],
+            ['field_2', ['label' => 'test']],
+            ['field_3', ['label' => 'test', 'position' => 'field_2']],
+            ['field_4', ['label' => 'test', 'position' => 'invalid_id']]
+        ];
+
+        $fieldTypeLocatorMock = $this->createMock(FieldTypeLocator::class);
+        $mapper = new ListMapper($fieldTypeLocatorMock, 'listType', null);
+
+        foreach ($fields as $field) {
+            $mapper->add($field[0], null, $field[1]);
+        }
+
+        $fields = $mapper->getFields();
+        $this->assertEquals('field_1', $fields->first()->getId());
+        $this->assertEquals('field_3', $fields->next()->getId());
+        $this->assertEquals('field_2', $fields->next()->getId());
+        $this->assertEquals('field_4', $fields->next()->getId());
+    }
+
     /**
      * @depends testAddFieldCreatedWithoutType
      * @param ListField $field

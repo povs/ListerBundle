@@ -26,7 +26,8 @@ class FilterFieldTest extends AbstractFieldTest
         'join_type' => 'INNER',
         'path' => 'path',
         'property' => ['prop1', 'prop2'],
-        'required' => false
+        'required' => false,
+        'position' => null
     ];
 
     public function testGetType(): void
