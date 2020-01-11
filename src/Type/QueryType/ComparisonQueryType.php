@@ -72,16 +72,11 @@ class ComparisonQueryType extends AbstractQueryType
         if (count($paths) === 1) {
             $select = $paths[0];
         } else {
-            $select = 'CONCAT(';
-            $lastItem = count($paths) - 1;
-
-            foreach ($paths as $key => $item) {
-                $select .= $lastItem === $key
-                    ? $item
-                    : sprintf('%s,\'%s\',', $item, $this->getOption('delimiter'));
-            }
-
-            $select .= ')';
+            $select = sprintf(
+                'CONCAT_WS(\'%s\',%s)',
+                $this->getOption('delimiter'),
+                implode(',', $paths)
+            );
         }
 
         return $select;

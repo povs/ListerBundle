@@ -37,7 +37,7 @@ class ComparisonQueryTypeTest extends TestCase
         $queryBuilderMock->expects($this->once())
             ->method('andWhere')
             ->with($this->callback(static function(Comparison $subject) {
-                return $subject->getLeftExpr() === 'CONCAT(foo,\'-\',bar)' &&
+                return $subject->getLeftExpr() === 'CONCAT_WS(\'-\',foo,bar)' &&
                     $subject->getOperator() === 'LIKE' &&
                     $subject->getRightExpr() === ':bar';
             }))
