@@ -120,9 +120,9 @@ class ValueAccessor
         $value = $this->selectorTypeLocator->get($listField->getOption(ListField::OPTION_SELECTOR))
             ->getValue($data, $listField->getId());
 
+        $this->addIdentifiers($listField, $value);
         $this->processFieldValue($listField, $value);
         $this->translateValue($listField, $value);
-        $this->addIdentifiers($listField, $value);
 
         return $value;
     }
