@@ -22,8 +22,8 @@ class HavingQueryType extends AbstractQueryType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefined(['type', 'function']);
-        $resolver->setDefault('type',Comparison::EQ);
-        $resolver->setDefault('function',self::COUNT);
+        $resolver->setDefault('type', Comparison::EQ);
+        $resolver->setDefault('function', self::COUNT);
         $resolver->setAllowedValues('type', [
             Comparison::EQ, Comparison::GT, Comparison::GTE, Comparison::LT, Comparison::LTE, Comparison::NEQ
         ]);
