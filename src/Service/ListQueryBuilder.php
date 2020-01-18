@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -183,7 +184,8 @@ class ListQueryBuilder
                 $this->hasAggregation = true;
             }
 
-            if (false === $lazy && $field->getOption(ListField::OPTION_SORTABLE) &&
+            if (
+                false === $lazy && $field->getOption(ListField::OPTION_SORTABLE) &&
                 ($dir = $field->getOption(ListField::OPTION_SORT_VALUE))
             ) {
                 if ($sortPath = $field->getOption(ListField::OPTION_SORT_PATH)) {

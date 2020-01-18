@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Exception;
 
 use Throwable;

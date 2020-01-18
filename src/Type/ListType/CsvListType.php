@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Type\ListType;
 
 use Povs\ListerBundle\View\ListView;
@@ -32,7 +33,7 @@ class CsvListType extends AbstractListType
      */
     public function generateResponse(ListView $listView, array $options): Response
     {
-        $response = new StreamedResponse(function() use ($listView) {
+        $response = new StreamedResponse(function () use ($listView) {
             $this->buildCsv($listView);
         });
 

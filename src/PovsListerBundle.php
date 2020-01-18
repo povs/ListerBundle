@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle;
 
 use Povs\ListerBundle\Declaration\ListInterface;

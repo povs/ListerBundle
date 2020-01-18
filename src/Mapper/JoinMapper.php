@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Mapper;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -58,7 +59,7 @@ class JoinMapper extends AbstractMapper
      */
     public function getByPath(string $path, bool $lazy = false): ?JoinField
     {
-        $field = $this->fields->filter(static function(JoinField $field) use ($path, $lazy) {
+        $field = $this->fields->filter(static function (JoinField $field) use ($path, $lazy) {
             return ($field->getAlias() === $path || $field->getPath() === $path || $field->getJoinPath(null) === $path)
                 && $field->getOption(JoinField::OPTION_LAZY) === $lazy;
         })->first();
@@ -77,7 +78,7 @@ class JoinMapper extends AbstractMapper
             return $this->fields;
         }
 
-        return $this->fields->filter(static function(JoinField $joinField) use ($lazy) {
+        return $this->fields->filter(static function (JoinField $joinField) use ($lazy) {
             return $joinField->getOption(JoinField::OPTION_LAZY) === $lazy;
         });
     }
@@ -102,7 +103,8 @@ class JoinMapper extends AbstractMapper
 
             $this->buildJoins($paths, $joinType, $lazy);
 
-            if ($field->getOption(ListField::OPTION_SORTABLE) &&
+            if (
+                $field->getOption(ListField::OPTION_SORTABLE) &&
                 $field->getOption(ListField::OPTION_SORT_VALUE)
             ) {
                 if ($sortPath = $field->getOption(ListField::OPTION_SORT_PATH)) {

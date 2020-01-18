@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Type\QueryType;
 
 use Doctrine\ORM\Query\Expr\Comparison;
@@ -38,7 +39,8 @@ class HavingQueryType extends AbstractQueryType
     public function filter(QueryBuilder $queryBuilder, array $paths, string $identifier, $value): void
     {
         $identifier = $this->parseIdentifier($identifier);
-        $clause = sprintf('%s(%s) %s %s',
+        $clause = sprintf(
+            '%s(%s) %s %s',
             $this->getOption('function'),
             $paths[0],
             $this->getOption('type'),

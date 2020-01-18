@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\View;
 
 use Povs\ListerBundle\Service\Paginator;
@@ -90,7 +91,7 @@ class PagerView
      *
      * @return int
      */
-    public function getLastResult(?int $page = null) : int
+    public function getLastResult(?int $page = null): int
     {
         $lastResult = ($page ?? $this->currentPage) * $this->length;
         $total = $this->getTotal();

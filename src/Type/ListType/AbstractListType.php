@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Type\ListType;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;

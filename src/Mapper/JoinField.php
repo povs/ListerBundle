@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Mapper;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;

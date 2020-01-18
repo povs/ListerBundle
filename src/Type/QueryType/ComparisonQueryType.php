@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Type\QueryType;
 
 use Doctrine\ORM\Query\Expr\Comparison;

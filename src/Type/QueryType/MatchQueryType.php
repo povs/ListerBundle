@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Type\QueryType;
 
 use Doctrine\ORM\QueryBuilder;
@@ -32,7 +33,8 @@ class MatchQueryType extends AbstractQueryType
     public function filter(QueryBuilder $queryBuilder, array $paths, string $identifier, $value): void
     {
         $identifier = $this->parseIdentifier($identifier);
-        $clause = sprintf('MATCH (%s) AGAINST (%s%s%s) > %s',
+        $clause = sprintf(
+            'MATCH (%s) AGAINST (%s%s%s) > %s',
             implode(',', $paths),
             $identifier,
             $this->getOption('boolean') ? ' boolean' : '',
