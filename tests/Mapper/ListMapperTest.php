@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Tests\Mapper;
 
 use Povs\ListerBundle\DependencyInjection\Locator\FieldTypeLocator;

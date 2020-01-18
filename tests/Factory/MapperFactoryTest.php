@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Factory;
 
 use PHPUnit\Framework\TestCase;
@@ -19,7 +20,7 @@ class MapperFactoryTest extends TestCase
 
     public function setUp()
     {
-        $this->list = new class() extends AbstractList {
+        $this->list = new class () extends AbstractList {
             public function buildListFields(ListMapper $listMapper): void
             {
                 $listMapper->add('id1', null, ['label' => 'test'])

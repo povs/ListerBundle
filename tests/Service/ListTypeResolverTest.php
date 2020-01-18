@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Service;
 
 use PHPUnit\Framework\TestCase;
@@ -58,7 +59,7 @@ class ListTypeResolverTest extends TestCase
             ->willReturn($listTypeMock);
         $listTypeMock->expects($this->once())
             ->method('configureSettings')
-            ->willReturnCallback(static function(OptionsResolver $resolver) {
+            ->willReturnCallback(static function (OptionsResolver $resolver) {
                 $resolver->setDefined(['config1', 'config2']);
             });
         $listTypeMock->expects($this->once())
@@ -198,7 +199,7 @@ class ListTypeResolverTest extends TestCase
             ->willReturn($typeMock);
         $typeMock->expects($this->once())
             ->method('configureOptions')
-            ->willReturnCallback(static function(OptionsResolver $resolver) {
+            ->willReturnCallback(static function (OptionsResolver $resolver) {
                 $resolver->setDefined('invalid_option');
                 $resolver->setAllowedTypes('invalid_option', 'array');
             });

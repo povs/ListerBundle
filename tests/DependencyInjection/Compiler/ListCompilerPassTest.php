@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\DependencyInjection\Compiler;
 
 use PHPUnit\Framework\TestCase;
@@ -50,7 +51,7 @@ class ListCompilerPassTest extends TestCase
             ->willReturn($locatorDefinitionMock);
         $locatorDefinitionMock->expects($this->exactly(6))
             ->method('setArgument')
-            ->with(0, $this->callback(static function($arg) {
+            ->with(0, $this->callback(static function ($arg) {
                 $argument = $arg['id'];
                 $value = $argument->getValues()[0];
                 return count($arg) === 1 &&

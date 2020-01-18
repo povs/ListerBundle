@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;

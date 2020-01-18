@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle;
 
 use PHPUnit\Framework\TestCase;
