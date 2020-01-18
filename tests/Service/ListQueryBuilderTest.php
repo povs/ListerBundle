@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -334,7 +335,7 @@ class ListQueryBuilderTest extends TestCase
                 new ArrayCollection()
             );
 
-        $query = $queryBuilder->buildLazyQuery($this->listMock,  $this->joinMapperMock, $this->listMapperMock);
+        $query = $queryBuilder->buildLazyQuery($this->listMock, $this->joinMapperMock, $this->listMapperMock);
 
         $this->assertEquals($this->queryBuilderMock, $query);
     }
@@ -353,7 +354,7 @@ class ListQueryBuilderTest extends TestCase
             ->with(true)
             ->willReturn(new ArrayCollection());
 
-        $query = $queryBuilder->buildLazyQuery($this->listMock,  $this->joinMapperMock, $this->listMapperMock);
+        $query = $queryBuilder->buildLazyQuery($this->listMock, $this->joinMapperMock, $this->listMapperMock);
         $this->assertNull($query);
     }
 

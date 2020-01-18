@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Service;
 
 use Doctrine\ORM\AbstractQuery;
@@ -191,7 +192,7 @@ class ValueAccessorTest extends TestCase
             ->willReturnMap([
                 ['selector', null, 'selector'],
                 ['translate', null, false],
-                ['value', null, static function(array $data, string $type) {
+                ['value', null, static function (array $data, string $type) {
                     return sprintf('%s %s %s', $data[0], $data[1], $type);
                 }]
             ]);
