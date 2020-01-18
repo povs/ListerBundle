@@ -8,8 +8,7 @@ use Povs\ListerBundle\Exception\ListFieldException;
 /**
  * @author Povilas Margaiatis <p.margaitis@gmail.com>
  */
-abstract class AbstractFieldTest extends TestCase
-{
+abstract class AbstractFieldTest extends TestCase {
     /**
      * @dataProvider idProvider
      * @param array  $data field data

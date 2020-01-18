@@ -7,8 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Povilas Margaiatis <p.margaitis@gmail.com>
  */
-class JoinField extends AbstractField
-{
+class JoinField extends AbstractField {
     public const JOIN_INNER = 'INNER';
     public const JOIN_LEFT = 'LEFT';
 
