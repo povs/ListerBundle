@@ -36,6 +36,6 @@ build:
 
 build_failure_conditions:
     - 'issues.label("coding-style").new.exists'
-    - 'elements.rating(<= B).exists'
+    - 'elements.rating(< B).exists'
     - 'project.metric("scrutinizer.test_coverage", < 1)'
     - 'issues.severity(>= MAJOR).new.exists'
