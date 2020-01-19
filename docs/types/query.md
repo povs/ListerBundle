@@ -6,8 +6,12 @@
 
 Comparison query type used to directly compare filter value with database value.
 
->Multiple paths passed to this query type will merge it as a single string with MySql `CONCAT` function.
->So for example `path => ['foo', 'bar']` will generate query `WHERE CONCAT(foo,' ',bar) = :value`, where space in between is delimiter option.
+>Multiple paths passed to this query type will merge it as a single string with MySql `CONCAT_WS` function.
+>So for example `path => ['foo', 'bar']` will generate query `WHERE CONCAT_WS(' ',foo,bar) = :value`, where space is `delimiter` option.
+>
+>CONCAT_WS is not supported by doctrine. So to use this type with multiple paths you will need your own concat_ws extension or use https://github.com/beberlei/DoctrineExtensions.
+ 
+
 
 This query accepts three options passed via `query_options`
 

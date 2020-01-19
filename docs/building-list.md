@@ -115,6 +115,7 @@ translate_null | bool | false | whether to translate null value
 value | callable | null | To overwrite value with callable function `function($value, $type) {}` where value is value fetched from DB and type is list type.
 field_type_options | array | [] | array of options passed to field type
 lazy | bool | false | whether to fetch field lazily. On each row it's own query will be executed to fetch all lazy fields. Useful for big tables with paginated results. It's not recommended to use it with results that are not paginated.
+position | string | null | Position before which element to insert the field. If null - field will be appended.
 
 ## Building and configuring filter fields
 
@@ -214,7 +215,7 @@ public function configureQuery(QueryBuilder $queryBuilder, ListValueInterface $v
 #Registering your list
 
 If you're using Symfony autowiring, everything is set.
-It will automatically catch all lists that implements `Povs\ListerBundle\Definition\ListInterface`
+It will automatically catch all lists that implements `Povs\ListerBundle\Declaration\ListInterface`
 
 Otherwise list has to be registered as services and tagged as `povs_lister.list`
 
