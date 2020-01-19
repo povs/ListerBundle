@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Mapper;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -58,9 +59,9 @@ class JoinMapper extends AbstractMapper
      */
     public function getByPath(string $path, bool $lazy = false): ?JoinField
     {
-        $field = $this->fields->filter(static function(JoinField $field) use ($path, $lazy) {
-            return ($field->getAlias() === $path || $field->getPath() === $path) &&
-                $field->getOption(JoinField::OPTION_LAZY) === $lazy;
+        $field = $this->fields->filter(static function (JoinField $field) use ($path, $lazy) {
+            return ($field->getAlias() === $path || $field->getPath() === $path || $field->getJoinPath(null) === $path)
+                && $field->getOption(JoinField::OPTION_LAZY) === $lazy;
         })->first();
 
         return $field ?: null;
@@ -69,7 +70,7 @@ class JoinMapper extends AbstractMapper
     /**
      * @param bool|null $lazy
      *
-     * @return ArrayCollection
+     * @return ArrayCollection|JoinField[]
      */
     public function getFields(?bool $lazy = null): ArrayCollection
     {
@@ -102,7 +103,8 @@ class JoinMapper extends AbstractMapper
 
             $this->buildJoins($paths, $joinType, $lazy);
 
-            if ($field->getOption(ListField::OPTION_SORTABLE) &&
+            if (
+                $field->getOption(ListField::OPTION_SORTABLE) &&
                 $field->getOption(ListField::OPTION_SORT_VALUE)
             ) {
                 if ($sortPath = $field->getOption(ListField::OPTION_SORT_PATH)) {
@@ -122,7 +124,7 @@ class JoinMapper extends AbstractMapper
                 $joinType = $field->getOption(FilterField::OPTION_JOIN_TYPE);
                 $mapped = $field->getOption(FilterField::OPTION_MAPPED);
 
-                if ($paths && $joinType && $mapped) {
+                if (!empty($paths) && $joinType && $mapped) {
                     $this->buildJoins($paths, $joinType, false);
                 }
             }
@@ -180,8 +182,8 @@ class JoinMapper extends AbstractMapper
 
         $path = $parent ? sprintf('%s.%s', $parent->getPath(), $prop) : $prop;
 
-        if (!$alias)  {
-            $alias = str_replace('.', '_', $path);
+        if (!$alias) {
+            $alias = sprintf('%s_a', str_replace('.', '_', $path));
         }
 
         $joinField = new JoinField($path, $prop, $alias, $options, $parent);

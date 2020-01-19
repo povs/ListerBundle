@@ -1,11 +1,11 @@
 <?php
+
 namespace Povs\ListerBundle\Service;
 
-use Countable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
-use Povs\ListerBundle\Definition\ListInterface;
-use Povs\ListerBundle\Definition\ListValueInterface;
+use Povs\ListerBundle\Declaration\ListInterface;
+use Povs\ListerBundle\Declaration\ListValueInterface;
 use Povs\ListerBundle\DependencyInjection\Locator\QueryTypeLocator;
 use Povs\ListerBundle\DependencyInjection\Locator\SelectorTypeLocator;
 use Povs\ListerBundle\Exception\ListFieldException;
@@ -184,7 +184,8 @@ class ListQueryBuilder
                 $this->hasAggregation = true;
             }
 
-            if (false === $lazy && $field->getOption(ListField::OPTION_SORTABLE) &&
+            if (
+                false === $lazy && $field->getOption(ListField::OPTION_SORTABLE) &&
                 ($dir = $field->getOption(ListField::OPTION_SORT_VALUE))
             ) {
                 if ($sortPath = $field->getOption(ListField::OPTION_SORT_PATH)) {
@@ -263,7 +264,7 @@ class ListQueryBuilder
                 $path = implode('.', $pathElements);
             }
 
-            if ($path) {
+            if (null !== $path) {
                 if (!$joinField = $joinMapper->getByPath($path, $lazy)) {
                     throw ListFieldException::invalidPath($path);
                 }

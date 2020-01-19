@@ -1,0 +1,41 @@
+filter:
+    excluded_paths:
+        - 'docs/*'
+        - 'tests/*'
+tools:
+    php_code_sniffer:
+        enabled: true
+        config:
+            standard: PSR12
+checks:
+    php: true
+build:
+    environment:
+        php:
+            version: 7.1
+    nodes:
+        analysis:
+            project_setup:
+                override:
+                    - 'true'
+            tests:
+                override:
+                    - php-scrutinizer-run
+                    -
+                        command: phpcs-run
+    dependencies:
+        before:
+            - composer require phpunit/phpunit:^7.0 --dev
+    tests:
+        override:
+            -
+                command: vendor/bin/phpunit --coverage-clover=clover.xml
+                coverage:
+                    file: clover.xml
+                    format: php-clover
+
+build_failure_conditions:
+    - 'issues.label("coding-style").new.exists'
+    - 'elements.rating(< B).exists'
+    - 'project.metric("scrutinizer.test_coverage", < 1)'
+    - 'issues.severity(>= MAJOR).new.exists'

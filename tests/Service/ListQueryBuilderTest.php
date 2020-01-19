@@ -1,12 +1,13 @@
 <?php
+
 namespace Povs\ListerBundle\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\TestCase;
-use Povs\ListerBundle\Definition\ListInterface;
-use Povs\ListerBundle\Definition\ListValueInterface;
+use Povs\ListerBundle\Declaration\ListInterface;
+use Povs\ListerBundle\Declaration\ListValueInterface;
 use Povs\ListerBundle\DependencyInjection\Locator\QueryTypeLocator;
 use Povs\ListerBundle\DependencyInjection\Locator\SelectorTypeLocator;
 use Povs\ListerBundle\Exception\ListFieldException;
@@ -334,7 +335,7 @@ class ListQueryBuilderTest extends TestCase
                 new ArrayCollection()
             );
 
-        $query = $queryBuilder->buildLazyQuery($this->listMock,  $this->joinMapperMock, $this->listMapperMock);
+        $query = $queryBuilder->buildLazyQuery($this->listMock, $this->joinMapperMock, $this->listMapperMock);
 
         $this->assertEquals($this->queryBuilderMock, $query);
     }
@@ -353,7 +354,7 @@ class ListQueryBuilderTest extends TestCase
             ->with(true)
             ->willReturn(new ArrayCollection());
 
-        $query = $queryBuilder->buildLazyQuery($this->listMock,  $this->joinMapperMock, $this->listMapperMock);
+        $query = $queryBuilder->buildLazyQuery($this->listMock, $this->joinMapperMock, $this->listMapperMock);
         $this->assertNull($query);
     }
 

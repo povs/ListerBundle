@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Mapper;
 
 use Doctrine\Common\Collections\ArrayCollection;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Type\QueryType;
 
 use Povs\ListerBundle\Mixin\OptionsTrait;

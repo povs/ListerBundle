@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Type\SelectorType;
 
 use Doctrine\ORM\QueryBuilder;
@@ -16,7 +17,7 @@ class GroupSelectorType extends BasicSelectorType
      */
     public function apply(QueryBuilder $queryBuilder, array $paths, string $id): void
     {
-        $statement = sprintf('GROUP_CONCAT(%s SEPARATOR \'%s\')', $this->getPath($paths),self::DELIMITER);
+        $statement = sprintf('GROUP_CONCAT(%s SEPARATOR \'%s\')', $this->getPath($paths), self::DELIMITER);
         $queryBuilder->addSelect(sprintf('%s as %s', $statement, $this->getAlias($id, 0)));
     }
 

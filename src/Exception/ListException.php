@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Exception;
 
 use Povs\ListerBundle\Type\ListType\ListTypeInterface;

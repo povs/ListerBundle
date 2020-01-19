@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\View;
 
 use Povs\ListerBundle\Service\RequestHandler;
@@ -84,9 +85,9 @@ class RouterView
     /**
      * @param string $name
      *
-     * @return string
+     * @return string|null
      */
-    public function getRequestName(string $name): string
+    public function getRequestName(string $name): ?string
     {
         return $this->requestHandler->getName($name);
     }

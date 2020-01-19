@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\DependencyInjection\Locator;
 
 use Povs\ListerBundle\Type\FilterType\FilterTypeInterface;

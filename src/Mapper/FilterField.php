@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Mapper;
 
 use Countable;
@@ -22,6 +23,7 @@ class FilterField extends AbstractField
     public const OPTION_PATH = 'path';
     public const OPTION_PROPERTY = 'property';
     public const OPTION_REQUIRED = 'required';
+    public const OPTION_POSITION = 'position';
 
     /**
      * @var FilterTypeInterface|null
@@ -81,7 +83,7 @@ class FilterField extends AbstractField
         $value = $this->getValue();
 
         return !(null === $value ||
-            (is_array($value) && count($value) === 0 ) ||
+            (is_array($value) && count($value) === 0) ||
             ($value instanceof Countable && $value->count() === 0));
     }
 
@@ -108,7 +110,8 @@ class FilterField extends AbstractField
             self::OPTION_JOIN_TYPE,
             self::OPTION_PATH,
             self::OPTION_PROPERTY,
-            self::OPTION_REQUIRED
+            self::OPTION_REQUIRED,
+            self::OPTION_POSITION
         ]);
 
         $resolver->setDefaults([
@@ -130,5 +133,6 @@ class FilterField extends AbstractField
         $resolver->setAllowedTypes(self::OPTION_PATH, ['string', 'array']);
         $resolver->setAllowedTypes(self::OPTION_PROPERTY, ['string', 'array']);
         $resolver->setAllowedTypes(self::OPTION_REQUIRED, 'bool');
+        $resolver->setAllowedTypes(self::OPTION_POSITION, 'string');
     }
 }

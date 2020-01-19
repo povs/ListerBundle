@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\View;
 
 use Povs\ListerBundle\Mapper\ListField;
@@ -17,7 +18,7 @@ class FieldView implements ViewInterface
     private $listField;
 
     /**
-     * @var RowView|null
+     * @var RowView
      */
     private $rowView;
 

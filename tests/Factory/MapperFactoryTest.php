@@ -1,9 +1,10 @@
 <?php
+
 namespace Povs\ListerBundle\Factory;
 
 use PHPUnit\Framework\TestCase;
-use Povs\ListerBundle\Definition\AbstractList;
-use Povs\ListerBundle\Definition\ListValueInterface;
+use Povs\ListerBundle\Declaration\AbstractList;
+use Povs\ListerBundle\Declaration\ListValueInterface;
 use Povs\ListerBundle\DependencyInjection\Locator\FieldTypeLocator;
 use Povs\ListerBundle\DependencyInjection\Locator\FilterTypeLocator;
 use Povs\ListerBundle\Mapper\FilterMapper;
@@ -19,7 +20,7 @@ class MapperFactoryTest extends TestCase
 
     public function setUp()
     {
-        $this->list = new class() extends AbstractList {
+        $this->list = new class () extends AbstractList {
             public function buildListFields(ListMapper $listMapper): void
             {
                 $listMapper->add('id1', null, ['label' => 'test'])

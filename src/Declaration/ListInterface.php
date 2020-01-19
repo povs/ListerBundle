@@ -1,5 +1,6 @@
 <?php
-namespace Povs\ListerBundle\Definition;
+
+namespace Povs\ListerBundle\Declaration;
 
 use Doctrine\ORM\QueryBuilder;
 use Povs\ListerBundle\Mapper\FilterMapper;

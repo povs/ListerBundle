@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Mapper;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -73,6 +74,35 @@ abstract class AbstractMapper
      */
     protected function addField(AbstractField $field): void
     {
+        if (($position = $field->getOption(ListField::OPTION_POSITION)) && $this->insertBefore($field, $position)) {
+            return;
+        }
+
         $this->fields->offsetSet($field->getId(), $field);
+    }
+
+    /**
+     * @param AbstractField $field    Field to insert
+     * @param string        $position Field id. New field will be inserted before this field.
+     *
+     * @return bool whether field was inserted.
+     */
+    private function insertBefore(AbstractField $field, string $position): bool
+    {
+        $fields = $this->fields->toArray();
+        $offset = array_search($position, array_keys($fields), true);
+
+        if (false === $offset) {
+            return false;
+        }
+
+        $newFields = array_merge(
+            array_slice($fields, 0, (int) $offset, true),
+            [$field->getId() => $field],
+            array_slice($fields, (int) $offset, null, true)
+        );
+        $this->fields = new ArrayCollection($newFields);
+
+        return true;
     }
 }

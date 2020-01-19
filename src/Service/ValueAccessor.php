@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Service;
 
 use Doctrine\ORM\QueryBuilder;
@@ -120,9 +121,9 @@ class ValueAccessor
         $value = $this->selectorTypeLocator->get($listField->getOption(ListField::OPTION_SELECTOR))
             ->getValue($data, $listField->getId());
 
+        $this->addIdentifiers($listField, $value);
         $this->processFieldValue($listField, $value);
         $this->translateValue($listField, $value);
-        $this->addIdentifiers($listField, $value);
 
         return $value;
     }
@@ -171,7 +172,8 @@ class ValueAccessor
      */
     private function translateValue(ListField $listField, &$value): void
     {
-        if ((true === $listField->getOption(ListField::OPTION_TRANSLATE)) &&
+        if (
+            (true === $listField->getOption(ListField::OPTION_TRANSLATE)) &&
             (null !== $value || true === $listField->getOption(ListField::OPTION_TRANSLATE_NULL))
         ) {
             $domain = $listField->getOption(ListField::OPTION_TRANSLATION_DOMAIN);

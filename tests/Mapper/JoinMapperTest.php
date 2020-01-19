@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Mapper;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -18,9 +19,10 @@ class JoinMapperTest extends AbstractMapperTest
         $mapper->add('entity1', 'e1');
         $mapper->add('entity1.entity2', 'e2');
         $mapper->add('e2.entity3', 'e3');
+        $mapper->add('e2.entity3.entity6', 'e6');
         $mapper->add('e3.entity4.entity5', 'e5');
 
-        $this->assertCount(5, $mapper->getFields());
+        $this->assertCount(6, $mapper->getFields());
 
         return $mapper;
     }
@@ -86,10 +88,10 @@ class JoinMapperTest extends AbstractMapperTest
         $this->assertCount(4, $mapper->getFields(false));
         $this->assertEquals('a.entity1', $mapper->getByPath('entity1', true)->getJoinPath('a'));
         $this->assertEquals('a.entity1', $mapper->getByPath('entity1', false)->getJoinPath('a'));
-        $this->assertEquals('entity1.entity2', $mapper->getByPath('entity1.entity2', true)->getJoinPath('a'));
+        $this->assertEquals('entity1_a.entity2', $mapper->getByPath('entity1.entity2', true)->getJoinPath('a'));
         $this->assertEquals('a.entity3', $mapper->getByPath('entity3', false)->getJoinPath('a'));
-        $this->assertEquals('entity3.entity4', $mapper->getByPath('entity3.entity4', false)->getJoinPath('a'));
-        $this->assertEquals('entity3_entity4.entity5', $mapper->getByPath('entity3.entity4.entity5', false)->getJoinPath('a'));
+        $this->assertEquals('entity3_a.entity4', $mapper->getByPath('entity3.entity4', false)->getJoinPath('a'));
+        $this->assertEquals('entity3_entity4_a.entity5', $mapper->getByPath('entity3.entity4.entity5', false)->getJoinPath('a'));
 
         return $mapper;
     }
@@ -100,11 +102,11 @@ class JoinMapperTest extends AbstractMapperTest
      */
     public function testAliasOverwrite(JoinMapper $mapper): void
     {
-        $mapper->add('entity3.entity4.entity5', 'custom_alias', []);
+        $mapper->add('entity3.entity4.entity5', 'custom_a', []);
         $this->assertCount(6, $mapper->getFields());
         $this->assertCount(2, $mapper->getFields(true));
         $this->assertCount(4, $mapper->getFields(false));
-        $this->assertEquals('custom_alias', $mapper->getByPath('entity3.entity4.entity5')->getAlias());
+        $this->assertEquals('custom_a', $mapper->getByPath('entity3.entity4.entity5')->getAlias());
     }
 
     public function testBuildFilterFields(): void
@@ -150,10 +152,10 @@ class JoinMapperTest extends AbstractMapperTest
 
         $this->assertCount(5, $mapper->getFields());
         $this->assertEquals('a.entity1', $mapper->getByPath('entity1')->getJoinPath('a'));
-        $this->assertEquals('entity1.entity2', $mapper->getByPath('entity1.entity2')->getJoinPath('a'));
+        $this->assertEquals('entity1_a.entity2', $mapper->getByPath('entity1.entity2')->getJoinPath('a'));
         $this->assertEquals('a.entity3', $mapper->getByPath('entity3')->getJoinPath('a'));
-        $this->assertEquals('entity3.entity4', $mapper->getByPath('entity3.entity4')->getJoinPath('a'));
-        $this->assertEquals('entity3_entity4.entity5', $mapper->getByPath('entity3.entity4.entity5')->getJoinPath('a'));
+        $this->assertEquals('entity3_a.entity4', $mapper->getByPath('entity3.entity4')->getJoinPath('a'));
+        $this->assertEquals('entity3_entity4_a.entity5', $mapper->getByPath('entity3.entity4.entity5')->getJoinPath('a'));
     }
 
     /**

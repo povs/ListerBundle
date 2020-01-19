@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Service;
 
 use Povs\ListerBundle\DependencyInjection\Locator\ListTypeLocator;
@@ -30,12 +31,12 @@ class ListTypeResolver
     private $requestHandler;
 
     /**
-     * @var string|null
+     * @var string
      */
     private $typeName;
 
     /**
-     * @var ListTypeInterface|null
+     * @var ListTypeInterface
      */
     private $type;
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Mixin;
 
 use PHPUnit\Framework\TestCase;

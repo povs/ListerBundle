@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Service;
 
 use Povs\ListerBundle\Mapper\FilterMapper;
@@ -81,9 +82,9 @@ class RequestHandler
     /**
      * @param string $name
      *
-     * @return string
+     * @return string|null
      */
-    public function getName(string $name): string
+    public function getName(string $name): ?string
     {
         return $this->configuration->getRequestConfiguration($name);
     }
@@ -141,7 +142,7 @@ class RequestHandler
                 }
             }
 
-            if ($fieldsSet) {
+            if (null !== $fieldsSet) {
                 foreach ($listMapper->getFields() as $field) {
                     if ($field->getId() !== $fieldsSet) {
                         $field->setOption(ListField::OPTION_SORT_VALUE, null);

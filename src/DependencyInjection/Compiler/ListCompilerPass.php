@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Mixin;
 
 use Doctrine\Common\Collections\ArrayCollection;

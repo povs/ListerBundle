@@ -1,5 +1,6 @@
 <?php
-namespace Povs\ListerBundle\Definition;
+
+namespace Povs\ListerBundle\Declaration;
 
 /**
  * @author Povilas Margaiatis <p.margaitis@gmail.com>

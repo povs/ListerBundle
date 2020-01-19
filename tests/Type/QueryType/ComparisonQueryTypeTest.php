@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Type\QueryType;
 
 use Doctrine\ORM\Query\Expr\Comparison;
@@ -17,7 +18,7 @@ class ComparisonQueryTypeTest extends TestCase
         $queryBuilderMock = $this->createMock(QueryBuilder::class);
         $queryBuilderMock->expects($this->once())
             ->method('andWhere')
-            ->with($this->callback(static function(Comparison $subject) {
+            ->with($this->callback(static function (Comparison $subject) {
                 return $subject->getLeftExpr() === 'foo' &&
                     $subject->getOperator() === 'LIKE' &&
                     $subject->getRightExpr() === ':bar';
@@ -36,8 +37,8 @@ class ComparisonQueryTypeTest extends TestCase
         $queryBuilderMock = $this->createMock(QueryBuilder::class);
         $queryBuilderMock->expects($this->once())
             ->method('andWhere')
-            ->with($this->callback(static function(Comparison $subject) {
-                return $subject->getLeftExpr() === 'CONCAT(foo,\'-\',bar)' &&
+            ->with($this->callback(static function (Comparison $subject) {
+                return $subject->getLeftExpr() === 'CONCAT_WS(\'-\',foo,bar)' &&
                     $subject->getOperator() === 'LIKE' &&
                     $subject->getRightExpr() === ':bar';
             }))
@@ -56,7 +57,7 @@ class ComparisonQueryTypeTest extends TestCase
         $queryBuilderMock = $this->createMock(QueryBuilder::class);
         $queryBuilderMock->expects($this->once())
             ->method('andWhere')
-            ->with($this->callback(static function(Comparison $subject) {
+            ->with($this->callback(static function (Comparison $subject) {
                 return $subject->getLeftExpr() === 'foo' &&
                     $subject->getOperator() === '=' &&
                     $subject->getRightExpr() === ':bar';

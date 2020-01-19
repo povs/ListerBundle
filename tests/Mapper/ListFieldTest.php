@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Mapper;
 
 use Povs\ListerBundle\Type\FieldType\FieldTypeInterface;
@@ -21,7 +22,7 @@ class ListFieldTest extends AbstractFieldTest
         'sort_value' => null,
         'sort_path' => null,
         'path' => 'path',
-        'join_type' => 'INNER',
+        'join_type' => 'LEFT',
         'property' => ['prop1', 'prop2'],
         'selector' => BasicSelectorType::class,
         'view_options' => [],
@@ -30,7 +31,8 @@ class ListFieldTest extends AbstractFieldTest
         'translation_prefix' => null,
         'translate_null' => false,
         'field_type_options' => [],
-        'lazy' => false
+        'lazy' => false,
+        'position' => null
     ];
 
     public function testGetType(): void

@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Type\QueryType;
 
 use Doctrine\ORM\Query\Expr\Comparison;
@@ -72,16 +73,11 @@ class ComparisonQueryType extends AbstractQueryType
         if (count($paths) === 1) {
             $select = $paths[0];
         } else {
-            $select = 'CONCAT(';
-            $lastItem = count($paths) - 1;
-
-            foreach ($paths as $key => $item) {
-                $select .= $lastItem === $key
-                    ? $item
-                    : sprintf('%s,\'%s\',', $item, $this->getOption('delimiter'));
-            }
-
-            $select .= ')';
+            $select = sprintf(
+                'CONCAT_WS(\'%s\',%s)',
+                $this->getOption('delimiter'),
+                implode(',', $paths)
+            );
         }
 
         return $select;
@@ -98,6 +94,6 @@ class ComparisonQueryType extends AbstractQueryType
             return $value;
         }
 
-        return sprintf(self::$wildCardMap[$wildcard], $value);
+        return sprintf(self::$wildCardMap[$wildcard], (string) $value);
     }
 }

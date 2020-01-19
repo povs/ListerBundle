@@ -1,7 +1,8 @@
 <?php
+
 namespace Povs\ListerBundle\DependencyInjection\Locator;
 
-use Povs\ListerBundle\Definition\ListInterface;
+use Povs\ListerBundle\Declaration\ListInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
 /**

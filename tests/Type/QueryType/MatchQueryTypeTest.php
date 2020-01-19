@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Type\QueryType;
 
 use Doctrine\ORM\QueryBuilder;
@@ -76,7 +77,7 @@ class MatchQueryTypeTest extends TestCase
      *
      * @return MatchQueryType
      */
-    private function getType( array $options): MatchQueryType
+    private function getType(array $options): MatchQueryType
     {
         $type = new MatchQueryType();
         $type->setOptions($options);

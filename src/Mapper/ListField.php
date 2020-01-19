@@ -1,4 +1,5 @@
 <?php
+
 namespace Povs\ListerBundle\Mapper;
 
 use Povs\ListerBundle\Type\FieldType\FieldTypeInterface;
@@ -29,6 +30,7 @@ class ListField extends AbstractField
     public const OPTION_VALUE = 'value';
     public const OPTION_FIELD_TYPE_OPTIONS = 'field_type_options';
     public const OPTION_LAZY = 'lazy';
+    public const OPTION_POSITION = 'position';
 
     /**
      * @var FieldTypeInterface
@@ -89,12 +91,13 @@ class ListField extends AbstractField
             self::OPTION_TRANSLATE_NULL,
             self::OPTION_VALUE,
             self::OPTION_FIELD_TYPE_OPTIONS,
-            self::OPTION_LAZY
+            self::OPTION_LAZY,
+            self::OPTION_POSITION
         ]);
 
         $resolver->setDefaults([
             self::OPTION_SORTABLE => true,
-            self::OPTION_JOIN_TYPE => JoinField::JOIN_INNER,
+            self::OPTION_JOIN_TYPE => JoinField::JOIN_LEFT,
             self::OPTION_SELECTOR => BasicSelectorType::class,
             self::OPTION_VIEW_OPTIONS => [],
             self::OPTION_TRANSLATE => false,
@@ -123,5 +126,6 @@ class ListField extends AbstractField
         $resolver->setAllowedTypes(self::OPTION_VALUE, 'callable');
         $resolver->setAllowedTypes(self::OPTION_FIELD_TYPE_OPTIONS, 'array');
         $resolver->setAllowedTypes(self::OPTION_LAZY, 'bool');
+        $resolver->setAllowedTypes(self::OPTION_POSITION, 'string');
     }
 }

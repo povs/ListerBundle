@@ -1,7 +1,8 @@
 <?php
+
 namespace Povs\ListerBundle\Service;
 
-use Povs\ListerBundle\Definition\ListInterface;
+use Povs\ListerBundle\Declaration\ListInterface;
 use Povs\ListerBundle\DependencyInjection\Configuration;
 use Povs\ListerBundle\Exception\ListException;
 use Symfony\Component\Config\Definition\Processor;

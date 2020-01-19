@@ -1,6 +1,8 @@
 <?php
+
 namespace Povs\ListerBundle\View;
 
+use Generator;
 use Symfony\Component\Form\FormView;
 
 /**
@@ -77,7 +79,7 @@ class ListView implements ViewInterface
      * @param bool $paged whether to return current page results only
      *                    if false - all results from current page will be returned
      *
-     * @return iterable|RowView[]
+     * @return Generator|RowView[]
      */
     public function getBodyRows(bool $paged = true): iterable
     {
