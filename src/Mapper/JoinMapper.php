@@ -162,15 +162,7 @@ class JoinMapper extends AbstractMapper
      */
     private function addJoin(string $path, array $options, ?string $alias = null): ?JoinField
     {
-        if ($joinField = $this->getByPath($path, $options[JoinField::OPTION_LAZY] ?? false)) {
-            if ($alias) {
-                $joinField->setAlias($alias);
-            }
-
-            if (isset($options[JoinField::OPTION_JOIN_TYPE])) {
-                $joinField->setOption(JoinField::OPTION_JOIN_TYPE, $options[JoinField::OPTION_JOIN_TYPE]);
-            }
-
+        if ($joinField = $this->getField($path, $options, $alias)) {
             return $joinField;
         }
 
@@ -215,5 +207,33 @@ class JoinMapper extends AbstractMapper
         array_pop($pathElements);
 
         return implode('.', $pathElements);
+    }
+
+    /**
+     * Finds whether field already exists and if so sets it's alias and options
+     *
+     * @param string      $path
+     * @param array       $options
+     * @param string|null $alias
+     *
+     * @return JoinField|null
+     */
+    private function getField(string $path, array $options, ?string $alias): ?JoinField
+    {
+        $joinField = $this->getByPath($path, $options[JoinField::OPTION_LAZY] ?? false);
+
+        if (!$joinField) {
+            return null;
+        }
+
+        if ($alias) {
+            $joinField->setAlias($alias);
+        }
+
+        if (isset($options[JoinField::OPTION_JOIN_TYPE])) {
+            $joinField->setOption(JoinField::OPTION_JOIN_TYPE, $options[JoinField::OPTION_JOIN_TYPE]);
+        }
+
+        return $joinField;
     }
 }
