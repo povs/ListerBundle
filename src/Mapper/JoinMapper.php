@@ -167,6 +167,10 @@ class JoinMapper extends AbstractMapper
                 $joinField->setAlias($alias);
             }
 
+            if (isset($options[JoinField::OPTION_JOIN_TYPE])) {
+                $joinField->setOption(JoinField::OPTION_JOIN_TYPE, $options[JoinField::OPTION_JOIN_TYPE]);
+            }
+
             return $joinField;
         }
 

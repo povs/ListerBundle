@@ -57,7 +57,7 @@ class JoinMapperTest extends AbstractMapperTest
             $field->expects($this->exactly(5))
                 ->method('getOption')
                 ->willReturnMap([
-                    ['join_type', null, 'INNER'],
+                    ['join_type', null, 'LEFT'],
                     ['sortable', null, true],
                     ['sort_value', null, 'ASC'],
                     ['sort_path', null, 'custom_path'],
@@ -100,13 +100,15 @@ class JoinMapperTest extends AbstractMapperTest
      * @depends testBuildListFields
      * @param JoinMapper $mapper
      */
-    public function testAliasOverwrite(JoinMapper $mapper): void
+    public function testOverwrite(JoinMapper $mapper): void
     {
-        $mapper->add('entity3.entity4.entity5', 'custom_a', []);
+        $mapper->add('entity3.entity4.entity5', 'custom_a', ['join_type' => 'INNER']);
         $this->assertCount(6, $mapper->getFields());
         $this->assertCount(2, $mapper->getFields(true));
         $this->assertCount(4, $mapper->getFields(false));
-        $this->assertEquals('custom_a', $mapper->getByPath('entity3.entity4.entity5')->getAlias());
+        $field = $mapper->getByPath('entity3.entity4.entity5');
+        $this->assertEquals('custom_a', $field->getAlias());
+        $this->assertEquals('INNER', $field->getOption('join_type'));
     }
 
     public function testBuildFilterFields(): void
