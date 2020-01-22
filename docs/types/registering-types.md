@@ -1,4 +1,4 @@
-#Registering your types
+# Registering your types
 
 If you're using Symfony autowiring, everything is set.
 

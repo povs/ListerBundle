@@ -1,6 +1,6 @@
-#Query types
+# Query types
 
-##Available query types
+## Available query types
 
 ### Comparison query type
 
@@ -21,7 +21,7 @@ type | string (=, >, >=, <, <=, <>, LIKE) | =
 wildcard | string (no_wildcard, wildcard_start, wildcard_end, wildcard) | no_wildcard 
 delimiter | string | ' '
 
-###Contains query type
+### Contains query type
 
 Contains query type used to generate `IN (:values)` query
 Value coming from filter has to be an array
@@ -51,12 +51,12 @@ function | string (count, sum, avg, min, max) | count
 
 > If multiple paths are passed to this query only first one will be used.
 
-###Match query type
+### Match query type
 
 DQL do not support match against clause. So to use this type you will need your own group concat extension or use https://github.com/beberlei/DoctrineExtensions.
 When installed add this to your doctrine configuration:
 
-````yaml
+```` yaml
 orm:
     dql:
         string_functions:

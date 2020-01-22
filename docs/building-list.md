@@ -1,6 +1,6 @@
 # Building list
 
-Full example of basic list can be found in "Getting Started" section 
+some text
 
 ## Setting data class
 
@@ -96,7 +96,7 @@ Method `$listMapper->add()` has three parameters:
  
 > With method `$listMapper->build()` all fields from `buildListField` will be copied.
 
-#### ListField options
+### ListField options
 Option | Value type | Default value | Description
 --- | ---| --- | --- 
 label | string | null | 
@@ -140,7 +140,7 @@ Method `$filterMapper->add()` has three parameters:
  - `filterType` fullyQualifiedName of filterType, can be null. More about filterTypes can be found here
  - `options` array of options
  
- #### FilterField options
+### FilterField options
  Option | Value type | Default value | Description
  --- | ---| --- | --- 
  query_type | string | Povs\ListerBundle\Type\QueryType\ComparisonQueryType | More about queryTypes here 
@@ -155,10 +155,10 @@ Method `$filterMapper->add()` has three parameters:
  required | bool | false | whether field is required
 
 
- ## Building Join fields (configuring query joins)
+## Building Join fields (configuring query joins)
  
- To add or remove query joins use `buildJoinFields` method.
- > This method should be used only in edge cases. If it's not overwritten all required joins will be built automatically.
+To add or remove query joins use `buildJoinFields` method.
+> This method should be used only in edge cases. If it's not overwritten all required joins will be built automatically.
  
 ```php
 public function buildJoinFields(JoinMapper $joinMapper, ListValueInterface $value): void
@@ -181,11 +181,11 @@ Method `$joinMapper->add()` has three parameters:
  
 > With method `$joinMapper->build()` all required joins will be added automatically
 
- #### JoinField options
- Option | Value type | Default value | Description
- --- | ---| --- | --- 
- join_type | INNER, LEFT | INNER | 
- lazy | bool | false | whether to add this join in the query only when fetching for lazy data.
+### JoinField options
+Option | Value type | Default value | Description
+--- | ---| --- | --- 
+join_type | INNER, LEFT | INNER | 
+lazy | bool | false | whether to add this join in the query only when fetching for lazy data.
  
  
 ## Configuring query
@@ -212,7 +212,7 @@ public function configureQuery(QueryBuilder $queryBuilder, ListValueInterface $v
 ```
 
 
-#Registering your list
+## Registering your list
 
 If you're using Symfony autowiring, everything is set.
 It will automatically catch all lists that implements `Povs\ListerBundle\Declaration\ListInterface`

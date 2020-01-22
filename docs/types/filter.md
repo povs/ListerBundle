@@ -4,11 +4,11 @@ With filter types you can set default options so you won't have to repeat it on 
 All filter types must implement `Povs\ListerBundle\Type\FilterType\FilterTypeInterface`
 This interface has only one method: `getDefaultOptions(): array`
 
-##Creating your own filter type
+## Creating your own filter type
 
 Lets say we want to build a simple text filter type which will filter using mysql `LIKE` with wildcards i.e. `LIKE '%value%'`.
 
-````php 
+```php 
 namespace App\Lister\FilterType;
 
 use Povs\ListerBundle\Type\FilterType\FilterTypeInterface;
@@ -30,10 +30,10 @@ class LikeFilterType implements FilterTypeInterface
         ];
     }
 }
-```` 
+```
 
 To use this filter type just pass it to `$filterMapper->add()` as a second argument
-````php 
+```php 
 
 // Your list
 public function buildFilterFields(FilterMapper $filterMapper): void
@@ -43,4 +43,4 @@ public function buildFilterFields(FilterMapper $filterMapper): void
         'path' => ['user.firstName', 'user.lastName']
     ])
 }
-````
+```

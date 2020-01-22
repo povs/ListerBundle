@@ -1,9 +1,9 @@
-#Views
+# Views
 
 Views are objects generated with various list information to access its value, filters, etc...
 Views are passed to `list types` which parses it to required response.
 
-##ListView
+## ListView
 
 List view is a parent object which contains all other views:
 
@@ -27,7 +27,7 @@ $listView->getFilter();
 $listView->getRouter();
 ````
 
-##RowView
+## RowView
 Contains header or body data values
 
 Available methods:
@@ -49,7 +49,7 @@ $rowView->getLabeledValue();
 $rowView->getList();
 ````
 
-##FieldView
+## FieldView
 
 Contains various field information including its value.
 
@@ -82,7 +82,7 @@ $fieldView->getRow();
 ````
 
 
-##PagerView
+## PagerView
 
 PagerView is responsible for fetching data from database and accessing various pagination related information.
 It can also be used to iterate between pages.

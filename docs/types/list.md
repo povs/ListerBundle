@@ -1,9 +1,9 @@
-#List types
+# List types
 List types converts `ListView` object to response or any other data type (e.g. array)
 
-##Available List types
+## Available List types
 
-###Array List type
+### Array List type
 Array list type returns data as json on array.
  - `generateResponse` returns data as JsonResponse
  - `generateData` returns data as array
@@ -16,7 +16,7 @@ length | int | 100 | how much to show per page (if paginated) or query batch
 limit | int | 0 | Max results that can be fetched ( 0 - unlimited)
 paged | bool | true | Whether results should be paged.
     
-###Csv List type
+### Csv List type
 Csv list type returns data as StreamedResponse with csv content
  - `generateResponse` returns data as StreamedResponse
  - `generateData` returns null
@@ -31,7 +31,7 @@ delimiter | delimiter | , | CSV delimiter
 limit | int | 0 | Max results that can be fetched ( 0 - unlimited)
 
 
-##Creating your own list type
+## Creating your own list type
 Lets say ArrayListType is not available by default and we would want to build it.
 Full example of already built in array list type can be found `Povs\ListerBundle\Type\ListType\ArrayListType`
 

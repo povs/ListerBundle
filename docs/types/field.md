@@ -1,4 +1,4 @@
-#Field types
+# Field types
 
 Field types are used to customize value returned from selector type.
 Every field type has to implement `Povs\ListerBundle\Type\FieldType\FieldTypeInterface`
@@ -14,12 +14,12 @@ This interface has two methods:
  
  > with `getDefaultOptions` method you can pass any `ListField` option. Those options can still be overwritten when building list.
 
-##Creating your own field type
+## Creating your own field type
 As an example lets build UserFieldType.
 
 Lets say User entity has firstName, lastName properties and every time we are adding user to the list we want to render it as a full name.
 
-````php 
+```` php 
 namespace App\Lister\FieldType;
 
 use Povs\ListerBundle\Type\FieldType\FieldTypeInterface;
@@ -44,7 +44,7 @@ class UserFieldType implements FieldTypeInterface
 
 To use this type pass it as a second argument to `listMapper->add()`
 
-````php 
+```` php 
 
 // Your list
 public function buildListFields(ListMapper $listMapper): void
