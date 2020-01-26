@@ -1,7 +1,7 @@
 # Filter types
 
 With filter types you can set default options so you won't have to repeat it on every list.
-All filter types must implement `Povs\ListerBundle\Type\FilterType\FilterTypeInterface`
+All filter types must implement `Povs\ListerBundle\Type\FilterType\FilterTypeInterface`.
 This interface has only one method: `getDefaultOptions(): array`
 
 ## Creating your own filter type

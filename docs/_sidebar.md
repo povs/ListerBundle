@@ -1,7 +1,12 @@
 * Introduction
-  * [Getting started](readme.md)
+  * [About](readme.md)
+  * [Installation](installation.md)
 
-* [Building list](building-list.md)
+* Usage
+  * [Building list](building_list.md)
+  * [Using list](using_list.md)
+  * [Examples](example_list.md)
+  * [Optimisation](optimisation.md)
 
 * Types
   * [Field types](types/field.md)
@@ -9,6 +14,6 @@
   * [Selector types](types/selector.md)
   * [Filter types](types/filter.md)
   * [List types](types/list.md)
-  * [Registering types](types/registering-types.md)
+  * [Registering types](types/registering_types.md)
 
 * [Views](views.md)

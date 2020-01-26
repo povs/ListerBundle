@@ -14,10 +14,10 @@ Available methods:
 $listView->getHeaderRow();
 
 //Will return iterable of RowViews objects with data values. 
-//Param paged - whether results should be paged. If false - all results will be returned. (not recommended with big data)
+//Param paged - whether return results for current page only
 $listView->getBodyRows(true);
 
-//Will return paged object
+//Will return pager object
 $listView->getPager();
 
 //Will return symfony form object with filter.

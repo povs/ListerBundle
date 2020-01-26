@@ -1,18 +1,17 @@
 # Field types
 
-Field types are used to customize value returned from selector type.
+Field types are used to customize value returned from [selector type](selector.md).
 Every field type has to implement `Povs\ListerBundle\Type\FieldType\FieldTypeInterface`
 This interface has two methods:
 
-`getValue($value, string $type, array $options)` where 
- - $value - value fetched from DB
- - $type - list type 
- - $options - options passed via 'field_type_options' option when adding Field
+- `getValue($value, string $type, array $options)` where 
+  - $value - value fetched from DB
+  - $type - list type 
+  - $options - options passed via 'field_type_options' option when adding a field
+- `getDefaultOptions(string $type)` where 
+  - $type - list type
  
- `getDefaultOptions(string $type)` where 
- - $type - list type
- 
- > with `getDefaultOptions` method you can pass any `ListField` option. Those options can still be overwritten when building list.
+ > with `getDefaultOptions` method you can pass any `ListField` option. Those options can still be overwritten when building a list.
 
 ## Creating your own field type
 As an example lets build UserFieldType.
@@ -26,7 +25,7 @@ use Povs\ListerBundle\Type\FieldType\FieldTypeInterface;
 
 class UserFieldType implements FieldTypeInterface
 {
-    public function getValue($value, string $type, array $options)
+    public function getValue($value, string $type, array $options): string
     {
         return sprintf('%s %s', $value['first'], $value['last']);
     }
@@ -35,8 +34,7 @@ class UserFieldType implements FieldTypeInterface
     {
         return [
             'label' => 'Full name',
-            'property' => ['first' => firstName', 'last' => 'lastName'],
-            'lazy' => $type === 'list' ? true : false
+            'property' => ['first' => firstName', 'last' => 'lastName']
         ];
     }
 }
@@ -51,7 +49,7 @@ public function buildListFields(ListMapper $listMapper): void
 {
     $listMapper->add(
         'user', //Path to the user (this will generate paths ['user.firstName', 'user.lastName']) 
-        UserFieldType::class, //FullyQualifiedName of the field type
+        UserFieldType::class, //Fully qualified name of the field type
         ['label' => 'User'] //Options (label is overwritten here)
     )
 }

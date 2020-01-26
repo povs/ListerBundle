@@ -1,6 +1,7 @@
 # Registering your types
 
-If you're using Symfony autowiring, everything is set.
+If you're using the [default services.yaml configuration](https://symfony.com/doc/current/service_container.html#service-container-services-load-example), you're done! 
+It will automatically catch all types and tags it with an appropriate tag.
 
 Otherwise types has to be registered as services and tagged by it's type:
  - List type: `povs_lister.list_type`

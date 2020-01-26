@@ -1,5 +1,5 @@
 # List types
-List types converts `ListView` object to response or any other data type (e.g. array)
+List types converts [view](../views.md) object to response or any other data type (e.g. array)
 
 ## Available List types
 
@@ -49,7 +49,7 @@ class ArrayListType extends AbstractListType
 ```
 
 To configure settings of the list type `configureSettings` method is used.
-those settings are set via `type_configuration` array in `list_configuration`
+Those settings are set via `type_configuration` array in `list_configuration`.
 Settings are configured via Symfony Options resolver component
 
 ````php
@@ -68,7 +68,7 @@ public function configureSettings(OptionsResolver $optionsResolver): void
 }
 ````
 
-Next we want to tell by what `length` and `currentPage` to fetch data.
+Next we want to tell by what `length` and `page` to fetch data.
 In each of those methods value from request is passed.
  
 ````php
@@ -114,8 +114,7 @@ public function list()
 ````
 
 To return data `generateResponse` and `generateData` methods are used.
-To both of those methods `ListView` and array of options are passed.
-To generate data you must first understand `ListView` object. You can read about it *add link*
+To both of those methods [ListView object](../views.md) and array of options are passed.
 
 ````php
 // Convert ListView to data array
@@ -129,7 +128,7 @@ public function generateData(ListView $listView, array $options): array
 
     foreach ($listView->getBodyRows($this->config['paged']) as $row) {
         $data['data'][] = $row->getLabeledValue();
-
+        
         if (0 !== $this->config['limit'] && ++$batch === $this->config['limit']) {
             break;
         }
