@@ -1,5 +1,19 @@
 # Building list
 
+## Creating list class
+
+All lists have to implement `Povs\ListerBundle\Declaration\ListInterface` or extend `Povs\ListerBundle\Declaration\AbstractList`,
+which makes creating lists even easier.
+
+```php
+use Povs\ListerBundle\Declaration\AbstractList;
+
+class MyList extends AbstractList
+{
+    //...
+}
+```
+
 ## Setting data class
 
 With `getDataClass` method fully qualified name of entity has to be returned.
