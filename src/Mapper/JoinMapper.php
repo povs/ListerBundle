@@ -12,6 +12,13 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class JoinMapper extends AbstractMapper
 {
+    private const REPLACEABLE_OPTIONS = [
+        JoinField::OPTION_JOIN_TYPE,
+        JoinField::OPTION_CONDITION_TYPE,
+        JoinField::OPTION_CONDITION,
+        JoinField::OPTION_CONDITION_PARAMETERS
+    ];
+
     /**
      * @var ListMapper
      */
@@ -230,10 +237,23 @@ class JoinMapper extends AbstractMapper
             $joinField->setAlias($alias);
         }
 
-        if (isset($options[JoinField::OPTION_JOIN_TYPE])) {
-            $joinField->setOption(JoinField::OPTION_JOIN_TYPE, $options[JoinField::OPTION_JOIN_TYPE]);
+        return $this->replaceOptions($joinField, $options);
+    }
+
+    /**
+     * @param JoinField $field
+     * @param array     $options
+     *
+     * @return JoinField
+     */
+    private function replaceOptions(JoinField $field, array $options): JoinField
+    {
+        foreach (self::REPLACEABLE_OPTIONS as $optionToReplace) {
+            if (isset($options[$optionToReplace])) {
+                $field->setOption($optionToReplace, $options[$optionToReplace]);
+            }
         }
 
-        return $joinField;
+        return $field;
     }
 }

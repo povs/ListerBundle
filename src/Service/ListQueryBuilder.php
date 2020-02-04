@@ -141,11 +141,22 @@ class ListQueryBuilder
     {
         foreach ($joinMapper->getFields($lazy) as $field) {
             $joinPath = $field->getJoinPath($this->configuration->getAlias());
+            $condition = null;
+            $conditionType = null;
+
+            if ($field->hasOption(JoinField::OPTION_CONDITION)) {
+                $condition = $field->getOption(JoinField::OPTION_CONDITION);
+                $conditionType = $field->getOption(JoinField::OPTION_CONDITION_TYPE);
+            }
 
             if ($field->getOption(JoinField::OPTION_JOIN_TYPE) === JoinField::JOIN_INNER) {
-                $this->queryBuilder->innerJoin($joinPath, $field->getAlias());
+                $this->queryBuilder->innerJoin($joinPath, $field->getAlias(), $conditionType, $condition);
             } else {
-                $this->queryBuilder->leftJoin($joinPath, $field->getAlias());
+                $this->queryBuilder->leftJoin($joinPath, $field->getAlias(), $conditionType, $condition);
+            }
+
+            if ($field->hasOption(JoinField::OPTION_CONDITION_PARAMETERS)) {
+                $this->queryBuilder->setParameters($field->getOption(JoinField::OPTION_CONDITION_PARAMETERS));
             }
         }
     }

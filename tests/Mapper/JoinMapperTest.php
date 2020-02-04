@@ -102,13 +102,20 @@ class JoinMapperTest extends AbstractMapperTest
      */
     public function testOverwrite(JoinMapper $mapper): void
     {
-        $mapper->add('entity3.entity4.entity5', 'custom_a', ['join_type' => 'INNER']);
+        $mapper->add('entity3.entity4.entity5', 'custom_a', [
+            'join_type' => 'INNER',
+            'condition' => 'test_condition',
+            'condition_parameters' => ['test' => 'params']
+        ]);
         $this->assertCount(6, $mapper->getFields());
         $this->assertCount(2, $mapper->getFields(true));
         $this->assertCount(4, $mapper->getFields(false));
         $field = $mapper->getByPath('entity3.entity4.entity5');
         $this->assertEquals('custom_a', $field->getAlias());
         $this->assertEquals('INNER', $field->getOption('join_type'));
+        $this->assertEquals('test_condition', $field->getOption('condition'));
+        $this->assertEquals(['test' => 'params'], $field->getOption('condition_parameters'));
+        $this->assertEquals('WITH', $field->getOption('condition_type'));
     }
 
     public function testBuildFilterFields(): void
