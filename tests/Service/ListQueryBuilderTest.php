@@ -356,7 +356,7 @@ class ListQueryBuilderTest extends TestCase
 
         $this->joinMapperMock->expects($this->once())
             ->method('getFields')
-            ->with(true)
+            ->with(null, true)
             ->willReturn(new ArrayCollection());
 
         $this->listMapperMock->expects($this->exactly(2))
@@ -426,7 +426,7 @@ class ListQueryBuilderTest extends TestCase
         if ($setJoinFields) {
             $this->joinMapperMock->expects($this->once())
                 ->method('getFields')
-                ->with(false)
+                ->with(null, false)
                 ->willReturn(new ArrayCollection());
         }
 
