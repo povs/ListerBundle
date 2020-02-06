@@ -75,18 +75,20 @@ class JoinMapper extends AbstractMapper
     }
 
     /**
-     * @param bool|null $lazy
+     * @param string|null $path
+     * @param bool|null   $lazy
      *
      * @return ArrayCollection|JoinField[]
      */
-    public function getFields(?bool $lazy = null): ArrayCollection
+    public function getFields(?string $path = null, ?bool $lazy = null): ArrayCollection
     {
-        if (null === $lazy) {
+        if (null === $path && null === $lazy) {
             return $this->fields;
         }
 
-        return $this->fields->filter(static function (JoinField $joinField) use ($lazy) {
-            return $joinField->getOption(JoinField::OPTION_LAZY) === $lazy;
+        return $this->fields->filter(static function (JoinField $field) use ($path, $lazy) {
+            return (null === $path || ($field->getAlias() === $path || $field->getPath() === $path || $field->getJoinPath(null) === $path))
+                && (null === $lazy || $field->getOption(JoinField::OPTION_LAZY) === $lazy);
         });
     }
 
