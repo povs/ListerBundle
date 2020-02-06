@@ -139,7 +139,7 @@ class ListQueryBuilder
      */
     private function applyJoins(JoinMapper $joinMapper, bool $lazy): void
     {
-        foreach ($joinMapper->getFields($lazy) as $field) {
+        foreach ($joinMapper->getFields(null, $lazy) as $field) {
             $joinPath = $field->getJoinPath($this->configuration->getAlias());
             $condition = null;
             $conditionType = null;
