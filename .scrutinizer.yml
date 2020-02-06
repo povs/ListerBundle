@@ -23,16 +23,15 @@ build:
                     - php-scrutinizer-run
                     -
                         command: phpcs-run
-    dependencies:
-        before:
-            - composer require phpunit/phpunit:^7.0 --dev
-    tests:
-        override:
-            -
-                command: vendor/bin/phpunit --coverage-clover=clover.xml
-                coverage:
-                    file: clover.xml
-                    format: php-clover
+
+        coverage:
+            tests:
+                override:
+                    -
+                        command: vendor/bin/phpunit --coverage-clover=clover.xml
+                        coverage:
+                            file: clover.xml
+                            format: php-clover
 
 build_failure_conditions:
     - 'issues.label("coding-style").new.exists'
