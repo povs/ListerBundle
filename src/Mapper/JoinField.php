@@ -2,6 +2,7 @@
 
 namespace Povs\ListerBundle\Mapper;
 
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -14,6 +15,9 @@ class JoinField extends AbstractField
 
     public const OPTION_JOIN_TYPE = 'join_type';
     public const OPTION_LAZY = 'lazy';
+    public const OPTION_CONDITION_TYPE = 'condition_type';
+    public const OPTION_CONDITION = 'condition';
+    public const OPTION_CONDITION_PARAMETERS = 'condition_parameters';
 
     /**
      * @var string
@@ -107,14 +111,23 @@ class JoinField extends AbstractField
      */
     protected function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefined([self::OPTION_JOIN_TYPE, self::OPTION_LAZY]);
+        $resolver->setDefined([
+            self::OPTION_JOIN_TYPE,
+            self::OPTION_LAZY,
+            self::OPTION_CONDITION,
+            self::OPTION_CONDITION_TYPE,
+            self::OPTION_CONDITION_PARAMETERS
+        ]);
 
         $resolver->setDefaults([
             self::OPTION_JOIN_TYPE => self::JOIN_INNER,
-            self::OPTION_LAZY => false
+            self::OPTION_LAZY => false,
+            self::OPTION_CONDITION_TYPE => Join::WITH
         ]);
 
         $resolver->setAllowedValues(self::OPTION_JOIN_TYPE, [self::JOIN_INNER, self::JOIN_LEFT]);
         $resolver->setAllowedTypes(self::OPTION_LAZY, 'bool');
+        $resolver->setAllowedValues(self::OPTION_CONDITION_TYPE, [Join::WITH, Join::ON]);
+        $resolver->setAllowedTypes(self::OPTION_CONDITION_PARAMETERS, 'array');
     }
 }

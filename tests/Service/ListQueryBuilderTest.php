@@ -55,8 +55,26 @@ class ListQueryBuilderTest extends TestCase
     public function testBuildQueryJoins(): void
     {
         $fieldsData = [
-            ['ent1', 'INNER', 'al1'],
-            ['al1.ent2', 'LEFT', 'al2'],
+            [
+                'ent1',
+                [
+                    'join_type' => 'INNER',
+                    'condition' => 'cond',
+                    'condition_parameters' => ['param' => 'val'],
+                    'condition_type' => 'WITH'
+                ],
+                'al1'
+            ],
+            [
+                'al1.ent2',
+                [
+                    'join_type' => 'LEFT',
+                    'condition' => null,
+                    'condition_parameters' => null,
+                    'condition_type' => 'WITH'
+                ],
+                'al2'
+            ],
         ];
         $fields = [];
 
@@ -66,10 +84,24 @@ class ListQueryBuilderTest extends TestCase
                 ->method('getJoinPath')
                 ->with('alias')
                 ->willReturn($datum[0]);
-            $field->expects($this->once())
+            $field->expects($this->exactly(2))
+                ->method('hasOption')
+                ->willReturnMap([
+                   ['condition', null !== $datum[1]['condition']],
+                   ['condition_parameters', null !== $datum[1]['condition_parameters']]
+                ]);
+
+            $getOptionCalls = 1
+                + (null === $datum[1]['condition'] ? 0 : 2)
+                + (null === $datum[1]['condition_parameters'] ? 0 : 1);
+            $field->expects($this->exactly($getOptionCalls))
                 ->method('getOption')
-                ->with('join_type')
-                ->willReturn($datum[1]);
+                ->willReturnMap([
+                    ['join_type', null, $datum[1]['join_type']],
+                    ['condition', null, $datum[1]['condition']],
+                    ['condition_parameters', null, $datum[1]['condition_parameters']],
+                    ['condition_type', null, $datum[1]['condition_type']]
+                ]);
             $field->expects($this->once())
                 ->method('getAlias')
                 ->willReturn($datum[2]);
@@ -324,7 +356,7 @@ class ListQueryBuilderTest extends TestCase
 
         $this->joinMapperMock->expects($this->once())
             ->method('getFields')
-            ->with(true)
+            ->with(null, true)
             ->willReturn(new ArrayCollection());
 
         $this->listMapperMock->expects($this->exactly(2))
@@ -394,7 +426,7 @@ class ListQueryBuilderTest extends TestCase
         if ($setJoinFields) {
             $this->joinMapperMock->expects($this->once())
                 ->method('getFields')
-                ->with(false)
+                ->with(null, false)
                 ->willReturn(new ArrayCollection());
         }
 

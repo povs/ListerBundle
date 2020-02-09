@@ -9,11 +9,17 @@ use Povs\ListerBundle\Exception\ListFieldException;
  */
 class JoinFieldTest extends AbstractFieldTest
 {
-    private static $passedOptions = [];
+    private static $passedOptions = [
+        'condition' => 'c.test = :test',
+        'condition_parameters' => ['test' => 'value']
+    ];
 
     private static $expectedOptions = [
         'join_type' => 'INNER',
-        'lazy' => false
+        'lazy' => false,
+        'condition_type' => 'WITH',
+        'condition' => 'c.test = :test',
+        'condition_parameters' => ['test' => 'value']
     ];
 
     public function testGetJoinPath(): void

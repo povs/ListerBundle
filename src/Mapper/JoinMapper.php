@@ -12,6 +12,13 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class JoinMapper extends AbstractMapper
 {
+    private const REPLACEABLE_OPTIONS = [
+        JoinField::OPTION_JOIN_TYPE,
+        JoinField::OPTION_CONDITION_TYPE,
+        JoinField::OPTION_CONDITION,
+        JoinField::OPTION_CONDITION_PARAMETERS
+    ];
+
     /**
      * @var ListMapper
      */
@@ -68,18 +75,20 @@ class JoinMapper extends AbstractMapper
     }
 
     /**
-     * @param bool|null $lazy
+     * @param string|null $path
+     * @param bool|null   $lazy
      *
      * @return ArrayCollection|JoinField[]
      */
-    public function getFields(?bool $lazy = null): ArrayCollection
+    public function getFields(?string $path = null, ?bool $lazy = null): ArrayCollection
     {
-        if (null === $lazy) {
+        if (null === $path && null === $lazy) {
             return $this->fields;
         }
 
-        return $this->fields->filter(static function (JoinField $joinField) use ($lazy) {
-            return $joinField->getOption(JoinField::OPTION_LAZY) === $lazy;
+        return $this->fields->filter(static function (JoinField $field) use ($path, $lazy) {
+            return (null === $path || ($field->getAlias() === $path || $field->getPath() === $path || $field->getJoinPath(null) === $path))
+                && (null === $lazy || $field->getOption(JoinField::OPTION_LAZY) === $lazy);
         });
     }
 
@@ -162,11 +171,7 @@ class JoinMapper extends AbstractMapper
      */
     private function addJoin(string $path, array $options, ?string $alias = null): ?JoinField
     {
-        if ($joinField = $this->getByPath($path, $options[JoinField::OPTION_LAZY] ?? false)) {
-            if ($alias) {
-                $joinField->setAlias($alias);
-            }
-
+        if ($joinField = $this->getField($path, $options, $alias)) {
             return $joinField;
         }
 
@@ -211,5 +216,46 @@ class JoinMapper extends AbstractMapper
         array_pop($pathElements);
 
         return implode('.', $pathElements);
+    }
+
+    /**
+     * Finds whether field already exists and if so sets it's alias and options
+     *
+     * @param string      $path
+     * @param array       $options
+     * @param string|null $alias
+     *
+     * @return JoinField|null
+     */
+    private function getField(string $path, array $options, ?string $alias): ?JoinField
+    {
+        $joinField = $this->getByPath($path, $options[JoinField::OPTION_LAZY] ?? false);
+
+        if (!$joinField) {
+            return null;
+        }
+
+        if ($alias) {
+            $joinField->setAlias($alias);
+        }
+
+        return $this->replaceOptions($joinField, $options);
+    }
+
+    /**
+     * @param JoinField $field
+     * @param array     $options
+     *
+     * @return JoinField
+     */
+    private function replaceOptions(JoinField $field, array $options): JoinField
+    {
+        foreach (self::REPLACEABLE_OPTIONS as $optionToReplace) {
+            if (isset($options[$optionToReplace])) {
+                $field->setOption($optionToReplace, $options[$optionToReplace]);
+            }
+        }
+
+        return $field;
     }
 }
