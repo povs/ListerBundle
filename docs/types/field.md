@@ -1,6 +1,6 @@
 # Field types
 
-Field types are used to customize value returned from [selector type](selector.md).
+Field types are used to customize value returned from [selector type](types/selector.md).
 Every field type has to implement `Povs\ListerBundle\Type\FieldType\FieldTypeInterface`
 This interface has two methods:
 

@@ -25,7 +25,7 @@ Or with tables which has bad optimisations with a lot of joins.
 
 ### When not to use lazy field?
 
-Fields should be marked as lazy only on lists which will be **paged**. 
+Fields should be marked as lazy only on lists which will be **paginated**. 
 It's not recommended to use it with list types like `export` which will fetch all rows from the table.
 
 

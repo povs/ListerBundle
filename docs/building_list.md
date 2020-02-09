@@ -56,7 +56,7 @@ private $user;
 
 public function setParameters(array $parameters): void
 {
-    $this->user = $parameters['user']
+    $this->user = $parameters['user'];
 }
 ```
 
@@ -89,16 +89,15 @@ public function buildListFields(ListMapper $listMapper): void
         ->add('field_id_2', MyFieldType::class, [
             'label' => 'My Label2',
             'path' => 'property.childProperty'
-        ])
+        ]);
 }
 
 public function buildExportFields(ListMapper $listMapper): void
 {
-    //Copies all fields which are built in "buildListFields" method
-    //And adds field_id_3 to the export type
-    $listMapper->build()
-        ->add(field_id_3, null, [
-            'label' => 'My label3\
+    $listMapper->build() //Copies all fields which are built in "buildListFields" method
+        ->get('field_id_1')->setOption('label', 'Export label') //Overwrites field_id_1 label
+        ->add('field_id_3', null, [  //Adds field_id_3 to the export type
+            'label' => 'My label3'
         ]);
 }
 ```
@@ -185,9 +184,15 @@ public function buildJoinFields(JoinMapper $joinMapper, ListValueInterface $valu
     //Automatically builds all requried joins for this list
     $joinMapper->build();
 
-    $joinMapper->add('user', 'u');
-        ->add('u.address', 'a')
-        ->add('a.street', 's');
+    //Overwrites u.address join alias
+    $joinMapper->getByPath('u.address', false)->setAlias('a')
+    //Adds street left join to u.address with name condition;
+        ->add('a.street', 's', [
+            'condition' => 's.name = :street_name', 
+            'condition_parameters' => ['street_name' => 'street_name_param_value'],
+            'condition_type' => 'WITH',
+            'join_type' => 'LEFT'
+        ]);
 }
 ```
 
@@ -205,6 +210,9 @@ Option | Value type | Default value | Description
 --- | ---| --- | --- 
 join_type | INNER, LEFT | INNER | 
 lazy | bool | false | whether to add this join in the query only when fetching for lazy data.
+condition | string | null | condition on which to join the field
+condition_type | string | WITH | condition type (WITH, ON)
+condition_parameters | array | null | array of parameters for condition
  
  
 ## Configuring query

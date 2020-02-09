@@ -22,6 +22,6 @@ which provides twig and ajax list types with various themes which can be modifie
 
 #### Requirements
 
-- Php >= 7.1
-- Symfony >=4
-- Doctrine ORM >=2.6
+- Php >= `7.1`
+- Symfony >= `4`
+- Doctrine ORM

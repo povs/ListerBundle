@@ -1,22 +1,25 @@
 # Installation
 
 Requirements:
-- Php >= 7.1
-- Symfony >=4
-- Doctrine ORM >=2.6
+- Php >= `7.1`
+- Symfony >= `4`
+- Doctrine ORM
 
 Install package via `composer`:
->Package is not yet available via composer.
+
+```
+composer require povs/lister-bundle @dev
+```
 
 Register bundle in your `bundles.php` file
 
-``` php
+```php
 Povs\ListerBundle\PovsListerBundle::class => ['all' => true]
 ```
 
 Add configuration to `config/packages/povs_lister.yaml`
 
-``` yaml
+```yaml
 povs_lister:
     # Here you can register list types
     # TypeName: FullyQualifiedClassName

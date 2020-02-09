@@ -9,7 +9,7 @@ List view is a parent object which contains all other views:
 
 Available methods:
 
-```` php
+```php
 //Will return RowView with header values aka labels
 $listView->getHeaderRow();
 
@@ -25,14 +25,14 @@ $listView->getFilter();
 
 //Will return router object
 $listView->getRouter();
-````
+```
 
 ## RowView
 Contains header or body data values
 
 Available methods:
 
-```` php 
+```php 
 //Returns iterable of FieldView objects
 $rowView->getFields();
 
@@ -47,7 +47,7 @@ $rowView->getLabeledValue();
 
 //Returns parent ListView
 $rowView->getList();
-````
+```
 
 ## FieldView
 
@@ -55,7 +55,7 @@ Contains various field information including its value.
 
 Available methods:
 
-```` php 
+```php 
 //Returns field value
 $fieldView->getValue();
 
@@ -79,8 +79,7 @@ $fieldView->getSort();
 
 //Returns parent RowView object
 $fieldView->getRow();
-````
-
+```
 
 ## PagerView
 
@@ -89,7 +88,7 @@ It can also be used to iterate between pages.
 
 Available methods:
 
-```` php 
+```php 
 //Returns array of data by current page and length
 $pagerView->getData();
 
@@ -127,7 +126,7 @@ $pagerView->getFirstResult(5);
 
 //Gets last result of provided page. If null - current page will be taken.
 $pagerView->getLastResult(5);
-````
+```
 
 ## RouterView
 
@@ -135,7 +134,7 @@ Router view is responsible for generating various list routes: page iteration, s
 
 Available methods:
 
-```` php 
+```php 
 //Returns sort route by field id and it's direction
 $routerView->getSortRoute('field_id', 'desc');
 
@@ -156,4 +155,4 @@ $routerView->getRoute();
 
 //Returns request name from config by its value
 $routerView->getRequestName('name');
-````
+```

@@ -39,7 +39,7 @@ To use this filter type just pass it to `$filterMapper->add()` as a second argum
 public function buildFilterFields(FilterMapper $filterMapper): void
 {
     $filterMapper->add('user', LikeFilterType::class, [
-        'label' => 'User', 
+        'input_options' => ['label' => 'User name'], //Overwrites input_options from filter type
         'path' => ['user.firstName', 'user.lastName']
     ])
 }

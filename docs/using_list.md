@@ -17,7 +17,7 @@ It has three methods:
    
 Example usage:
 
-```` php 
+```php 
 use Povs\ListerBundle\Declaration\ListerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -52,4 +52,4 @@ class SomeClass
         return $this->lister->buildList(MyList::class, 'export')
             ->generateResponse();
     }
-````
+```

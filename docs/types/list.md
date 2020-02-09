@@ -1,5 +1,5 @@
 # List types
-List types converts [view](../views.md) object to response or any other data type (e.g. array)
+List types converts [view](/views.md) object to response or any other data type (e.g. array)
 
 ## Available List types
 
@@ -52,7 +52,7 @@ To configure settings of the list type `configureSettings` method is used.
 Those settings are set via `type_configuration` array in `list_configuration`.
 Settings are configured via Symfony Options resolver component
 
-````php
+```php
 public function configureSettings(OptionsResolver $optionsResolver): void
 {
     $optionsResolver->setDefined(['length', 'limit', 'paged']);
@@ -66,12 +66,12 @@ public function configureSettings(OptionsResolver $optionsResolver): void
         'paged' => true
     ]);
 }
-````
+```
 
 Next we want to tell by what `length` and `page` to fetch data.
 In each of those methods value from request is passed.
  
-````php
+```php
 public function getLength(?int $length): int
 {
     if (false === $this->config['paged'] || null === $length) {
@@ -89,20 +89,20 @@ public function getCurrentPage(?int $currentPage): int
 
     return $currentPage;
 }
-````
+```
 
 If some additional options are required, those are passed when building list.
 To configure those options use `configureOptions` method. 
 
-````php
+```php
 public function configureOptions(OptionsResolver $optionsResolver): void
 {
     $optionsResolver->setDefined(['additional_option']);
     $optionsResolver->setRequired(['additional_option']);
 }
-````
+```
 Setting options..
-````php
+```php
 // Some Controller
 
 public function list()
@@ -111,12 +111,12 @@ public function list()
         ->generateResponse(['additional_option' => 'foo']);
 
 }
-````
+```
 
 To return data `generateResponse` and `generateData` methods are used.
-To both of those methods [ListView object](../views.md) and array of options are passed.
+To both of those methods [ListView object](/views.md) and array of options are passed.
 
-````php
+```php
 // Convert ListView to data array
 public function generateData(ListView $listView, array $options): array
 {
@@ -142,4 +142,4 @@ public function generateResponse(ListView $listView, array $options): Response
 {
     return new JsonResponse($this->generateData(ListView $listView, array $options));
 }
-````
+```

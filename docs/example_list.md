@@ -20,7 +20,7 @@ For this example lets say we have two entities:
 
 Example list:
 
-``` php
+```php
 <?php
 
 namespace App\Lister;
@@ -109,7 +109,7 @@ class UsersList extends AbstractList
 
 Lets say we want another list where only basic user information should be listed. To do so we can simple extend already created UserList:
 
-``` php 
+```php 
 <?php
 
 namespace App\Lister;

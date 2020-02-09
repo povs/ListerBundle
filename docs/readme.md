@@ -1,4 +1,4 @@
-# What is ListerBundle
+# About
 
 Lister bundle helps to simplify and standardize data listing with pagination, filtering, sorting and more.
 
