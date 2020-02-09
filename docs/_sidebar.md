@@ -16,4 +16,6 @@
   * [List types](types/list.md)
   * [Registering types](types/registering_types.md)
 
-* [Views](views.md)
+* [**Views**](views.md)
+
+* [**Lister Twig documentation**](https://povs.github.io/ListerTwigBundle)
