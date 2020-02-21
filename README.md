@@ -5,6 +5,8 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/povs/ListerBundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/povs/ListerBundle/?branch=master)
 [![Code Quality](https://img.shields.io/scrutinizer/quality/g/povs/ListerBundle/master)](https://scrutinizer-ci.com/g/povs/ListerBundle/?branch=master)
 
+> In development.
+
 ### [Documentation](https://povs.github.io/ListerBundle)
 
 Lister bundle helps to simplify and standardize data listing with pagination, filtering, sorting and more.
