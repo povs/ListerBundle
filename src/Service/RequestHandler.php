@@ -128,7 +128,7 @@ class RequestHandler
             foreach ($sort as $id => $direction) {
                 $direction = strtoupper($direction);
 
-                if (!in_array($direction, [ListField::SORT_DESC, ListField::SORT_ASC], true)) {
+                if (!in_array($direction, [ListField::SORT_DESC, ListField::SORT_ASC], true) || !$listMapper->has($id)) {
                     continue;
                 }
 

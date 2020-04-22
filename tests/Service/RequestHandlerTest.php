@@ -37,6 +37,10 @@ class RequestHandlerTest extends TestCase
         $listMapperMock->expects($this->once())
             ->method('getFields')
             ->willReturn(new ArrayCollection([$listFieldMock2]));
+        $listMapperMock->expects($this->once())
+            ->method('has')
+            ->with('field1')
+            ->willReturn(true);
         $listFieldMock2->expects($this->once())
             ->method('getId')
             ->willReturn('another_id');
