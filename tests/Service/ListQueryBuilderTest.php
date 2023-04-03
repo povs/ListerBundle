@@ -37,7 +37,7 @@ class ListQueryBuilderTest extends TestCase
     private $listValueMock;
     private $queryBuilderMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->emMock = $this->createMock(EntityManagerInterface::class);
         $this->queryTypeLocatorMock = $this->createMock(QueryTypeLocator::class);

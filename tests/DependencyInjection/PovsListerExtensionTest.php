@@ -21,7 +21,7 @@ class PovsListerExtensionTest extends TestCase
     private $container;
     private $extension;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = new ContainerBuilder();
         $this->extension = new PovsListerExtension();

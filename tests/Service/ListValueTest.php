@@ -15,7 +15,7 @@ class ListValueTest extends TestCase
     private $listMapperMock;
     private $filterMapperMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->listMapperMock = $this->createMock(ListMapper::class);
         $this->filterMapperMock = $this->createMock(FilterMapper::class);

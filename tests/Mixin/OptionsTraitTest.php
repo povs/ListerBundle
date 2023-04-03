@@ -16,7 +16,7 @@ class OptionsTraitTest extends TestCase
 
     private $options;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->options = $this->getMockForTrait(OptionsTrait::class);
         $this->options->initOptions(self::OPTIONS);

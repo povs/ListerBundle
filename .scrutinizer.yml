@@ -10,9 +10,10 @@ tools:
 checks:
     php: true
 build:
+    image: default-bionic
     environment:
         php:
-            version: 7.1
+            version: 8.1
     nodes:
         analysis:
             project_setup:
@@ -28,7 +29,7 @@ build:
             tests:
                 override:
                     -
-                        command: vendor/bin/phpunit --coverage-clover=clover.xml
+                        command: XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover=clover.xml
                         coverage:
                             file: clover.xml
                             format: php-clover

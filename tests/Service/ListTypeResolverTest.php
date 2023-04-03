@@ -18,7 +18,7 @@ class ListTypeResolverTest extends TestCase
     private $getResponseData;
     private $getDataData;
 
-    public function setUp()
+    public function setUp(): void
     {
         $listViewMock = $this->createMock(ListView::class);
         $responseMock = $this->createMock(Response::class);

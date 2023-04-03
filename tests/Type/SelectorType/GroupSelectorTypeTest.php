@@ -15,7 +15,7 @@ class GroupSelectorTypeTest extends TestCase
      */
     private $groupSelectorType;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->groupSelectorType = new GroupSelectorType();
     }

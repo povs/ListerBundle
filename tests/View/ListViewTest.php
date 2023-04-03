@@ -16,7 +16,7 @@ class ListViewTest extends TestCase
     private $headerRowMock;
     private $bodyRowMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->pagerViewMock = $this->createMock(PagerView::class);
         $this->formViewMock = $this->createMock(FormView::class);

@@ -43,7 +43,7 @@ class ListManagerTest extends TestCase
     private $lazyQueryBuilderMock;
     private $viewMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->listLocatorMock = $this->createMock(ListLocator::class);
         $this->listMock = $this->createMock(ListInterface::class);
