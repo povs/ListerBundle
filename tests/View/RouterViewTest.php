@@ -16,7 +16,7 @@ class RouterViewTest extends TestCase
     private $requestHandler;
     private $router;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->requestHandler = $this->createMock(RequestHandler::class);
         $this->router = $this->createMock(RouterInterface::class);

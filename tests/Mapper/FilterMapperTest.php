@@ -25,8 +25,7 @@ class FilterMapperTest extends AbstractMapperTest
         $fieldTypeMock = $this->createMock(FilterTypeInterface::class);
         $fieldTypeMock->expects($this->once())
             ->method('getDefaultOptions')
-            ->willReturn($typeOptions)
-            ->getMatcher();
+            ->willReturn($typeOptions);
         $fieldTypeLocatorMock = $this->createMock(FilterTypeLocator::class);
         $fieldTypeLocatorMock->expects($this->once())
             ->method('get')

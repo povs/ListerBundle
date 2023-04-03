@@ -20,7 +20,7 @@ class PovsListerBundleTest extends TestCase
     private $bundle;
     private $container;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = new ContainerBuilder();
         $this->bundle = new PovsListerBundle();

@@ -29,8 +29,7 @@ class ListMapperTest extends AbstractMapperTest
         $fieldTypeMock->expects($this->once())
             ->method('getDefaultOptions')
             ->with('listType')
-            ->willReturn($typeOptions)
-            ->getMatcher();
+            ->willReturn($typeOptions);
         $fieldTypeLocatorMock = $this->createMock(FieldTypeLocator::class);
         $fieldTypeLocatorMock->expects($this->once())
             ->method('get')

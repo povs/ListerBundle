@@ -18,7 +18,7 @@ class MapperFactoryTest extends TestCase
 {
     private $list;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->list = new class () extends AbstractList {
             public function buildListFields(ListMapper $listMapper): void

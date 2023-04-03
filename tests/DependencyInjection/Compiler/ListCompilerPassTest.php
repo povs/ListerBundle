@@ -16,7 +16,7 @@ class ListCompilerPassTest extends TestCase
     private $compilerPass;
     private $containerBuilder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->compilerPass = new ListCompilerPass();
         $this->containerBuilder = $this->createMock(ContainerBuilder::class);

@@ -12,7 +12,7 @@ class PagerViewTest extends TestCase
 {
     private $paginator;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->paginator = $this->createMock(Paginator::class);
     }

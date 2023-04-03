@@ -14,7 +14,7 @@ class AbstractListTest extends TestCase
 {
     private $list;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->list = $this->getMockForAbstractClass(AbstractList::class);
     }

@@ -14,7 +14,7 @@ class FieldViewTest extends TestCase
 
     private $listFieldMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->listFieldMock = $this->createMock(ListField::class);
     }
