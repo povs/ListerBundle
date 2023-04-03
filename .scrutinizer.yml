@@ -12,7 +12,7 @@ checks:
 build:
     environment:
         php:
-            version: 7.1
+            version: 8.1
     nodes:
         analysis:
             project_setup:
