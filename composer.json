@@ -22,7 +22,7 @@
 
   "require-dev": {
     "symfony/translation": "^3.4 || ^4.0",
-    "phpunit/phpunit": "^8",
+    "phpunit/phpunit": "^9.3",
     "symfony/yaml": "^3.4 || ^4.0"
   },
   
